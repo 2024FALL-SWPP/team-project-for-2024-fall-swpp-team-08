@@ -28,12 +28,21 @@ public class PlayerController : MonoBehaviour
     private bool isJumping = false;
     private bool isSliding = false;
     private Rigidbody rb;
+
+    private int score = 0;
+    private UIManager uiManager;
+    private SceneController sceneController;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+
+        uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
+        sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
+
+        InitScore();
     }
 
     // Update is called once per frame
@@ -66,6 +75,8 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
             }
+            
+            uiManager.UpdateProgressBar(GetProcessRate());
         }
     }
 /*
@@ -199,26 +210,37 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
-    private void OnCollisionEnter(Collision collider) {
-        if(collider.gameObject.tag == "Obstacle") 
+    private void OnCollisionEnter(Collision collider)
+    {
+        if (collider.gameObject.tag == "Obstacle") 
         {
             isGameOver = true;
+            uiManager.ShowGameOverUI();
         }
-        if(collider.gameObject.CompareTag("Ground"))
+        if (collider.gameObject.CompareTag("Tejava"))
+        {
+            Destroy(collider.gameObject);
+            AddScore();
+        }
+        if (collider.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
         }
     }
 
-    public float GetProcessRate() {
+    public float GetProcessRate()
+    {
         float currentXCoordinate = transform.position.x;
         float totalDistance = 0;
+        CheckStageCleared(currentXCoordinate);
 
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             totalDistance += endArr[i] - startArr[i];
         }
 
-        switch (currentStage) {
+        switch (currentStage)
+        {
             case 1:
                 return (currentXCoordinate-startArr[0]) / totalDistance;
             case 2:
@@ -230,8 +252,34 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetSpeed(float speed) {
+    public void CheckStageCleared(float currentXCoordinate)
+    {
+        if (currentXCoordinate > endArr[currentStage - 1])
+        {
+            sceneController.ChangeScene();
+        }
+    }
+
+    public void SetSpeed(float speed)
+    {
         forwardSpeed = speed;
+    }
+    
+    public void InitScore()
+    {
+        score = PlayerPrefs.GetInt("Score");  // TODO - Initial Value?
+    }
+
+    public void AddScore()
+    {
+        score++;
+        PlayerPrefs.SetInt("Score", score);
+        uiManager.UpdateScoreText(score);
+    }
+
+    public int GetScore() 
+    {
+        return score;
     }
 }
 

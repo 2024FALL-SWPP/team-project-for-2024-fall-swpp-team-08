@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    private Scene currentScene;
+    private UIManager uiManager;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        currentScene = SceneManager.GetActiveScene();
+        uiManager = gameObject.GetComponent<UIManager>();
     }
 
     // Update is called once per frame
@@ -19,11 +23,10 @@ public class SceneController : MonoBehaviour
 
     public void ChangeScene()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        
         switch (currentScene.name)
         {
             case "MainScene":
+                PlayerPrefs.SetInt("Score", 0);
                 SceneManager.LoadScene("Stage1Scene");
                 break;
             case "Stage1Scene":
@@ -33,12 +36,13 @@ public class SceneController : MonoBehaviour
                 SceneManager.LoadScene("Stage3Scene");
                 break;
             case "Stage3Scene":
+                uiManager.ShowGameClearUI();
                 break;
         }
     }
 
     public void RestartGame()
     {
-        SceneManager.LoadScene("Stage1Scene");
+        SceneManager.LoadScene(currentScene.name);
     }
 }
