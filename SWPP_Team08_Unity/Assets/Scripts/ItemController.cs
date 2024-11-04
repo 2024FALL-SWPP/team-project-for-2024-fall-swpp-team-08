@@ -29,7 +29,7 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    public int getScore() 
+    public int GetScore() 
     {
         return score;
     }

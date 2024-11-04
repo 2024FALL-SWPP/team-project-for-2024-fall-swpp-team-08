@@ -133,7 +133,7 @@ public class PlayerController : MonoBehaviour
         Vector3 endPos = startPos + Vector3.forward * horizontalStep;
         float elapsedTime = 0f;
 
-        rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
+        // rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
 
         while (elapsedTime < hopDuration)
         {
@@ -157,12 +157,12 @@ public class PlayerController : MonoBehaviour
 
         // TO-DO
         // Add Animation for Lateral Movement
-        
+
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.back * horizontalStep;
         float elapsedTime = 0f;
 
-        rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
+        // rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
 
         while (elapsedTime < hopDuration)
         {
