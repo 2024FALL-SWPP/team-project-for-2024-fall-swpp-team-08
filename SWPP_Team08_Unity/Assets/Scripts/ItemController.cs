@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemController : MonoBehaviour
 {
-    public GameObject gameManager;
     private UIManager uiManager;
     public int score = 0;
 
