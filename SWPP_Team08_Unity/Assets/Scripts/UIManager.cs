@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    private GameObject scoreText;
-    private GameObject progressBar;
+    public TextMeshProUGUI scoreText;
+    public Slider progressBar;
     private GameObject gameOverText;
+    private GameObject gameClearText;
     private GameObject restartButton;
 
     // Start is called before the first frame update
     void Start()
     {
-        scoreText = GameObject.Find("ScoreText");
-        progressBar = GameObject.Find("ProgressBar");
+        scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        scoreText.text = "x" + PlayerPrefs.GetInt("Score").ToString();
+        progressBar = GameObject.Find("ProgressBar").GetComponent<Slider>();
         gameOverText = GameObject.Find("GameOverText");
         gameOverText.SetActive(false);
+        gameClearText = GameObject.Find("GameClearText");
+        gameClearText.SetActive(false);
         restartButton = GameObject.Find("RestartButton");
         restartButton.SetActive(false);
     }
@@ -25,22 +30,27 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ShowGameOverUI();
+        
     }
 
-    void UpdateScoreText(int score)
+    public void UpdateScoreText(int score)
     {
-        scoreText.GetComponent<TextMeshProUGUI>().text = "x" + score.ToString();
+        scoreText.text = "x" + score.ToString();
     }
 
-    void UpdateProgressBar(float distance)
+    public void UpdateProgressBar(float processRate)
     {
-        // distance / totalDistance
+        progressBar.value = processRate;
     }
 
-    void ShowGameOverUI()
+    public void ShowGameOverUI()
     {
         gameOverText.SetActive(true);
         restartButton.SetActive(true);
+    }
+
+    public void ShowGameClearUI()
+    {
+        gameClearText.SetActive(true);
     }
 }
