@@ -305,6 +305,15 @@ public class PlayerController : MonoBehaviour
 
             StartCoroutine(ResetFly());
         }
+
+        // 5. 곱빼기 (Item_Double)
+        if (collider.gameObject.tag == "Item_Double")
+        {
+            itemDouble = true;
+            Destroy(collider.gameObject);
+
+            StartCoroutine(ResetDouble());
+        }
     }
 
     private IEnumerator ResetBoost(float initSpeed, Collider[] obstacles)
@@ -325,6 +334,12 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3f);
         itemFly = false;
         canDoubleJump = false;
+    }
+
+    private IEnumerator ResetDouble()
+    {
+        yield return new WaitForSeconds(3f);
+        itemDouble = false;
     }
 
     public float GetProcessRate()
@@ -371,7 +386,9 @@ public class PlayerController : MonoBehaviour
 
     public void AddScore()
     {
-        score++;
+        if (itemDouble) score += 2;
+        else score += 1;
+
         PlayerPrefs.SetInt("Score", score);
         uiManager.UpdateScoreText(score);
     }
