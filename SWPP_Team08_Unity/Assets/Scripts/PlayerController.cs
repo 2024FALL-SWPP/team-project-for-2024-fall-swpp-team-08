@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
     private bool isJumping = false;
     private bool isSliding = false;
+    private bool canDoubleJump = false;
     private Rigidbody rb;
 
     private bool itemBoost = false;
@@ -66,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 MoveRight();
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && !isJumping)
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Jump();
             }
@@ -124,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveLeft()
     {
-        if(currentLane > 1 && !isJumping && !isMoving)
+        if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
         {
             StartCoroutine(MoveLeftSmooth());
         }
@@ -132,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveRight()
     {
-        if(currentLane < 5 && !isJumping && !isMoving)
+        if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
         {
             StartCoroutine(MoveRightSmooth());
         }
@@ -198,10 +199,21 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        isJumping = true;
-        // TO-DO
-        // Add Animation for Jump
-        rb.velocity = Vector3.up * jumpForce;
+        if (!isJumping)
+        {
+            isJumping = true;
+            rb.velocity = Vector3.up * jumpForce;
+
+            if (itemFly)
+            {
+                canDoubleJump = true;
+            }
+        }
+        else if (canDoubleJump)
+        {
+            rb.velocity = Vector3.up * jumpForce;
+            canDoubleJump = false;
+        }
     }
 
     private IEnumerator Slide()
@@ -240,12 +252,14 @@ public class PlayerController : MonoBehaviour
         5. 곱빼기 (점수 2배 / Duration 3초) : Item_Double
         *******************************/
 
+        // 1. 데자와 (Tejava)
         if (collider.gameObject.CompareTag("Tejava"))
         {
             Destroy(collider.gameObject);
             AddScore();
         }
 
+        // 2. 오리부스트 (Item_Boost)
         if (collider.gameObject.tag == "Item_Boost")
         {
             itemBoost = true;
@@ -265,6 +279,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(ResetBoost(initSpeed, obstacles));
         }
 
+        // 3. 벼락치기 (Item_Thunder)
         if (collider.gameObject.tag == "Item_Thunder")
         {
             Destroy(collider.gameObject);
@@ -280,6 +295,16 @@ public class PlayerController : MonoBehaviour
                 Destroy(obstacle);
             }
         }
+
+        // 4. 오리날다 (Item_Fly)
+        if (collider.gameObject.tag == "Item_Fly")
+        {
+            itemFly = true;
+            canDoubleJump = true;
+            Destroy(collider.gameObject);
+
+            StartCoroutine(ResetFly());
+        }
     }
 
     private IEnumerator ResetBoost(float initSpeed, Collider[] obstacles)
@@ -293,6 +318,13 @@ public class PlayerController : MonoBehaviour
         }
 
         itemBoost = false;
+    }
+
+    private IEnumerator ResetFly()
+    {
+        yield return new WaitForSeconds(3f);
+        itemFly = false;
+        canDoubleJump = false;
     }
 
     public float GetProcessRate()
