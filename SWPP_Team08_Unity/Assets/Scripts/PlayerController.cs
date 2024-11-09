@@ -217,11 +217,13 @@ public class PlayerController : MonoBehaviour
             isGameOver = true;
             uiManager.ShowGameOverUI();
         }
+        
         if (collider.gameObject.CompareTag("Tejava"))
         {
             Destroy(collider.gameObject);
             AddScore();
         }
+
         if (collider.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
