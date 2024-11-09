@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
 
     private bool itemBoost = false;
-    private bool itemThunder = false;
     private bool itemFly = false;
     private bool itemDouble = false;
 
@@ -264,6 +263,22 @@ public class PlayerController : MonoBehaviour
             }
 
             StartCoroutine(ResetBoost(initSpeed, obstacles));
+        }
+
+        if (collider.gameObject.tag == "Item_Thunder")
+        {
+            Destroy(collider.gameObject);
+
+            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
+                                            .OrderBy(o => Mathf.Abs(o.transform.position.x - transform.position.x))
+                                            .Take(3)
+                                            .ToArray();
+            
+            foreach (GameObject obstacle in closestObstacles)
+            {
+                Destroy(obstacle);
+            }
         }
     }
 
