@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,7 +28,12 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
     private bool isJumping = false;
     private bool isSliding = false;
+    private bool canDoubleJump = false;
     private Rigidbody rb;
+
+    private bool itemBoost = false;
+    private bool itemFly = false;
+    private bool itemDouble = false;
 
     private int score = 0;
     private UIManager uiManager;
@@ -61,7 +67,7 @@ public class PlayerController : MonoBehaviour
                 MoveRight();
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow) && !isJumping)
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Jump();
             }
@@ -119,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveLeft()
     {
-        if(currentLane > 1 && !isJumping && !isMoving)
+        if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
         {
             StartCoroutine(MoveLeftSmooth());
         }
@@ -127,7 +133,7 @@ public class PlayerController : MonoBehaviour
 
     private void MoveRight()
     {
-        if(currentLane < 5 && !isJumping && !isMoving)
+        if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
         {
             StartCoroutine(MoveRightSmooth());
         }
@@ -193,10 +199,21 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        isJumping = true;
-        // TO-DO
-        // Add Animation for Jump
-        rb.velocity = Vector3.up * jumpForce;
+        if (!isJumping)
+        {
+            isJumping = true;
+            rb.velocity = Vector3.up * jumpForce;
+
+            if (itemFly)
+            {
+                canDoubleJump = true;
+            }
+        }
+        else if (canDoubleJump)
+        {
+            rb.velocity = Vector3.up * jumpForce;
+            canDoubleJump = false;
+        }
     }
 
     private IEnumerator Slide()
@@ -214,18 +231,115 @@ public class PlayerController : MonoBehaviour
     {
         if (collider.gameObject.tag == "Obstacle") 
         {
-            isGameOver = true;
-            uiManager.ShowGameOverUI();
+            if (!itemBoost)
+            {
+                isGameOver = true;
+                uiManager.ShowGameOverUI();
+            }
         }
+        
+        if (collider.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+        }
+
+        /******************************
+        [아이템별 Tag 및 설명]
+        1. 데자와 (점수) : Tejava
+        2. 오리부스트 (속도 1.5배, 장애물 무시 / Duration 3초) : Item_Boost
+        3. 벼락치기 (가장 근접한 장애물 3개 삭제) : Item_Thunder
+        4. 오리날다 (이단 점프 + 점프 중 좌우 컨트롤 / Duration 3초) : Item_Fly
+        5. 곱빼기 (점수 2배 / Duration 3초) : Item_Double
+        *******************************/
+
+        // 1. 데자와 (Tejava)
         if (collider.gameObject.CompareTag("Tejava"))
         {
             Destroy(collider.gameObject);
             AddScore();
         }
-        if (collider.gameObject.CompareTag("Ground"))
+
+        // 2. 오리부스트 (Item_Boost)
+        if (collider.gameObject.tag == "Item_Boost")
         {
-            isJumping = false;
+            itemBoost = true;
+            Destroy(collider.gameObject);
+
+            float initSpeed = forwardSpeed;
+            SetSpeed(2f * forwardSpeed);
+
+            Collider[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle")
+                                            .Select(o => o.GetComponent<Collider>())
+                                            .ToArray();
+            foreach (Collider obstacle in obstacles)
+            {
+                Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), true);
+            }
+
+            StartCoroutine(ResetBoost(initSpeed, obstacles));
         }
+
+        // 3. 벼락치기 (Item_Thunder)
+        if (collider.gameObject.tag == "Item_Thunder")
+        {
+            Destroy(collider.gameObject);
+
+            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+            var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
+                                            .OrderBy(o => Mathf.Abs(o.transform.position.x - transform.position.x))
+                                            .Take(3)
+                                            .ToArray();
+            
+            foreach (GameObject obstacle in closestObstacles)
+            {
+                Destroy(obstacle);
+            }
+        }
+
+        // 4. 오리날다 (Item_Fly)
+        if (collider.gameObject.tag == "Item_Fly")
+        {
+            itemFly = true;
+            canDoubleJump = true;
+            Destroy(collider.gameObject);
+
+            StartCoroutine(ResetFly());
+        }
+
+        // 5. 곱빼기 (Item_Double)
+        if (collider.gameObject.tag == "Item_Double")
+        {
+            itemDouble = true;
+            Destroy(collider.gameObject);
+
+            StartCoroutine(ResetDouble());
+        }
+    }
+
+    private IEnumerator ResetBoost(float initSpeed, Collider[] obstacles)
+    {
+        yield return new WaitForSeconds(3f);
+        
+        SetSpeed(initSpeed);
+        foreach (Collider obstacle in obstacles)
+        {
+            Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), false);
+        }
+
+        itemBoost = false;
+    }
+
+    private IEnumerator ResetFly()
+    {
+        yield return new WaitForSeconds(3f);
+        itemFly = false;
+        canDoubleJump = false;
+    }
+
+    private IEnumerator ResetDouble()
+    {
+        yield return new WaitForSeconds(3f);
+        itemDouble = false;
     }
 
     public float GetProcessRate()
@@ -272,7 +386,9 @@ public class PlayerController : MonoBehaviour
 
     public void AddScore()
     {
-        score++;
+        if (itemDouble) score += 2;
+        else score += 1;
+
         PlayerPrefs.SetInt("Score", score);
         uiManager.UpdateScoreText(score);
     }
