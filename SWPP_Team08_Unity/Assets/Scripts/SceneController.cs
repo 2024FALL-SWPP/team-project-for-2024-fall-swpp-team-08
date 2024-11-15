@@ -27,12 +27,15 @@ public class SceneController : MonoBehaviour
         {
             case "MainScene":
                 PlayerPrefs.SetInt("Score", 0);
+                PlayerPrefs.SetInt("Stage", 1);
                 SceneManager.LoadScene("Stage1Scene");
                 break;
             case "Stage1Scene":
+                PlayerPrefs.SetInt("Stage", 2);
                 SceneManager.LoadScene("Stage2Scene");
                 break;
             case "Stage2Scene":
+                PlayerPrefs.SetInt("Stage", 3);
                 SceneManager.LoadScene("Stage3Scene");
                 break;
             case "Stage3Scene":

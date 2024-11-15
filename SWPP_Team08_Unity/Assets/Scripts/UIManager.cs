@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject questionButton;
     public GameObject settingsButton;
     public GameObject closeButton;
+    public GameObject questionDescription;
     public GameObject gameOverImage;
     public GameObject stageClearImage;
     public GameObject gameRestartButton;
@@ -50,6 +51,9 @@ public class UIManager : MonoBehaviour
         // closeButton = GameObject.Find("CloseButton");
         // closeButton.SetActive(false);
 
+        // questionDescription = GameObject.Find("QuestionDescription");
+        // questionDescription.SetActive(false);
+
         // gameOverImage = GameObject.Find("GameOverImage");
         // gameOverImage.SetActive(false);
         // stageClearImage = GameObject.Find("StageClearImage");
@@ -62,6 +66,8 @@ public class UIManager : MonoBehaviour
         gameButtons.Add(pauseButton);
         gameButtons.Add(questionButton);
         gameButtons.Add(settingsButton);
+
+        SetScale();
     }
 
     // Update is called once per frame
@@ -126,13 +132,15 @@ public class UIManager : MonoBehaviour
         }
         pauseButton.SetActive(false);
         closeButton.SetActive(false);
+
+        questionDescription.SetActive(false);
     }
 
     public void OnPressQuestionButton()
     {
         OnPressPauseButton();
         HideGameButtons();
-        // TODO
+        questionDescription.SetActive(true);
     }
     
     public void OnPressSettingsButton()
@@ -145,5 +153,29 @@ public class UIManager : MonoBehaviour
     public void OnPressCloseButton()
     {
         ShowGameButtons();
+    }
+
+    private void SetScale()
+    {
+        if (Screen.width <= 1000 || Screen.height <= 300)
+        {
+            questionDescription.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        }
+        if (Screen.width <= 1100 || Screen.height <= 450)
+        {
+            questionDescription.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
+        }
+        if (Screen.width >= 1300 && Screen.height >= 750)
+        {
+            questionDescription.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
+        }
+        if (Screen.width >= 1400 && Screen.height >= 900)
+        {
+            questionDescription.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
+        }
+        if (Screen.width >= 1500 && Screen.height >= 1050)
+        {
+            questionDescription.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
+        }
     }
 }
