@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public Slider progressBar;
     public GameObject backgroundColor;
+    public GameObject gameStartButton;
     public GameObject playButton;
     public GameObject pauseButton;
     public GameObject questionButton;
@@ -18,6 +19,7 @@ public class UIManager : MonoBehaviour
     public GameObject questionDescription;
     public GameObject gameOverImage;
     public GameObject stageClearImage;
+    public GameObject stageClearStory;
     public GameObject gameRestartButton;
 
     private List<GameObject> gameButtons;
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
         // backgroundColor = GameObject.Find("BackgroundColor");
         // backgroundColor.SetActive(false);
 
+        // gameStartButton = GameObject.Find("GameStartButton");
         // playButton = GameObject.Find("PlayButton");
         // playButton.SetActive(false);
         // pauseButton = GameObject.Find("PauseButton");
@@ -58,6 +61,8 @@ public class UIManager : MonoBehaviour
         // gameOverImage.SetActive(false);
         // stageClearImage = GameObject.Find("StageClearImage");
         // stageClearImage.SetActive(false);
+        // stageClearStory = GameObject.Find("StageClearStory");
+        // stageClearStory.SetActive(false);
         // gameRestartButton = GameObject.Find("GameRestartButton");
         // gameRestartButton.SetActive(false);
 
@@ -93,24 +98,38 @@ public class UIManager : MonoBehaviour
         gameRestartButton.SetActive(true);
     }
 
-    public void ShowGameClearUI()
+    public void ShowStageClearUI()
     {
         backgroundColor.SetActive(true);
         stageClearImage.SetActive(true);
+    }
+
+    public void ShowStoryUI()
+    {
+        backgroundColor.SetActive(true);
+        if (stageClearImage)
+        {
+            stageClearImage.SetActive(false);
+        }
+        if (gameStartButton)
+        {
+            gameStartButton.SetActive(false);
+        }
+        stageClearStory.SetActive(true);
     }
 
     public void OnPressPauseButton()
     {
         playButton.SetActive(true);
         pauseButton.SetActive(false);
-        // Code for pausing game
+        Time.timeScale = 0.0f;
     }
 
     public void OnPressPlayButton()
     {
         playButton.SetActive(false);
         pauseButton.SetActive(true);
-        // Code for playing game
+        Time.timeScale = 1.0f;
     }
 
     private void HideGameButtons()
@@ -147,7 +166,6 @@ public class UIManager : MonoBehaviour
     {
         OnPressPauseButton();
         HideGameButtons();
-        // TODO
     }
 
     public void OnPressCloseButton()

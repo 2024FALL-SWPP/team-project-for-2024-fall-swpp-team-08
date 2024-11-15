@@ -85,7 +85,6 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
             }
-            Debug.Log(GetProcessRate());
             uiManager.UpdateProgressBar(GetProcessRate());
         }
     }
@@ -399,7 +398,7 @@ public class PlayerController : MonoBehaviour
     
     public void InitScore()
     {
-        score = PlayerPrefs.GetInt("Score");  // TODO - Initial Value?
+        score = PlayerPrefs.GetInt("Score");
     }
 
     public void AddScore()
