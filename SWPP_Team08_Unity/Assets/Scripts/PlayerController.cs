@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    public float[] startArr = {0f, 100f, 200f};
-    public float[] endArr = {50f, 150f, 300f};
+    private float[] startArr = {0f, 0f, 0f};
+    private float[] endArr = {100f, 100f, 100f}; // TODO : 종료지점 설정
+    private float totalDistance = 0.0f;
     
     public float forwardSpeed = 5f;
     public float horizontalStep = 10f;
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
 
         InitScore();
+        totalDistance = GetTotalDistance();
+        currentStage = GetCurrentStage();
     }
 
     // Update is called once per frame
@@ -81,7 +85,6 @@ public class PlayerController : MonoBehaviour
             {
                 rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
             }
-            
             uiManager.UpdateProgressBar(GetProcessRate());
         }
     }
@@ -342,17 +345,30 @@ public class PlayerController : MonoBehaviour
         itemDouble = false;
     }
 
+    private int GetCurrentStage()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (char.IsDigit(sceneName[5]))
+        {
+            return sceneName[5] - '0';
+        }
+        return 0;
+    } 
+
+    private float GetTotalDistance()
+    {
+        float distance = 0.0f;
+        for (int i = 0; i < 3; i++)
+        {
+            distance += endArr[i] - startArr[i];
+        }
+        return distance;
+    }
+
     public float GetProcessRate()
     {
         float currentXCoordinate = transform.position.x;
-        float totalDistance = 0;
         CheckStageCleared(currentXCoordinate);
-
-        for (int i = 0; i < 3; i++)
-        {
-            totalDistance += endArr[i] - startArr[i];
-        }
-
         switch (currentStage)
         {
             case 1:
@@ -370,6 +386,7 @@ public class PlayerController : MonoBehaviour
     {
         if (currentXCoordinate > endArr[currentStage - 1])
         {
+            PlayerPrefs.SetInt("Score", score);
             sceneController.ChangeScene();
         }
     }
@@ -381,15 +398,13 @@ public class PlayerController : MonoBehaviour
     
     public void InitScore()
     {
-        score = PlayerPrefs.GetInt("Score");  // TODO - Initial Value?
+        score = PlayerPrefs.GetInt("Score");
     }
 
     public void AddScore()
     {
         if (itemDouble) score += 2;
         else score += 1;
-
-        PlayerPrefs.SetInt("Score", score);
         uiManager.UpdateScoreText(score);
     }
 
