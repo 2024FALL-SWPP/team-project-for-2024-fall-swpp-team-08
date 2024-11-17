@@ -8,8 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    private float[] startArr = {0f, 0f, 0f};
-    private float[] endArr = {100f, 100f, 100f}; // TODO : 종료지점 설정
+    private float[] endArr = {900f, 100f, 100f}; // TODO : 종료지점 설정
     private float totalDistance = 0.0f;
     
     public float forwardSpeed = 5f;
@@ -46,6 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        totalDistance = GetTotalDistance();
 
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
@@ -88,43 +88,6 @@ public class PlayerController : MonoBehaviour
             uiManager.UpdateProgressBar(GetProcessRate());
         }
     }
-/*
-    private void MoveLeft()
-    {
-        // TO-DO 
-        // Add Animation for Move
-        if(currentLane > 1) 
-        {
-            if(!isJumping)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
-            }
-
-            Vector3 newPosition = transform.position;
-            newPosition.z += horizontalStep;
-            transform.position = newPosition;
-            currentLane--;
-        }
-    }
-
-    private void MoveRight()
-    {
-        // TO-DO
-        // Add Animation for Move
-        if(currentLane < 5) 
-        {
-            if(!isJumping)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
-            }
-            
-            Vector3 newPosition = transform.position;
-            newPosition.z -= horizontalStep;
-            transform.position = newPosition;
-            currentLane++;
-        }
-    }
-*/
 
     private void MoveLeft()
     {
@@ -326,7 +289,10 @@ public class PlayerController : MonoBehaviour
         SetSpeed(initSpeed);
         foreach (Collider obstacle in obstacles)
         {
-            Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), false);
+            if(obstacle != null)
+            {
+                Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), false);
+            }
         }
 
         itemBoost = false;
@@ -360,7 +326,7 @@ public class PlayerController : MonoBehaviour
         float distance = 0.0f;
         for (int i = 0; i < 3; i++)
         {
-            distance += endArr[i] - startArr[i];
+            distance += endArr[i];
         }
         return distance;
     }
@@ -372,11 +338,11 @@ public class PlayerController : MonoBehaviour
         switch (currentStage)
         {
             case 1:
-                return (currentXCoordinate-startArr[0]) / totalDistance;
+                return currentXCoordinate / totalDistance;
             case 2:
-                return (currentXCoordinate-startArr[1]+endArr[0]-startArr[0]) / totalDistance;
+                return (currentXCoordinate+endArr[0]) / totalDistance;
             case 3:
-                return (currentXCoordinate-startArr[2]+endArr[1]-startArr[1]+endArr[0]-startArr[0]) / totalDistance;
+                return (currentXCoordinate+endArr[1]+endArr[0]) / totalDistance;
             default:
                 return 0;
         }
