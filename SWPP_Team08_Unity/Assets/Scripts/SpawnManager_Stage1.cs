@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager_Stage1 : MonoBehaviour
 {
     public GameObject[] stage1ModulePrefabs;
     public GameObject[] stage2ModulePrefabs;
@@ -44,7 +44,7 @@ public class SpawnManager : MonoBehaviour
         for(int i = 0; i < 9; i++)
         {
             GameObject randomModule = stage1ModulePrefabs[Random.Range(0, stage1ModulePrefabs.Length)];
-            Instantiate(randomModule, new Vector3(20 + i*100, 0, 0), randomModule.transform.rotation);
+            Instantiate(randomModule, new Vector3(i*100, 0, 0), randomModule.transform.rotation);
             Debug.Log("Spawn Module " + (i+1));
         }
     }
@@ -59,7 +59,7 @@ public class SpawnManager : MonoBehaviour
         for(int i = 0; i < 10; i++)
         {
             GameObject randomModule = stage2ModulePrefabs[Random.Range(0, stage2ModulePrefabs.Length)];
-            Instantiate(randomModule, new Vector3(20 + i*90, 0, 0), randomModule.transform.rotation);
+            Instantiate(randomModule, new Vector3(i*90, 0, 0), randomModule.transform.rotation);
         }
     }
 
@@ -73,7 +73,7 @@ public class SpawnManager : MonoBehaviour
         for(int i = 0; i < 12; i++)
         {
             GameObject randomModule = stage3ModulePrefabs[Random.Range(0, stage3ModulePrefabs.Length)];
-            Instantiate(randomModule, new Vector3(20 + i*75, 0, 0), randomModule.transform.rotation);
+            Instantiate(randomModule, new Vector3(i*75, 0, 0), randomModule.transform.rotation);
         }
     }
 }

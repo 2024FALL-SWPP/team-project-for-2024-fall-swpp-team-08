@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 463570625}
   - component: {fileID: 463570624}
   - component: {fileID: 463570623}
+  - component: {fileID: 463570629}
   m_Layer: 0
   m_Name: Duck
   m_TagString: Untagged
@@ -710,7 +711,7 @@ MonoBehaviour:
   horizontalStep: 10
   slideDuration: 1
   jumpForce: 150
-  gravityMultiplier: 100
+  gravityMultiplier: 330
   hopForce: 10
   hopDuration: 0.5
 --- !u!54 &463570624
@@ -801,13 +802,29 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 463570622}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 1.02, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &463570629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463570622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8d7d6a6b5e31e468b08ce83869f180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage1ModulePrefabs:
+  - {fileID: 163456592795182570, guid: 832962f73a5c48c47bce35c606b37e55, type: 3}
+  stage2ModulePrefabs: []
+  stage3ModulePrefabs: []
 --- !u!1 &597559788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,6 +1817,7 @@ GameObject:
   - component: {fileID: 1101801125}
   - component: {fileID: 1101801124}
   - component: {fileID: 1101801123}
+  - component: {fileID: 1101801129}
   m_Layer: 5
   m_Name: UIManager
   m_TagString: Untagged
@@ -1943,6 +1961,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1101801129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101801122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c8d7d6a6b5e31e468b08ce83869f180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage1ModulePrefabs:
+  - {fileID: 163456592795182570, guid: 832962f73a5c48c47bce35c606b37e55, type: 3}
+  stage2ModulePrefabs: []
+  stage3ModulePrefabs: []
 --- !u!1 &1135586088
 GameObject:
   m_ObjectHideFlags: 0

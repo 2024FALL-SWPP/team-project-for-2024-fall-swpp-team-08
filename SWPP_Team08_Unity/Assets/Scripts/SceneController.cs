@@ -71,7 +71,6 @@ public class SceneController : MonoBehaviour
         uiManager.ShowStoryUI();
         yield return new WaitForSeconds(6.0f);
         SceneManager.LoadScene("Stage1Scene");
-        spawnManager.SpawnStage1();
     }
 
     IEnumerator LoadStage2()
@@ -81,7 +80,6 @@ public class SceneController : MonoBehaviour
         uiManager.ShowStoryUI();
         yield return new WaitForSeconds(6.0f);
         SceneManager.LoadScene("Stage2Scene");
-        spawnManager.SpawnStage2();
     }
 
     IEnumerator LoadStage3()
@@ -91,7 +89,6 @@ public class SceneController : MonoBehaviour
         uiManager.ShowStoryUI();
         yield return new WaitForSeconds(6.0f);
         SceneManager.LoadScene("Stage3Scene");
-        spawnManager.SpawnStage3();
     }
 
     IEnumerator LoadEnding()

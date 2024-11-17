@@ -227,10 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8d7d6a6b5e31e468b08ce83869f180, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapModulePrefabs:
-  - {fileID: 808402958}
-  - {fileID: 1381135730}
-  - {fileID: 156789002}
+  stage1ModulePrefabs: []
+  stage2ModulePrefabs: []
+  stage3ModulePrefabs: []
 --- !u!4 &147504631
 Transform:
   m_ObjectHideFlags: 0
@@ -759,7 +758,7 @@ MonoBehaviour:
   horizontalStep: 10
   slideDuration: 1
   jumpForce: 150
-  gravityMultiplier: 100
+  gravityMultiplier: 330
   hopForce: 10
   hopDuration: 0.5
 --- !u!54 &291858630
