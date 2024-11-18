@@ -242,7 +242,10 @@ public class PlayerController : MonoBehaviour
                                             .ToArray();
             foreach (Collider obstacle in obstacles)
             {
-                Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), true);
+                if(obstacle != null)
+                {
+                    Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), true);
+                }
             }
 
             StartCoroutine(ResetBoost(initSpeed, obstacles));
