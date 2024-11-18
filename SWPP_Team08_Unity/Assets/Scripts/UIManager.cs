@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public GameObject gameRestartButton;
 
     private List<GameObject> gameButtons;
+    private GameStateManager gameStateManager;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,8 @@ public class UIManager : MonoBehaviour
         gameButtons.Add(settingsButton);
 
         SetScale();
+        
+        gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
     }
 
     // Update is called once per frame
@@ -89,6 +92,18 @@ public class UIManager : MonoBehaviour
     public void UpdateProgressBar(float processRate)
     {
         progressBar.value = processRate;
+    }
+
+    public void ShowGamePlayUI()
+    {
+        playButton.SetActive(false);
+        pauseButton.SetActive(true);
+    }
+
+    public void ShowGamePauseUI()
+    {
+        playButton.SetActive(true);
+        pauseButton.SetActive(false);
     }
 
     public void ShowGameOverUI()
@@ -120,16 +135,12 @@ public class UIManager : MonoBehaviour
 
     public void OnPressPauseButton()
     {
-        playButton.SetActive(true);
-        pauseButton.SetActive(false);
-        Time.timeScale = 0.0f;
+        gameStateManager.EnterGamePauseState();
     }
 
     public void OnPressPlayButton()
     {
-        playButton.SetActive(false);
-        pauseButton.SetActive(true);
-        Time.timeScale = 1.0f;
+        gameStateManager.EnterGamePlayState();
     }
 
     private void HideGameButtons()
