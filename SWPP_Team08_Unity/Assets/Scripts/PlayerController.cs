@@ -208,7 +208,10 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
         /******************************
         [아이템별 Tag 및 설명]
         1. 데자와 (점수) : Tejava
@@ -219,17 +222,17 @@ public class PlayerController : MonoBehaviour
         *******************************/
 
         // 1. 데자와 (Tejava)
-        if (collider.gameObject.CompareTag("Tejava"))
+        if (other.gameObject.CompareTag("Tejava"))
         {
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
             AddScore();
         }
 
         // 2. 오리부스트 (Item_Boost)
-        if (collider.gameObject.tag == "Item_Boost")
+        if (other.gameObject.tag == "Item_Boost")
         {
             itemBoost = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             float initSpeed = forwardSpeed;
             SetSpeed(2f * forwardSpeed);
@@ -246,9 +249,9 @@ public class PlayerController : MonoBehaviour
         }
 
         // 3. 벼락치기 (Item_Thunder)
-        if (collider.gameObject.tag == "Item_Thunder")
+        if (other.gameObject.tag == "Item_Thunder")
         {
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
             var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
@@ -263,20 +266,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // 4. 오리날다 (Item_Fly)
-        if (collider.gameObject.tag == "Item_Fly")
+        if (other.gameObject.tag == "Item_Fly")
         {
             itemFly = true;
             canDoubleJump = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             StartCoroutine(ResetFly());
         }
 
         // 5. 곱빼기 (Item_Double)
-        if (collider.gameObject.tag == "Item_Double")
+        if (other.gameObject.tag == "Item_Double")
         {
             itemDouble = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             StartCoroutine(ResetDouble());
         }
