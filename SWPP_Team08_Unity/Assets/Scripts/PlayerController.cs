@@ -8,8 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    private float[] startArr = {0f, 0f, 0f};
-    private float[] endArr = {100f, 100f, 100f}; // TODO : 종료지점 설정
+    private float[] endArr = {900f, 100f, 100f}; // TODO : 종료지점 설정
     private float totalDistance = 0.0f;
     
     public float forwardSpeed = 5f;
@@ -18,7 +17,7 @@ public class PlayerController : MonoBehaviour
     
     // Related to jump action : implements more 'arcade-game-like' jump
     public float jumpForce = 150f;
-    public float gravityMultiplier = 100f;
+    public float gravityMultiplier = 330f;
     // Related to hop action : when player moves left or right, it 'hops' naturally
     public float hopForce = 1000f;
     public float hopDuration = 0.5f;
@@ -46,6 +45,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        totalDistance = GetTotalDistance();
 
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
@@ -88,43 +88,6 @@ public class PlayerController : MonoBehaviour
             uiManager.UpdateProgressBar(GetProcessRate());
         }
     }
-/*
-    private void MoveLeft()
-    {
-        // TO-DO 
-        // Add Animation for Move
-        if(currentLane > 1) 
-        {
-            if(!isJumping)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
-            }
-
-            Vector3 newPosition = transform.position;
-            newPosition.z += horizontalStep;
-            transform.position = newPosition;
-            currentLane--;
-        }
-    }
-
-    private void MoveRight()
-    {
-        // TO-DO
-        // Add Animation for Move
-        if(currentLane < 5) 
-        {
-            if(!isJumping)
-            {
-                rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
-            }
-            
-            Vector3 newPosition = transform.position;
-            newPosition.z -= horizontalStep;
-            transform.position = newPosition;
-            currentLane++;
-        }
-    }
-*/
 
     private void MoveLeft()
     {
@@ -245,7 +208,10 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
+    }
 
+    private void OnTriggerEnter(Collider other)
+    {
         /******************************
         [아이템별 Tag 및 설명]
         1. 데자와 (점수) : Tejava
@@ -256,17 +222,17 @@ public class PlayerController : MonoBehaviour
         *******************************/
 
         // 1. 데자와 (Tejava)
-        if (collider.gameObject.CompareTag("Tejava"))
+        if (other.gameObject.CompareTag("Tejava"))
         {
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
             AddScore();
         }
 
         // 2. 오리부스트 (Item_Boost)
-        if (collider.gameObject.tag == "Item_Boost")
+        if (other.gameObject.tag == "Item_Boost")
         {
             itemBoost = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             float initSpeed = forwardSpeed;
             SetSpeed(2f * forwardSpeed);
@@ -276,16 +242,19 @@ public class PlayerController : MonoBehaviour
                                             .ToArray();
             foreach (Collider obstacle in obstacles)
             {
-                Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), true);
+                if(obstacle != null)
+                {
+                    Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), true);
+                }
             }
 
             StartCoroutine(ResetBoost(initSpeed, obstacles));
         }
 
         // 3. 벼락치기 (Item_Thunder)
-        if (collider.gameObject.tag == "Item_Thunder")
+        if (other.gameObject.tag == "Item_Thunder")
         {
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
             var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
@@ -300,20 +269,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // 4. 오리날다 (Item_Fly)
-        if (collider.gameObject.tag == "Item_Fly")
+        if (other.gameObject.tag == "Item_Fly")
         {
             itemFly = true;
             canDoubleJump = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             StartCoroutine(ResetFly());
         }
 
         // 5. 곱빼기 (Item_Double)
-        if (collider.gameObject.tag == "Item_Double")
+        if (other.gameObject.tag == "Item_Double")
         {
             itemDouble = true;
-            Destroy(collider.gameObject);
+            Destroy(other.gameObject);
 
             StartCoroutine(ResetDouble());
         }
@@ -326,7 +295,10 @@ public class PlayerController : MonoBehaviour
         SetSpeed(initSpeed);
         foreach (Collider obstacle in obstacles)
         {
-            Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), false);
+            if(obstacle != null)
+            {
+                Physics.IgnoreCollision(obstacle, GetComponent<Collider>(), false);
+            }
         }
 
         itemBoost = false;
@@ -360,7 +332,7 @@ public class PlayerController : MonoBehaviour
         float distance = 0.0f;
         for (int i = 0; i < 3; i++)
         {
-            distance += endArr[i] - startArr[i];
+            distance += endArr[i];
         }
         return distance;
     }
@@ -372,11 +344,11 @@ public class PlayerController : MonoBehaviour
         switch (currentStage)
         {
             case 1:
-                return (currentXCoordinate-startArr[0]) / totalDistance;
+                return currentXCoordinate / totalDistance;
             case 2:
-                return (currentXCoordinate-startArr[1]+endArr[0]-startArr[0]) / totalDistance;
+                return (currentXCoordinate+endArr[0]) / totalDistance;
             case 3:
-                return (currentXCoordinate-startArr[2]+endArr[1]-startArr[1]+endArr[0]-startArr[0]) / totalDistance;
+                return (currentXCoordinate+endArr[1]+endArr[0]) / totalDistance;
             default:
                 return 0;
         }
