@@ -7,7 +7,6 @@ public class SceneController : MonoBehaviour
 {
     private Scene currentScene;
     private UIManager uiManager;
-    private SpawnManager spawnManager;
     private PlayerController playerController;
     private bool isLoading = false;
 
@@ -16,7 +15,6 @@ public class SceneController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
         uiManager = gameObject.GetComponent<UIManager>();
-        spawnManager = gameObject.GetComponent<SpawnManager>();
 
         if (currentScene.name != "MainScene")
         {

@@ -45,7 +45,6 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject randomModule = stage1ModulePrefabs[Random.Range(0, stage1ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + i*100, 0, 0), randomModule.transform.rotation);
-            Debug.Log("Spawn Module " + (i+1));
         }
     }
 

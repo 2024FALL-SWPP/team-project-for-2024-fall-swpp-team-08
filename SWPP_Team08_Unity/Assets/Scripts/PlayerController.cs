@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     
     // Related to jump action : implements more 'arcade-game-like' jump
     public float jumpForce = 150f;
-    public float gravityMultiplier = 100f;
+    public float gravityMultiplier = 330f;
     // Related to hop action : when player moves left or right, it 'hops' naturally
     public float hopForce = 1000f;
     public float hopDuration = 0.5f;
