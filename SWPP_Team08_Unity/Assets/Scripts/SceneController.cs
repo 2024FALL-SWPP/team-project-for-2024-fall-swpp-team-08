@@ -33,10 +33,10 @@ public class SceneController : MonoBehaviour
         if (!isLoading)
         {
             isLoading = true;
-            if (playerController)
-            {
-                playerController.enabled = false;
-            }
+            // if (playerController)
+            // {
+            //     playerController.enabled = false;
+            // }
             switch (currentScene.name)
             {
                 case "MainScene":
@@ -73,7 +73,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadStage2()
     {
-        uiManager.ShowStageClearUI();
+        // uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(2.5f);
         uiManager.ShowStoryUI();
         yield return new WaitForSeconds(6.0f);
@@ -82,7 +82,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadStage3()
     {
-        uiManager.ShowStageClearUI();
+        // uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(2.5f);
         uiManager.ShowStoryUI();
         yield return new WaitForSeconds(6.0f);
@@ -91,7 +91,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadEnding()
     {
-        uiManager.ShowStageClearUI();
+        // uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(2.5f);
         uiManager.ShowStoryUI();
     }    

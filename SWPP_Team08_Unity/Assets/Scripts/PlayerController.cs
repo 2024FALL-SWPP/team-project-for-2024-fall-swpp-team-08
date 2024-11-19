@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    private float[] endArr = {900f, 100f, 100f}; // TODO : 종료지점 설정
+    private float[] endArr = {900f, 900f, 900f}; // TODO : 종료지점 설정
     private float totalDistance = 0.0f;
     
     public float forwardSpeed = 5f;
@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
-    private bool isGameOver = false;
     private bool isMoving = false;
     private bool isJumping = false;
     private bool isSliding = false;
@@ -39,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private int score = 0;
     private UIManager uiManager;
     private SceneController sceneController;
+    private GameStateManager gameStateManager;
     
     // Start is called before the first frame update
     void Start()
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
+        gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
 
         InitScore();
         totalDistance = GetTotalDistance();
@@ -58,7 +59,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!isGameOver)
+        if(gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
@@ -199,8 +200,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!itemBoost)
             {
-                isGameOver = true;
-                uiManager.ShowGameOverUI();
+                gameStateManager.EnterGameOverState();
             }
         }
         
@@ -359,7 +359,7 @@ public class PlayerController : MonoBehaviour
         if (currentXCoordinate > endArr[currentStage - 1])
         {
             PlayerPrefs.SetInt("Score", score);
-            sceneController.ChangeScene();
+            gameStateManager.EnterStageClearState();
         }
     }
 
