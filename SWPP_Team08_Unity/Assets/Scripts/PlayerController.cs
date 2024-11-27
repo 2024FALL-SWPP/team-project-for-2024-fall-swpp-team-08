@@ -202,7 +202,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.tag == "Obstacle") 
+        if (collider.gameObject.tag == "Obstacle" ||
+            collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
             if (!itemBoost)
             {

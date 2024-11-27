@@ -361,9 +361,11 @@ GameObject:
   m_Component:
   - component: {fileID: 350945787895446976}
   - component: {fileID: 239946597296749408}
+  - component: {fileID: 3586687694067024262}
+  - component: {fileID: 8109858490230225200}
   m_Layer: 0
   m_Name: Weasel
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -376,7 +378,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1122838837284644730}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -28.3, y: 4.4, z: 18.1}
+  m_LocalPosition: {x: 0, y: 1.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -409,6 +411,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3586687694067024262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122838837284644730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614f232f5528cff43bb5ec1887f26d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catSpeed: 3
+  weaselSpeed: 5
+  moveRange: 25
+--- !u!65 &8109858490230225200
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122838837284644730}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.3740995, y: 2.175241, z: 7.7719545}
+  m_Center: {x: 0.044534564, y: -0.62855864, z: -0.6899743}
 --- !u!1 &1235148189444088929
 GameObject:
   m_ObjectHideFlags: 0
