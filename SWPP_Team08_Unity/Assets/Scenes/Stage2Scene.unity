@@ -5030,7 +5030,6 @@ GameObject:
   - component: {fileID: 1914278381}
   - component: {fileID: 1914278380}
   - component: {fileID: 1914278379}
-  - component: {fileID: 1914278378}
   - component: {fileID: 1914278377}
   m_Layer: 0
   m_Name: Duck
@@ -5051,22 +5050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6acba14fca7fcd549b9c150878c96080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1914278378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1914278376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c8d7d6a6b5e31e468b08ce83869f180, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stage1ModulePrefabs: []
-  stage2ModulePrefabs:
-  - {fileID: 163456592795182570, guid: 832962f73a5c48c47bce35c606b37e55, type: 3}
-  stage3ModulePrefabs: []
 --- !u!114 &1914278379
 MonoBehaviour:
   m_ObjectHideFlags: 0

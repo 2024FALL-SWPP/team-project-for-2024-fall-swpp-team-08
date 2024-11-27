@@ -687,7 +687,6 @@ GameObject:
   - component: {fileID: 463570625}
   - component: {fileID: 463570624}
   - component: {fileID: 463570623}
-  - component: {fileID: 463570629}
   - component: {fileID: 463570630}
   m_Layer: 0
   m_Name: Duck
@@ -810,22 +809,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &463570629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463570622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c8d7d6a6b5e31e468b08ce83869f180, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stage1ModulePrefabs:
-  - {fileID: 163456592795182570, guid: 832962f73a5c48c47bce35c606b37e55, type: 3}
-  stage2ModulePrefabs: []
-  stage3ModulePrefabs: []
 --- !u!114 &463570630
 MonoBehaviour:
   m_ObjectHideFlags: 0
