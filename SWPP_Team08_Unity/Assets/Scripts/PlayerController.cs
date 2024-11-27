@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    private float[] endArr = {900f, 900f, 900f}; // TODO : 종료지점 설정
+    private float[] endArr = {1800f, 1800f, 1800f}; // TODO : 종료지점 설정
     private float totalDistance = 0.0f;
     
     public float forwardSpeed = 10.0f;

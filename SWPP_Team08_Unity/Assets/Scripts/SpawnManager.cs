@@ -36,8 +36,8 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnStage1()
     {
-        // Stage Length : 920f (첫 20f는 장애물 X)
-        // Obstacle Interval : 10f (avg 2sec per obstacle)
+        // Stage Length : 1820f (첫 20f는 장애물 X)
+        // Obstacle Interval : 12.5f (avg 1.25sec per obstacle)
         // Item Interval : ??? (avg ???sec per item)
         // 9 Modules * 10 Obstacles (Module Length = 100f)
 
@@ -50,8 +50,8 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnStage2()
     {
-        // Stage Length : 920f
-        // Obstacle Interval : 9f (avg 1.8sec per obstacle)
+        // Stage Length : 1820f
+        // Obstacle Interval : 10f (avg 1.8sec per obstacle)
         // Item Interval : ??? (avg ???sec per item)
         // 10 Modules * 10 Obstacles (Module Length = 90f)
 
@@ -64,7 +64,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnStage3()
     {
-        // Stage Length : 920f
+        // Stage Length : 1820f
         // Obstacle Interval : 7.5f (avg 1.5sec per obstacle)
         // Item Interval : ??? (avg ???sec per item)
         // 12 Modules * 10 Obstacles (Module Length = 75f)
