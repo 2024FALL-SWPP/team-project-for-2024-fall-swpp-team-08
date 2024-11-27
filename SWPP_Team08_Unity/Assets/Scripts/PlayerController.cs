@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private float initSpeed;
     public float horizontalStep = 10.0f;
     public float slideDuration = 1.0f;
+    public float slideOffset = 1.0f;
     
     // Related to jump action : implements more 'arcade-game-like' jump
     public float jumpForce = 80.0f;
@@ -187,11 +188,15 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Slide()
     {
         isSliding = true;
-        transform.Rotate(0, 0, 75);
+
+        transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
+        transform.Rotate(0, 0, 90);
         // TO-DO
         // Add Animation for Slide
         yield return new WaitForSeconds(slideDuration);
-        transform.Rotate(0, 0, -75);
+        transform.Rotate(0, 0, -90);
+        transform.position = new Vector3(transform.position.x, transform.position.y + slideOffset, transform.position.z);
+
         isSliding = false;
     }
 
