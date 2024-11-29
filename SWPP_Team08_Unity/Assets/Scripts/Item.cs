@@ -42,7 +42,7 @@ class ItemTejava : Item
 class ItemBoost : Item
 {
     private static string itemName = "Item_Boost";
-    private static float time = 1.5f;
+    private static float time = 2.0f;
 
     public override string GetName()
     {
