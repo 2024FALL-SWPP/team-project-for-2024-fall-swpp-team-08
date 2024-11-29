@@ -38,8 +38,8 @@ public class SpawnManager : MonoBehaviour
     {
         // Stage Length : 1820f (첫 20f는 장애물 X)
         // Module Length : 200f
-        // Obstacle Interval : avg 15.4f (avg 1.54sec per obstacle)
-        // 9 Modules * (13 Obstacles + 5 Items + 10 Tejavas)
+        // Obstacle Interval : avg 20.0f (avg 2.00sec per obstacle)
+        // 9 Modules * (10 Obstacles + 3 Items + 10 Tejavas)
 
         for(int i = 0; i < 9; i++)
         {
@@ -52,8 +52,8 @@ public class SpawnManager : MonoBehaviour
     {
         // Stage Length : 1820f (첫 20f는 장애물 X)
         // Module Length : 180f
-        // Obstacle Interval : 13.5f (avg 1.35sec per obstacle)
-        // 10 Modules * (15 Obstacles + 5 Items + 10 Tejavas)
+        // Obstacle Interval : 18.0f (avg 1.80sec per obstacle)
+        // 10 Modules * (10 Obstacles + 3 Items + 10 Tejavas)
 
         for(int i = 0; i < 10; i++)
         {
@@ -66,8 +66,8 @@ public class SpawnManager : MonoBehaviour
     {
         // Stage Length : 1820f (첫 20f는 장애물 X)
         // Module Length : 150f
-        // Obstacle Interval : 12.5f (avg 1.25sec per obstacle)
-        // 12 Modules * (15 Obstacles + 5 Items + 10 Tejavas)
+        // Obstacle Interval : 15.0f (avg 1.50sec per obstacle)
+        // 12 Modules * (10 Obstacles + 5 Items + 10 Tejavas)
 
         for(int i = 0; i < 12; i++)
         {
