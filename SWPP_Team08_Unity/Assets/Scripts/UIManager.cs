@@ -108,6 +108,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowGameOverUI()
     {
+        DestroyItemUI();
         backgroundColor.SetActive(true);
         gameOverImage.SetActive(true);
         gameRestartButton.SetActive(true);
@@ -115,7 +116,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowStageClearUI()
     {
-        backgroundColor.SetActive(true);
         stageClearImage.SetActive(true);
     }
 
@@ -140,6 +140,19 @@ public class UIManager : MonoBehaviour
     public void ShowReplayUI()
     {
         // TODO
+    }
+
+    public void DestroyItemUI()
+    {
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+        foreach (GameObject obj in allObjects)
+        {
+            if (obj.name == "BoostSlider" || obj.name == "FlySlider" || obj.name == "DoubleSlider")
+            {
+                Destroy(obj);
+            }
+        }
     }
 
     public void OnPressPauseButton()

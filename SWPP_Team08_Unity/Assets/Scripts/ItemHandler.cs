@@ -13,28 +13,36 @@ abstract class ItemHandler : MonoBehaviour
         return handler;
     }
 
-    public abstract void apply(PlayerController playerController, Item item);
+    public abstract void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs);
 
-    public void trigger(PlayerController playerController, Item item)
+    public void trigger(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
     {
-        apply(playerController, item);
+        apply(playerController, item, timeCanvasPrefabs);
 
         if (nextHandler != null)
-            nextHandler.trigger(playerController, item);
+            nextHandler.trigger(playerController, item, timeCanvasPrefabs);
     }
 }
 
 class ItemPlayerHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
     {
         item.ApplyItemEffect(playerController);
     }
 }
 
+class ItemUIHandler : ItemHandler
+{
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    {
+        item.ShowTimeUI(timeCanvasPrefabs);
+    }
+}
+
 class ItemParticleHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
     {
         // TODO
         // item.PlayParticleEffect();
@@ -44,7 +52,7 @@ class ItemParticleHandler : ItemHandler
 class ItemTimeHandler : ItemHandler
 {
     // TODO - Handle for multiple items
-    public override void apply(PlayerController playerController, Item item)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
     {
         StartCoroutine(RemoveItem(playerController, item));
     }

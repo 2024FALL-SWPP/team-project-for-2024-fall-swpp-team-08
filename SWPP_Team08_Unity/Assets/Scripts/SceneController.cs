@@ -8,6 +8,7 @@ public class SceneController : MonoBehaviour
     private Scene currentScene;
     private UIManager uiManager;
     private PlayerController playerController;
+    private ParticleSystem stageClearParticle;
     private bool isLoading = false;
 
     // Start is called before the first frame update
@@ -15,6 +16,7 @@ public class SceneController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
         uiManager = gameObject.GetComponent<UIManager>();
+        stageClearParticle = GameObject.Find("StageClearParticle").GetComponent<ParticleSystem>();
 
         if (currentScene.name != "MainScene")
         {
@@ -77,6 +79,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadStage2()
     {
+        stageClearParticle.Play();
         uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(4.0f);
         uiManager.ShowStoryUI(0);
@@ -86,6 +89,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadStage3()
     {
+        stageClearParticle.Play();
         uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(4.0f);
         uiManager.ShowStoryUI(0);
@@ -101,6 +105,7 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadEnding()
     {
+        stageClearParticle.Play();
         uiManager.ShowStageClearUI();
         yield return new WaitForSeconds(4.0f);
         uiManager.ShowStoryUI(0);
