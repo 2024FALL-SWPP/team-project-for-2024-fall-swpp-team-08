@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
 {
+    public float catSpeed = 3f;
+    public float weaselSpeed = 5f;
+    public float moveRange = 25f;
+    private bool movingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -16,22 +20,32 @@ public class ObstacleController : MonoBehaviour
     {
         if(gameObject.name.Contains("Cat"))
         {
-            HandleCat();
+            HandleLRMovement(catSpeed);
         }
 
         if(gameObject.name.Contains("Weasel"))
         {
-            HandleWeasel();
+            HandleLRMovement(weaselSpeed);
         }
     }
 
-    private void HandleCat()
+    private void HandleLRMovement(float speed)
     {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
+        if(movingRight && transform.position.z >= moveRange)
+        {
+            FlipDirection();
+        }
+        else if(!movingRight && transform.position.z <= -moveRange)
+        {
+            FlipDirection();
+        }
     }
 
-    private void HandleWeasel()
+    private void FlipDirection()
     {
-    
+        movingRight = !movingRight;
+        transform.Rotate(0, 180, 0);
     }
 }

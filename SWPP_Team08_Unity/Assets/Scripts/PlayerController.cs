@@ -8,17 +8,18 @@ public class PlayerController : MonoBehaviour
 {
     // Arrays for Start & End coordinates of each stage
     // For displaying process rate
-    private float[] endArr = {900f, 900f, 900f}; // TODO : 종료지점 설정
+    private float[] endArr = {1800f, 1800f, 1800f}; // TODO : 종료지점 설정
     private float totalDistance = 0.0f;
     
     public float forwardSpeed = 10.0f;
     private float initSpeed;
     public float horizontalStep = 10.0f;
     public float slideDuration = 1.0f;
+    public float slideOffset = 1.0f;
     
     // Related to jump action : implements more 'arcade-game-like' jump
-    public float jumpForce = 150.0f;
-    public float gravityMultiplier = 200.0f;
+    public float jumpForce = 50.0f;
+    public float gravityMultiplier = 70.0f;
     // Related to hop action : when player moves left or right, it 'hops' naturally
     public float hopForce = 10.0f;
     public float hopDuration = 0.5f;
@@ -187,17 +188,22 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Slide()
     {
         isSliding = true;
-        transform.Rotate(0, 0, 75);
+
+        transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
+        transform.Rotate(0, 0, 90);
         // TO-DO
         // Add Animation for Slide
         yield return new WaitForSeconds(slideDuration);
-        transform.Rotate(0, 0, -75);
+        transform.Rotate(0, 0, -90);
+        transform.position = new Vector3(transform.position.x, transform.position.y + slideOffset, transform.position.z);
+
         isSliding = false;
     }
 
     private void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.tag == "Obstacle") 
+        if (collider.gameObject.tag == "Obstacle" ||
+            collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
             if (!itemBoost)
             {

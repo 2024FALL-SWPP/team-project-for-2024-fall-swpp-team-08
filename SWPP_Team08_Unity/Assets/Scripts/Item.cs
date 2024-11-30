@@ -42,7 +42,7 @@ class ItemTejava : Item
 class ItemBoost : Item
 {
     private static string itemName = "Item_Boost";
-    private static float time = 1.5f;
+    private static float time = 2.0f;
 
     public override string GetName()
     {
@@ -61,11 +61,22 @@ class ItemBoost : Item
         Collider[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle")
                                         .Select(o => o.GetComponent<Collider>())
                                         .ToArray();
+        Collider[] obstacleChildren = GameObject.FindGameObjectsWithTag("ObstacleChild")
+                                        .Select(o => o.GetComponent<Collider>())
+                                        .ToArray();
+
         foreach (Collider obstacle in obstacles)
         {
             if (obstacle != null)
             {
                 Physics.IgnoreCollision(obstacle, playerController.GetComponent<Collider>(), true);
+            }
+        }
+        foreach (Collider obstacleChild in obstacleChildren)
+        {
+            if (obstacleChild != null)
+            {
+                Physics.IgnoreCollision(obstacleChild, playerController.GetComponent<Collider>(), true);
             }
         }
     }
@@ -77,11 +88,22 @@ class ItemBoost : Item
         Collider[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle")
                                         .Select(o => o.GetComponent<Collider>())
                                         .ToArray();
+        Collider[] obstacleChildren = GameObject.FindGameObjectsWithTag("ObstacleChild")
+                                        .Select(o => o.GetComponent<Collider>())
+                                        .ToArray();
+
         foreach (Collider obstacle in obstacles)
         {
             if (obstacle != null)
             {
                 Physics.IgnoreCollision(obstacle, playerController.GetComponent<Collider>(), false);
+            }
+        }
+        foreach (Collider obstacleChild in obstacleChildren)
+        {
+            if (obstacleChild != null)
+            {
+                Physics.IgnoreCollision(obstacleChild, playerController.GetComponent<Collider>(), false);
             }
         }
     }
