@@ -66,33 +66,90 @@ public class SceneController : MonoBehaviour
 
     IEnumerator LoadStage1()
     {
-        uiManager.ShowStoryUI();
-        yield return new WaitForSeconds(6.0f);
+        uiManager.ShowStoryUI(0);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(1);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(2);
+        yield return new WaitForSeconds(4.0f);
         SceneManager.LoadScene("Stage1Scene");
     }
 
     IEnumerator LoadStage2()
     {
-        // uiManager.ShowStageClearUI();
-        yield return new WaitForSeconds(2.5f);
-        uiManager.ShowStoryUI();
-        yield return new WaitForSeconds(6.0f);
+        uiManager.ShowStageClearUI();
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(0);
+        yield return new WaitForSeconds(4.0f);
         SceneManager.LoadScene("Stage2Scene");
     }
 
     IEnumerator LoadStage3()
     {
-        // uiManager.ShowStageClearUI();
-        yield return new WaitForSeconds(2.5f);
-        uiManager.ShowStoryUI();
-        yield return new WaitForSeconds(6.0f);
+        uiManager.ShowStageClearUI();
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(0);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(1);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(2);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(3);
+        yield return new WaitForSeconds(4.0f);
         SceneManager.LoadScene("Stage3Scene");
     }
 
     IEnumerator LoadEnding()
     {
-        // uiManager.ShowStageClearUI();
-        yield return new WaitForSeconds(2.5f);
-        uiManager.ShowStoryUI();
+        uiManager.ShowStageClearUI();
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(0);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(1);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(2);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(3);
+        yield return new WaitForSeconds(4.0f);
+        uiManager.ShowStoryUI(14);
+        yield return new WaitForSeconds(1.5f);
+        if (playerController.GetScore() >= 241)
+        {
+            uiManager.ShowStoryUI(4);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(5);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(8);
+            yield return new WaitForSeconds(4.0f);
+        } else if (playerController.GetScore() >= 161)
+        {
+            uiManager.ShowStoryUI(6);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(7);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(8);
+            yield return new WaitForSeconds(4.0f);
+        } else if (playerController.GetScore() >= 81)
+        {
+            uiManager.ShowStoryUI(9);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(11);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(12);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(13);
+            yield return new WaitForSeconds(4.0f);
+        } else
+        {
+            uiManager.ShowStoryUI(10);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(11);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(12);
+            yield return new WaitForSeconds(4.0f);
+            uiManager.ShowStoryUI(13);
+            yield return new WaitForSeconds(4.0f);
+        }
+        uiManager.ShowReplayUI();
     }    
 }

@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     public GameObject questionDescription;
     public GameObject gameOverImage;
     public GameObject stageClearImage;
-    public GameObject stageClearStory;
+    public GameObject[] stageClearStories;
     public GameObject gameRestartButton;
 
     private List<GameObject> gameButtons;
@@ -119,7 +119,7 @@ public class UIManager : MonoBehaviour
         stageClearImage.SetActive(true);
     }
 
-    public void ShowStoryUI()
+    public void ShowStoryUI(int number)
     {
         backgroundColor.SetActive(true);
         if (stageClearImage)
@@ -130,7 +130,16 @@ public class UIManager : MonoBehaviour
         {
             gameStartButton.SetActive(false);
         }
-        stageClearStory.SetActive(true);
+        foreach (GameObject stageClearStory in stageClearStories)
+        {
+            stageClearStory.SetActive(false);
+        }
+        stageClearStories[number].SetActive(true);
+    }
+
+    public void ShowReplayUI()
+    {
+        // TODO
     }
 
     public void OnPressPauseButton()

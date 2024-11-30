@@ -1753,7 +1753,8 @@ MonoBehaviour:
   questionDescription: {fileID: 390495009}
   gameOverImage: {fileID: 939512394}
   stageClearImage: {fileID: 1893796657}
-  stageClearStory: {fileID: 1922671091}
+  stageClearStories:
+  - {fileID: 1922671091}
   gameRestartButton: {fileID: 903216386}
 --- !u!114 &1101801125
 MonoBehaviour:
@@ -1869,6 +1870,8 @@ MonoBehaviour:
   - {fileID: 8116471913366127940, guid: 832962f73a5c48c47bce35c606b37e55, type: 3}
   - {fileID: 3083763170063019579, guid: 05b035ca5e9ef1044aee03f4cbf4b861, type: 3}
   - {fileID: 4556801725106764194, guid: 9277583fa3d60bd4289c2876d45f9ee5, type: 3}
+  - {fileID: 8427360173840004050, guid: 63fca8c2f8d1e714681fd64c8a2a506a, type: 3}
+  - {fileID: 8505318708064566205, guid: 79a6fe438607f154797a789deacc56a9, type: 3}
   stage2ModulePrefabs: []
   stage3ModulePrefabs: []
 --- !u!1 &1135586088
@@ -2502,7 +2505,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 81c242ad8c8526f428e3a7a61c27beb3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5abce74ffdfcc064384506da61094fde, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2537,8 +2540,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -70}
-  m_SizeDelta: {x: 819.2, y: 387.2}
+  m_AnchoredPosition: {x: -30, y: -10}
+  m_SizeDelta: {x: 614.1, y: 347.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1965134648
 GameObject:
