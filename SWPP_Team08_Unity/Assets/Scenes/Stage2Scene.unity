@@ -272,7 +272,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage1ModulePrefabs: []
-  stage2ModulePrefabs: []
+  stage2ModulePrefabs:
+  - {fileID: 370261687255040575, guid: c5ef243597c8fdf479f3539aae6eca03, type: 3}
+  - {fileID: 4234267801733832001, guid: 27401e690544a8143bae368496cc4ec3, type: 3}
+  - {fileID: 7905271983438892411, guid: c7ef2a395f171cf4bb7c7beb91f939b6, type: 3}
+  - {fileID: 3472838481923116356, guid: e745948afb8c2b34695a0e8fefa1abb4, type: 3}
+  - {fileID: 2930867601050427337, guid: dd4e9aae1e83df3408b8691b6a2d1bd7, type: 3}
   stage3ModulePrefabs: []
 --- !u!4 &147504631
 Transform:
@@ -7764,7 +7769,7 @@ MonoBehaviour:
   slideDuration: 1
   slideOffset: 1
   jumpForce: 50
-  gravityMultiplier: 150
+  gravityMultiplier: 100
   hopForce: 10
   hopDuration: 0.5
 --- !u!114 &1683492591
