@@ -166,16 +166,15 @@ class ItemThunder : Item
 
     public override void ApplyItemEffect(PlayerController playerController)
     {
+        ItemEffect itemEffect = GameObject.Find("Duck").GetComponent<ItemEffect>();
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
                                         .OrderBy(o => Mathf.Abs(o.transform.position.x - transform.position.x))
                                         .Take(3)
                                         .ToArray();
         
-        foreach (GameObject obstacle in closestObstacles)
-        {
-            Destroy(obstacle);
-        }
+        itemEffect.SpawnThunderEffect(closestObstacles);
+        // Destroy in Item Effect Code
     }
     
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)

@@ -64,6 +64,7 @@ namespace GameState
         public void ChangePlayerSettings(PlayerController playerController)
         {
             playerController.enabled = false;  // No movement allowed
+            playerController.RemoveEffects();
         }
         
         public void ShowUI(UIManager uiManager)
