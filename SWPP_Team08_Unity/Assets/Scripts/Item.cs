@@ -10,6 +10,7 @@ abstract class Item : MonoBehaviour
     abstract public string GetName();
     abstract public float GetTime();
     abstract public void ApplyItemEffect(PlayerController playerController);
+    abstract public void PlayParticleEffect(ParticleSystem[] particleSystems);
     abstract public void ShowTimeUI(GameObject[] timeCanvasPrefabs);
     abstract public void RemoveItemEffect(PlayerController playerController);
 }
@@ -33,6 +34,11 @@ class ItemTejava : Item
     public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.AddScore();
+    }
+
+    public override void PlayParticleEffect(ParticleSystem[] particleSystems)
+    {
+        particleSystems[0].Play();
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -96,6 +102,12 @@ class ItemBoost : Item
                 Physics.IgnoreCollision(obstacleChild, playerController.GetComponent<Collider>(), true);
             }
         }
+    }
+
+    public override void PlayParticleEffect(ParticleSystem[] particleSystems)
+    {
+        particleSystems[1].Play();
+        particleSystems[2].Play();
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -165,6 +177,11 @@ class ItemThunder : Item
             Destroy(obstacle);
         }
     }
+    
+    public override void PlayParticleEffect(ParticleSystem[] particleSystems)
+    {
+        
+    }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
@@ -205,6 +222,11 @@ class ItemFly : Item
     public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.FlyOn();
+    }
+
+    public override void PlayParticleEffect(ParticleSystem[] particleSystems)
+    {
+        particleSystems[3].Play();
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -253,6 +275,12 @@ class ItemDouble : Item
     {
         playerController.DoubleOn();
     }
+
+    public override void PlayParticleEffect(ParticleSystem[] particleSystems)
+    {
+        particleSystems[4].Play();
+    }
+
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {

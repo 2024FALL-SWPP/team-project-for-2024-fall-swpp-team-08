@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     public GameObject stageClearImage;
     public GameObject[] stageClearStories;
     public GameObject gameRestartButton;
+    public GameObject stageRestartButton;
+    public GameObject goToMainButton;
 
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
@@ -137,9 +139,9 @@ public class UIManager : MonoBehaviour
         stageClearStories[number].SetActive(true);
     }
 
-    public void ShowReplayUI()
+    public void ShowGoToMainButton()
     {
-        // TODO
+        goToMainButton.SetActive(true);
     }
 
     public void DestroyItemUI()

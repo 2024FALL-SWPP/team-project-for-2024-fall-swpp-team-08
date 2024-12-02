@@ -17,6 +17,7 @@ public class ItemController : MonoBehaviour
     private Item itemDouble;
 
     public GameObject[] timeCanvasPrefabs;
+    public ParticleSystem[] particleSystems;
 
     // Start is called before the first frame update
     void Start()
@@ -48,31 +49,31 @@ public class ItemController : MonoBehaviour
             case "Tejava":
                 // 데자와 (점수)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemDejava, timeCanvasPrefabs);
+                itemPlayerHandler.trigger(playerController, itemDejava, timeCanvasPrefabs, particleSystems);
                 break;
 
             case "Item_Boost":
                 // 오리부스트 (속도 1.5배, 장애물 무시 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemBoost, timeCanvasPrefabs);
+                itemPlayerHandler.trigger(playerController, itemBoost, timeCanvasPrefabs, particleSystems);
                 break;
             
             case "Item_Thunder":
                 // 벼락치기 (가장 근접한 장애물 3개 삭제)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemThunder, timeCanvasPrefabs);
+                itemPlayerHandler.trigger(playerController, itemThunder, timeCanvasPrefabs, particleSystems);
                 break;
 
             case "Item_Fly":
                 // 오리날다 (이단 점프 + 점프 중 좌우 컨트롤 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemFly, timeCanvasPrefabs);
+                itemPlayerHandler.trigger(playerController, itemFly, timeCanvasPrefabs, particleSystems);
                 break;
 
             case "Item_Double":
                 // 곱빼기 (점수 2배 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemDouble, timeCanvasPrefabs);
+                itemPlayerHandler.trigger(playerController, itemDouble, timeCanvasPrefabs, particleSystems);
                 break;
         }
     }

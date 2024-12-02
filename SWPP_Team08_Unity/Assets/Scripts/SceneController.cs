@@ -35,6 +35,10 @@ public class SceneController : MonoBehaviour
         if (!isLoading)
         {
             isLoading = true;
+            if (playerController)
+            {
+                playerController.SetSpeed(0.0f);
+            }
             // if (playerController)
             // {
             //     playerController.enabled = false;
@@ -64,6 +68,11 @@ public class SceneController : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(currentScene.name);
+    }
+
+    public void GoToMain()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 
     IEnumerator LoadStage1()
@@ -125,7 +134,7 @@ public class SceneController : MonoBehaviour
             uiManager.ShowStoryUI(5);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(8);
-            yield return new WaitForSeconds(4.0f);
+            yield return new WaitForSeconds(2.0f);
         } else if (playerController.GetScore() >= 161)
         {
             uiManager.ShowStoryUI(6);
@@ -133,7 +142,7 @@ public class SceneController : MonoBehaviour
             uiManager.ShowStoryUI(7);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(8);
-            yield return new WaitForSeconds(4.0f);
+            yield return new WaitForSeconds(2.0f);
         } else if (playerController.GetScore() >= 81)
         {
             uiManager.ShowStoryUI(9);
@@ -143,7 +152,7 @@ public class SceneController : MonoBehaviour
             uiManager.ShowStoryUI(12);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(13);
-            yield return new WaitForSeconds(4.0f);
+            yield return new WaitForSeconds(2.0f);
         } else
         {
             uiManager.ShowStoryUI(10);
@@ -153,8 +162,8 @@ public class SceneController : MonoBehaviour
             uiManager.ShowStoryUI(12);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(13);
-            yield return new WaitForSeconds(4.0f);
+            yield return new WaitForSeconds(2.0f);
         }
-        uiManager.ShowReplayUI();
+        uiManager.ShowGoToMainButton();
     }    
 }
