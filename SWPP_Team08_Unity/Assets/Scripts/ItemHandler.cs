@@ -13,20 +13,20 @@ abstract class ItemHandler : MonoBehaviour
         return handler;
     }
 
-    public abstract void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs);
+    public abstract void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems);
 
-    public void trigger(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    public void trigger(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems)
     {
-        apply(playerController, item, timeCanvasPrefabs);
+        apply(playerController, item, timeCanvasPrefabs, particleSystems);
 
         if (nextHandler != null)
-            nextHandler.trigger(playerController, item, timeCanvasPrefabs);
+            nextHandler.trigger(playerController, item, timeCanvasPrefabs, particleSystems);
     }
 }
 
 class ItemPlayerHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems)
     {
         item.ApplyItemEffect(playerController);
     }
@@ -34,7 +34,7 @@ class ItemPlayerHandler : ItemHandler
 
 class ItemUIHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems)
     {
         item.ShowTimeUI(timeCanvasPrefabs);
     }
@@ -42,17 +42,16 @@ class ItemUIHandler : ItemHandler
 
 class ItemParticleHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems)
     {
-        // TODO
-        // item.PlayParticleEffect();
+        item.PlayParticleEffect(particleSystems);
     }
 }
 
 class ItemTimeHandler : ItemHandler
 {
     // TODO - Handle for multiple items
-    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs)
+    public override void apply(PlayerController playerController, Item item, GameObject[] timeCanvasPrefabs, ParticleSystem[] particleSystems)
     {
         StartCoroutine(RemoveItem(playerController, item));
     }
