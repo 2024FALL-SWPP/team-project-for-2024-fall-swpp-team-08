@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
     private UIManager uiManager;
     private SceneController sceneController;
     private GameStateManager gameStateManager;
+
+    public ParticleSystem collisionParticle;
     
     // Start is called before the first frame update
     void Start()
@@ -207,6 +209,10 @@ public class PlayerController : MonoBehaviour
         {
             if (!itemBoost)
             {
+                if (collisionParticle)
+                {
+                    collisionParticle.Play();
+                }
                 gameStateManager.EnterGameOverState();
             }
         }
@@ -283,6 +289,18 @@ public class PlayerController : MonoBehaviour
     public int GetScore() 
     {
         return score;
+    }
+
+    public void RemoveEffects()
+    {
+        foreach (Transform obj in GameObject.Find("Duck").transform)
+        {
+            if (obj.name == "TejavaParticle" || obj.name == "BoostParticle" || obj.name == "BoostParticleRun"
+                || obj.name == "FlyParticle" || obj.name == "DoubleParticle")
+            {
+                Destroy(obj.gameObject);
+            }
+        }
     }
 
     // -------------------------- Item --------------------------
