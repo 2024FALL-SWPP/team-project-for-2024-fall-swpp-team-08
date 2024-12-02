@@ -6,6 +6,8 @@ public class ObstacleController : MonoBehaviour
 {
     public float catSpeed = 3f;
     public float weaselSpeed = 5f;
+    public float robotSpeed = 10f;
+    public float studentSpeed = 1f;
     public float moveRange = 25f;
     private bool movingRight = true;
 
@@ -20,16 +22,26 @@ public class ObstacleController : MonoBehaviour
     {
         if(gameObject.name.Contains("Cat"))
         {
-            HandleLRMovement(catSpeed);
+            AnimalMovement(catSpeed);
         }
 
         if(gameObject.name.Contains("Weasel"))
         {
-            HandleLRMovement(weaselSpeed);
+            AnimalMovement(weaselSpeed);
+        }
+
+        if(gameObject.name.Contains("Robot"))
+        {
+            RobotMovement(robotSpeed);
+        }
+
+        if(gameObject.name.Contains("Student"))
+        {
+            StudentMovement(studentSpeed);
         }
     }
 
-    private void HandleLRMovement(float speed)
+    private void AnimalMovement(float speed)
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
 
@@ -41,6 +53,16 @@ public class ObstacleController : MonoBehaviour
         {
             FlipDirection();
         }
+    }
+
+    private void StudentMovement(float speed)
+    {
+
+    }
+
+    private void RobotMovement(float speed)
+    {
+
     }
 
     private void FlipDirection()
