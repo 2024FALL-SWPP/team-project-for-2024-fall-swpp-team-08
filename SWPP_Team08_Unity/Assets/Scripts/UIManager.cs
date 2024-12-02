@@ -118,6 +118,7 @@ public class UIManager : MonoBehaviour
 
     public void ShowStageClearUI()
     {
+        DestroyItemUI();
         stageClearImage.SetActive(true);
     }
 
