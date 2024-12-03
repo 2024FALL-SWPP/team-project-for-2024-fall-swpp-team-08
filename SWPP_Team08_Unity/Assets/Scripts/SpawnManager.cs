@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
                 SpawnStage1();
                 break;
             case "Stage2Scene":
-                //SpawnStage2();
+                SpawnStage2();
                 break;
             case "Stage3Scene":
                 SpawnStage3();
