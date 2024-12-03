@@ -5090,6 +5090,11 @@ MonoBehaviour:
   - {fileID: 7905271983438892411, guid: c7ef2a395f171cf4bb7c7beb91f939b6, type: 3}
   - {fileID: 3472838481923116356, guid: e745948afb8c2b34695a0e8fefa1abb4, type: 3}
   - {fileID: 2930867601050427337, guid: dd4e9aae1e83df3408b8691b6a2d1bd7, type: 3}
+  - {fileID: 9172648535073696572, guid: 9a68fbfdd7ffc5b45b7f9b4d700b6adc, type: 3}
+  - {fileID: 881742040141775421, guid: 84e9083c453dd35468fb3fb21e588622, type: 3}
+  - {fileID: 1099593735982306869, guid: c6690a1279b0bb04e9d1df2061b35b88, type: 3}
+  - {fileID: 8878259029509228623, guid: 0c9f9fd5a3a076044b2aaa5dd90080bb, type: 3}
+  - {fileID: 3988831324211262174, guid: a1766140944dfdd4ebc8195c088b0663, type: 3}
   stage3ModulePrefabs: []
 --- !u!4 &147504631
 Transform:
@@ -27024,9 +27029,10 @@ MonoBehaviour:
   slideDuration: 1
   slideOffset: 1
   jumpForce: 50
-  gravityMultiplier: 100
+  gravityMultiplier: 110
   hopForce: 10
   hopDuration: 0.5
+  collisionParticle: {fileID: 0}
 --- !u!114 &1683492591
 MonoBehaviour:
   m_ObjectHideFlags: 0
