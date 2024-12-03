@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
 {
+    public float catSpeed = 3f;
+    public float weaselSpeed = 5f;
+    public float robotSpeed = 10f;
+    public float studentSpeed = 1f;
+    public float moveRange = 25f;
+    private bool movingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -16,22 +22,52 @@ public class ObstacleController : MonoBehaviour
     {
         if(gameObject.name.Contains("Cat"))
         {
-            HandleCat();
+            AnimalMovement(catSpeed);
         }
 
         if(gameObject.name.Contains("Weasel"))
         {
-            HandleWeasel();
+            AnimalMovement(weaselSpeed);
+        }
+
+        if(gameObject.name.Contains("Robot"))
+        {
+            RobotMovement(robotSpeed);
+        }
+
+        if(gameObject.name.Contains("Student"))
+        {
+            StudentMovement(studentSpeed);
         }
     }
 
-    private void HandleCat()
+    private void AnimalMovement(float speed)
+    {
+        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+
+        if(movingRight && transform.position.z >= moveRange)
+        {
+            FlipDirection();
+        }
+        else if(!movingRight && transform.position.z <= -moveRange)
+        {
+            FlipDirection();
+        }
+    }
+
+    private void StudentMovement(float speed)
     {
 
     }
 
-    private void HandleWeasel()
+    private void RobotMovement(float speed)
     {
-    
+
+    }
+
+    private void FlipDirection()
+    {
+        movingRight = !movingRight;
+        transform.Rotate(0, 180, 0);
     }
 }
