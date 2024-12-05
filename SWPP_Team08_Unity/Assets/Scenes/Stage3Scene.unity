@@ -17130,8 +17130,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8121935, y: 2.0083869, z: 1.0683498}
-  m_Center: {x: 0.0066577494, y: 0.21740472, z: 0.26186466}
+  m_Size: {x: 0.8, y: 2.4, z: 1}
+  m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!114 &1257129062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17171,9 +17171,10 @@ MonoBehaviour:
   slideDuration: 1
   slideOffset: 1
   jumpForce: 50
-  gravityMultiplier: 70
+  gravityMultiplier: 120
   hopForce: 10
   hopDuration: 0.5
+  isSliding: 0
   collisionParticle: {fileID: 975093718}
 --- !u!54 &1257129064
 Rigidbody:
@@ -17189,7 +17190,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 122
   m_CollisionDetection: 0
 --- !u!1 &1304492100
 GameObject:
@@ -22625,6 +22626,27 @@ MonoBehaviour:
   itemThunderEffectPrefab: {fileID: 7965318119843513553, guid: 05b65b1bef40f76439251501bb0764fa, type: 3}
   thunderParticlePrefab: {fileID: 757827459661354513, guid: 0fc53a39fd30b654a979a95ff1d77894, type: 3}
   directionalLight: {fileID: 0}
+--- !u!95 &1475157335
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257129059}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1cdd13326edd14b0ca35d703cdd57f29, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1505938738
 GameObject:
   m_ObjectHideFlags: 0

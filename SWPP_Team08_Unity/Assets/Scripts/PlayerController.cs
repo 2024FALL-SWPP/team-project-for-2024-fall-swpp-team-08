@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isMoving = false;
     private bool isJumping = false;
-    private bool isSliding = false;
+    public bool isSliding = false;
     private bool canDoubleJump = false;
     private Rigidbody rb;
 
@@ -43,6 +43,10 @@ public class PlayerController : MonoBehaviour
     private GameStateManager gameStateManager;
 
     public ParticleSystem collisionParticle;
+    private BoxCollider boxCollider;
+    private Animator animator;
+    private Vector3 boxColliderCenter;
+    private Vector3 boxColliderSize;
     
     // Start is called before the first frame update
     void Start()
@@ -58,6 +62,11 @@ public class PlayerController : MonoBehaviour
         InitScore();
         totalDistance = GetTotalDistance();
         currentStage = GetCurrentStage();
+
+        boxCollider = GetComponent<BoxCollider>();
+        boxColliderCenter = boxCollider.center;
+        boxColliderSize = boxCollider.size;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -174,6 +183,7 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = true;
             rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
 
             if (itemFly)
             {
@@ -183,6 +193,7 @@ public class PlayerController : MonoBehaviour
         else if (canDoubleJump)
         {
             rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
             canDoubleJump = false;
         }
     }
@@ -190,15 +201,18 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Slide()
     {
         isSliding = true;
-
-        transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
-        transform.Rotate(0, 0, 90);
-        // TO-DO
-        // Add Animation for Slide
+        animator.SetTrigger("Slide_t");
+        // transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
+        // transform.Rotate(0, 0, 90);
+        boxCollider.center = new Vector3(boxColliderCenter.x, 0.5f, boxColliderCenter.z);
+        boxCollider.size = new Vector3(boxColliderSize.x, 0.7f, boxColliderSize.z);
+        
         yield return new WaitForSeconds(slideDuration);
-        transform.Rotate(0, 0, -90);
-        transform.position = new Vector3(transform.position.x, transform.position.y + slideOffset, transform.position.z);
-
+        // transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
+        // transform.Rotate(0, 0, -90);
+        transform.position = new Vector3(transform.position.x, 1.399f, transform.position.z);
+        boxCollider.center = boxColliderCenter;
+        boxCollider.size = boxColliderSize;
         isSliding = false;
     }
 
@@ -207,13 +221,18 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.tag == "Obstacle" ||
             collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
+            if (collisionParticle)
+            {
+                collisionParticle.Play();
+            }
+
             if (!itemBoost)
             {
-                if (collisionParticle)
-                {
-                    collisionParticle.Play();
-                }
+                animator.SetBool("Collide_b", true);
                 gameStateManager.EnterGameOverState();
+            } else
+            {
+                Destroy(collider.gameObject);
             }
         }
         
@@ -265,6 +284,8 @@ public class PlayerController : MonoBehaviour
         if (currentXCoordinate > endArr[currentStage - 1])
         {
             PlayerPrefs.SetInt("Score", score);
+            animator.SetTrigger("Jump_t");
+            animator.SetFloat("Speed_f", 0.0f);
             gameStateManager.EnterStageClearState();
         }
     }
@@ -309,12 +330,14 @@ public class PlayerController : MonoBehaviour
         itemBoost = true;
         initSpeed = forwardSpeed;
         SetSpeed(2.0f * forwardSpeed);
+        animator.SetFloat("Speed_f", 20);
     }
 
     public void BoostOff()
     {
         itemBoost = false;
         SetSpeed(initSpeed);
+        animator.SetFloat("Speed_f", 10);
     }
 
     public void FlyOn()
