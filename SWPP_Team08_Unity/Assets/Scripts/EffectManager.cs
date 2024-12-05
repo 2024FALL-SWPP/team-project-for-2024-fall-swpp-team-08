@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class EffectManager : MonoBehaviour
 {
@@ -20,22 +22,32 @@ public class EffectManager : MonoBehaviour
     public GameObject goodEndingSound;
     public GameObject badEndingSound;
 
+    public Slider soundSlider;
+
     // Start is called before the first frame update
     void Start()
     {
-        sceneStartSound.GetComponent<AudioSource>().Play();
-        Invoke("PlayBackgroundMusic", 0.8f);
-    }
+        if (PlayerPrefs.GetInt("VolumeSetted") != 0)
+        {
+            SetVolume(PlayerPrefs.GetFloat("Volume"));
+        } else
+        {
+            SetVolume(0.5f);
+        }
 
-    private void PlayBackgroundMusic()
-    {
-        sceneMainSound.GetComponent<AudioSource>().Play();
+        sceneStartSound.GetComponent<AudioSource>().Play();
+        sceneMainSound.GetComponent<AudioSource>().PlayDelayed(0.8f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        SetVolume(soundSlider.value);
+    }
+    
+    public void PlayMainSound()
+    {
+        sceneMainSound.GetComponent<AudioSource>().Play();
     }
 
     public void PlayGameOverSound()
@@ -46,6 +58,7 @@ public class EffectManager : MonoBehaviour
     
     public void PlayGameClearSound()
     {
+        sceneMainSound.GetComponent<AudioSource>().Stop();
         gameClearSound.GetComponent<AudioSource>().Play();
     }
 
@@ -84,25 +97,54 @@ public class EffectManager : MonoBehaviour
         itemTejavaSound.GetComponent<AudioSource>().Play();
     }
     
-    public void PlayUIClickSound1()
+    public void PlayUIClickSound1() // Button Click
     {
         uiClickSound1.GetComponent<AudioSource>().Play();
     }
-    
-    public void PlayUIClickSound2()
+
+    public void StopUIClickSound1() // Button Click
     {
-        uiClickSound2.GetComponent<AudioSource>().Play();
+        uiClickSound1.GetComponent<AudioSource>().Stop();
     }
     
+    public void PlayUIClickSound2() // Pause
+    {
+        sceneMainSound.GetComponent<AudioSource>().Pause();
+        uiClickSound2.GetComponent<AudioSource>().time = 0.2f;
+        uiClickSound2.GetComponent<AudioSource>().Play();
+    }
+
     public void PlayGoodEndingSound()
     {
-        sceneMainSound.GetComponent<AudioSource>().Stop();
         goodEndingSound.GetComponent<AudioSource>().Play();
     }
 
     public void PlayBadEndingSound()
     {
-        sceneMainSound.GetComponent<AudioSource>().Stop();
         badEndingSound.GetComponent<AudioSource>().Play();
+    }
+
+    public void SetVolume(float value)
+    {
+        PlayerPrefs.SetInt("VolumeSetted", 1);
+        PlayerPrefs.SetFloat("Volume", value);
+    
+        foreach (Transform sound in transform)
+        {
+            switch (sound.tag)
+            {
+                case "StartSound":
+                    sound.GetComponent<AudioSource>().volume = 1.0f * value;
+                    break;
+                    
+                case "BGM":
+                    sound.GetComponent<AudioSource>().volume = 0.6f * value;
+                    break;
+                    
+                case "EffectSound":
+                    sound.GetComponent<AudioSource>().volume = 0.8f * value;
+                    break;
+            }
+        }
     }
 }

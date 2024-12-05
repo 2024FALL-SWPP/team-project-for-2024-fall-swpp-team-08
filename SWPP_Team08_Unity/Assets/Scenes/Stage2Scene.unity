@@ -11465,7 +11465,7 @@ GameObject:
   - component: {fileID: 598203050}
   m_Layer: 0
   m_Name: ItemFlySound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11593,7 +11593,7 @@ GameObject:
   - component: {fileID: 601438949}
   m_Layer: 0
   m_Name: GameOverSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16986,7 +16986,7 @@ GameObject:
   - component: {fileID: 804578339}
   m_Layer: 0
   m_Name: ItemDoubleSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17190,7 +17190,7 @@ GameObject:
   - component: {fileID: 811305030}
   m_Layer: 0
   m_Name: GoodEndingSound
-  m_TagString: Untagged
+  m_TagString: BGM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17400,7 +17400,7 @@ GameObject:
   - component: {fileID: 854183849}
   m_Layer: 0
   m_Name: UIClickSound2
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22597,7 +22597,7 @@ GameObject:
   - component: {fileID: 1072253807}
   m_Layer: 0
   m_Name: ItemTejavaSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22762,7 +22762,7 @@ GameObject:
   - component: {fileID: 1107917168}
   m_Layer: 0
   m_Name: SceneStartSound
-  m_TagString: Untagged
+  m_TagString: StartSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23273,7 +23273,7 @@ GameObject:
   - component: {fileID: 1396964156}
   m_Layer: 0
   m_Name: BadEndingSound
-  m_TagString: Untagged
+  m_TagString: BGM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23401,7 +23401,7 @@ GameObject:
   - component: {fileID: 1402791287}
   m_Layer: 0
   m_Name: ItemThunderSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23592,6 +23592,7 @@ MonoBehaviour:
   settingsKeyWASD: {fileID: 1985872714}
   settingsSound: {fileID: 288655373}
   soundSlider: {fileID: 532164965}
+  soundSliderValue: {fileID: 532164966}
 --- !u!114 &1407928494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23717,7 +23718,7 @@ GameObject:
   - component: {fileID: 1457543049}
   m_Layer: 0
   m_Name: ItemBoostSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23958,7 +23959,7 @@ GameObject:
   - component: {fileID: 1547575808}
   m_Layer: 0
   m_Name: SceneMainSound
-  m_TagString: Untagged
+  m_TagString: BGM
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24518,7 +24519,7 @@ GameObject:
   - component: {fileID: 1650700152}
   m_Layer: 0
   m_Name: SlideSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25335,7 +25336,7 @@ GameObject:
   - component: {fileID: 1782485742}
   m_Layer: 0
   m_Name: JumpSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25628,6 +25629,7 @@ MonoBehaviour:
   uiClickSound2: {fileID: 854183848}
   goodEndingSound: {fileID: 811305029}
   badEndingSound: {fileID: 1396964155}
+  soundSlider: {fileID: 532164966}
 --- !u!4 &1829081672
 Transform:
   m_ObjectHideFlags: 0
@@ -25769,7 +25771,7 @@ GameObject:
   - component: {fileID: 1933569042}
   m_Layer: 0
   m_Name: UIClickSound1
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30930,7 +30932,7 @@ GameObject:
   - component: {fileID: 2001829778}
   m_Layer: 0
   m_Name: GameClearSound
-  m_TagString: Untagged
+  m_TagString: EffectSound
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

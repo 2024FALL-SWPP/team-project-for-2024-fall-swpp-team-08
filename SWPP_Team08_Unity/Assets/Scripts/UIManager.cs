@@ -39,9 +39,11 @@ public class UIManager : MonoBehaviour
     public GameObject settingsKeyWASD;
     public GameObject settingsSound;
     public GameObject soundSlider;
+    public Slider soundSliderValue;
 
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
+    private EffectManager effectManager;
 
     // Start is called before the first frame update
     void Start()
@@ -94,6 +96,16 @@ public class UIManager : MonoBehaviour
         SetScale();
         
         gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
+        effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
+
+        
+        if (PlayerPrefs.GetInt("VolumeSetted") != 0)
+        {
+            soundSliderValue.value = PlayerPrefs.GetFloat("Volume");
+        } else
+        {
+            soundSliderValue.value = 0.5f;
+        }
     }
 
     // Update is called once per frame
@@ -176,11 +188,13 @@ public class UIManager : MonoBehaviour
 
     public void OnPressPauseButton()
     {
+        effectManager.PlayUIClickSound2();
         gameStateManager.EnterGamePauseState();
     }
 
     public void OnPressPlayButton()
     {
+        effectManager.PlayMainSound();
         gameStateManager.EnterGamePlayState();
     }
 
@@ -250,16 +264,20 @@ public class UIManager : MonoBehaviour
         if (PlayerPrefs.GetString("key") != "WASD")
         {
             OnPressKeyArrowDeactivatedButton();
+            effectManager.StopUIClickSound1();
         } else {
             OnPressKeyWASDDeactivatedButton();
+            effectManager.StopUIClickSound1();
         }
     }
 
     public void OnPressCloseButton()
     {
+        effectManager.PlayUIClickSound1();
         if (SceneManager.GetActiveScene().name == "MainScene")
         {
             Time.timeScale = 1.0f;
+            effectManager.PlayMainSound();
         }
         ShowGameButtons();
     }
@@ -273,6 +291,7 @@ public class UIManager : MonoBehaviour
         keyWASDButtonDeactivated.SetActive(true);
         settingsKeyArrow.SetActive(true);
         settingsKeyWASD.SetActive(false);
+        effectManager.PlayUIClickSound1();
     }
 
     public void OnPressKeyWASDDeactivatedButton()
@@ -284,6 +303,7 @@ public class UIManager : MonoBehaviour
         keyArrowButtonDeactivated.SetActive(true);
         settingsKeyArrow.SetActive(false);
         settingsKeyWASD.SetActive(true);
+        effectManager.PlayUIClickSound1();
     }
 
 
