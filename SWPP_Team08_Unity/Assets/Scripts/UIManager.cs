@@ -26,12 +26,19 @@ public class UIManager : MonoBehaviour
 
     public GameObject gameRestartButton;
     public GameObject stageRestartButton;
+    public GameObject allStageRestartButton;
     public GameObject goToMainButton;
     
     public GameObject keyArrowButton;
     public GameObject keyArrowButtonDeactivated;
     public GameObject keyWASDButton;
     public GameObject keyWASDButtonDeactivated;
+
+    public GameObject settingsPlay;
+    public GameObject settingsKeyArrow;
+    public GameObject settingsKeyWASD;
+    public GameObject settingsSound;
+    public GameObject soundSlider;
 
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
@@ -122,7 +129,7 @@ public class UIManager : MonoBehaviour
         DestroyItemUI();
         backgroundColor.SetActive(true);
         gameOverImage.SetActive(true);
-        stageRestartButton.SetActive(true);
+        gameRestartButton.SetActive(true);
     }
 
     public void ShowStageClearUI()
@@ -198,6 +205,24 @@ public class UIManager : MonoBehaviour
         closeButton.SetActive(false);
 
         questionDescription.SetActive(false);
+        
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            settingsPlay.SetActive(false);
+            stageRestartButton.SetActive(false);
+            allStageRestartButton.SetActive(false);
+        }
+
+        keyArrowButton.SetActive(false);
+        keyArrowButtonDeactivated.SetActive(false);
+        keyWASDButton.SetActive(false);
+        keyWASDButtonDeactivated.SetActive(false);
+
+        settingsSound.SetActive(false);
+        soundSlider.SetActive(false);
+
+        settingsKeyArrow.SetActive(false);
+        settingsKeyWASD.SetActive(false);
     }
 
     public void OnPressQuestionButton()
@@ -211,35 +236,54 @@ public class UIManager : MonoBehaviour
     {
         OnPressPauseButton();
         HideGameButtons();
+        
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            settingsPlay.SetActive(true);
+            stageRestartButton.SetActive(true);
+            allStageRestartButton.SetActive(true);
+        }
+        
+        settingsSound.SetActive(true);
+        soundSlider.SetActive(true);
+
+        if (PlayerPrefs.GetString("key") != "WASD")
+        {
+            OnPressKeyArrowDeactivatedButton();
+        } else {
+            OnPressKeyWASDDeactivatedButton();
+        }
     }
 
     public void OnPressCloseButton()
     {
+        if (SceneManager.GetActiveScene().name == "MainScene")
+        {
+            Time.timeScale = 1.0f;
+        }
         ShowGameButtons();
     }
 
-    public void OnPressKeyArrowButton()
-    {
-        keyArrowButton.SetActive(false);
-        keyArrowButtonDeactivated.SetActive(true);
-    }
-    
     public void OnPressKeyArrowDeactivatedButton()
     {
+        PlayerPrefs.SetString("key", "Arrow");
         keyArrowButton.SetActive(true);
         keyArrowButtonDeactivated.SetActive(false);
-    }
-
-    public void OnPressKeyWASDButton()
-    {
-        keyWASDButton.SetActive(true);
-        keyWASDButtonDeactivated.SetActive(false);
+        keyWASDButton.SetActive(false);
+        keyWASDButtonDeactivated.SetActive(true);
+        settingsKeyArrow.SetActive(true);
+        settingsKeyWASD.SetActive(false);
     }
 
     public void OnPressKeyWASDDeactivatedButton()
     {
+        PlayerPrefs.SetString("key", "WASD");
         keyWASDButton.SetActive(true);
         keyWASDButtonDeactivated.SetActive(false);
+        keyArrowButton.SetActive(false);
+        keyArrowButtonDeactivated.SetActive(true);
+        settingsKeyArrow.SetActive(false);
+        settingsKeyWASD.SetActive(true);
     }
 
 

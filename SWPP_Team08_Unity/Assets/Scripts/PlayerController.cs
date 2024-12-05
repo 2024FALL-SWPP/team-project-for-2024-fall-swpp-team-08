@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
 
         InitScore();
+        SetKey();
         totalDistance = GetTotalDistance();
         currentStage = GetCurrentStage();
 
@@ -242,6 +243,7 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
+    // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
     {
         if (collider.gameObject.tag == "Obstacle" ||
@@ -269,6 +271,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ========================================== Functions ==========================================
     private int GetCurrentStage()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -353,7 +356,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // -------------------------- Item --------------------------
+    // ========================================== Item ==========================================
     public void BoostOn()
     {
         itemBoost = true;
@@ -389,5 +392,31 @@ public class PlayerController : MonoBehaviour
     public void DoubleOff()
     {
         itemDouble = false;
+    }
+    
+    // ========================================== Key ==========================================
+    public void SetKey()
+    {
+        if (PlayerPrefs.GetString("key") != "WASD")
+        {
+            ActivateKeyArrow();
+        } else
+        {
+            ActivateKeyWASD();
+        }
+    }
+
+    public void ActivateKeyArrow()
+    {
+        keyArrowAllowed = true;
+        keyWASDAllowed = false;
+        PlayerPrefs.SetString("key", "Arrow");
+    }
+
+    public void ActivateKeyWASD()
+    {
+        keyWASDAllowed = true;
+        keyArrowAllowed = false;
+        PlayerPrefs.SetString("key", "WASD");
     }
 }

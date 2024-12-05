@@ -68,11 +68,13 @@ public class SceneController : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(currentScene.name);
+        Time.timeScale = 1.0f;
     }
 
     public void GoToMain()
     {
         SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1.0f;
     }
 
     IEnumerator LoadStage1()
