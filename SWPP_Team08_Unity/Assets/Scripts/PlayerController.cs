@@ -27,10 +27,12 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
-    private bool isMoving = false;
     private bool isJumping = false;
+    private bool isMoving = false;
     public bool isSliding = false;
     private bool canDoubleJump = false;
+    private bool triggerJump = false;
+
     private Rigidbody rb;
 
     private bool itemBoost = false;
@@ -49,6 +51,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 boxColliderSize;
 
     private EffectManager effectManager;
+
+    private bool keyArrowAllowed = true;
+    private bool keyWASDAllowed = false;
     
     // Start is called before the first frame update
     void Start()
@@ -75,59 +80,100 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameStateManager.GetState() == "GamePlay")
+        if (gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                MoveLeft();
-            }
-            else if(Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                MoveRight();
-            }
+            bool isJumpKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.UpArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.W)));
+            bool isLeftKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.LeftArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.A)));
+            bool isRightKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.RightArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.D)));
+            bool isSlideKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.DownArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.S)));
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                Jump();
-            }
+            bool canJump = (!isJumping || canDoubleJump) && !isMoving && !isSliding;
+            bool canMoveLeft = (!isJumping || itemFly) && !isMoving && !isSliding && (currentLane > 1);
+            bool canMoveRight = (!isJumping || itemFly) && !isMoving && !isSliding && (currentLane < 5);
+            bool canSlide = !isJumping && !isMoving && !isSliding;
 
-            if(Input.GetKeyDown(KeyCode.DownArrow) && !isSliding)
+            if (isJumpKeyPressed && canJump)
+            {
+                triggerJump = true;
+            }
+            else if (isLeftKeyPressed && canMoveLeft)
+            {
+                StartCoroutine(MoveLeftSmooth());
+            }
+            else if (isRightKeyPressed && canMoveRight)
+            {
+                StartCoroutine(MoveRightSmooth());
+            }
+            else if (isSlideKeyPressed && canSlide)
             {
                 StartCoroutine(Slide());
             }
+        }
+    }
 
-            if(isJumping)
+    void FixedUpdate()
+    {
+        if (triggerJump)
+        {
+            Jump();
+            triggerJump = false;
+        }
+
+        if (isJumping)
+        {
+            rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
+        }
+        uiManager.UpdateProgressBar(GetProcessRate());
+    }
+
+    // private void MoveLeft()
+    // {
+    //     if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
+    //     {
+    //         StartCoroutine(MoveLeftSmooth());
+    //     }
+    // }
+
+    // private void MoveRight()
+    // {
+    //     if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
+    //     {
+    //         StartCoroutine(MoveRightSmooth());
+    //     }
+    // }
+
+    private void Jump()
+    {
+        if (!isJumping)
+        {
+            isJumping = true;
+            rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
+
+            if (itemFly)
             {
-                rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
+                canDoubleJump = true;
             }
-            uiManager.UpdateProgressBar(GetProcessRate());
         }
-    }
-
-    private void MoveLeft()
-    {
-        if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
+        else if (canDoubleJump)
         {
-            StartCoroutine(MoveLeftSmooth());
-        }
-    }
-
-    private void MoveRight()
-    {
-        if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
-        {
-            StartCoroutine(MoveRightSmooth());
+            rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
+            canDoubleJump = false;
         }
     }
 
     private IEnumerator MoveLeftSmooth()
     {
         isMoving = true;
-
-        // TO-DO
-        // Add Animation for Lateral Movement
 
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.forward * horizontalStep;
@@ -155,9 +201,6 @@ public class PlayerController : MonoBehaviour
     {
         isMoving = true;
         
-        // TO-DO
-        // Add Animation for Lateral Movement
-        
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.back * horizontalStep;
         float elapsedTime = 0f;
@@ -178,29 +221,6 @@ public class PlayerController : MonoBehaviour
         transform.position = endPos;
         currentLane++;
         isMoving = false;
-    }
-
-    private void Jump()
-    {
-        if (!isJumping)
-        {
-            isJumping = true;
-            rb.velocity = Vector3.up * jumpForce;
-            animator.SetTrigger("Jump_t");
-            effectManager.PlayJumpSound();
-
-            if (itemFly)
-            {
-                canDoubleJump = true;
-            }
-        }
-        else if (canDoubleJump)
-        {
-            rb.velocity = Vector3.up * jumpForce;
-            animator.SetTrigger("Jump_t");
-            effectManager.PlayJumpSound();
-            canDoubleJump = false;
-        }
     }
 
     private IEnumerator Slide()

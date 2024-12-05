@@ -10,19 +10,28 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public Slider progressBar;
     public GameObject backgroundColor;
+
     public GameObject gameStartButton;
     public GameObject playButton;
     public GameObject pauseButton;
     public GameObject questionButton;
     public GameObject settingsButton;
     public GameObject closeButton;
+
     public GameObject questionDescription;
+
     public GameObject gameOverImage;
     public GameObject stageClearImage;
     public GameObject[] stageClearStories;
+
     public GameObject gameRestartButton;
     public GameObject stageRestartButton;
     public GameObject goToMainButton;
+    
+    public GameObject keyArrowButton;
+    public GameObject keyArrowButtonDeactivated;
+    public GameObject keyWASDButton;
+    public GameObject keyWASDButtonDeactivated;
 
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
@@ -113,7 +122,7 @@ public class UIManager : MonoBehaviour
         DestroyItemUI();
         backgroundColor.SetActive(true);
         gameOverImage.SetActive(true);
-        gameRestartButton.SetActive(true);
+        stageRestartButton.SetActive(true);
     }
 
     public void ShowStageClearUI()
@@ -208,6 +217,31 @@ public class UIManager : MonoBehaviour
     {
         ShowGameButtons();
     }
+
+    public void OnPressKeyArrowButton()
+    {
+        keyArrowButton.SetActive(false);
+        keyArrowButtonDeactivated.SetActive(true);
+    }
+    
+    public void OnPressKeyArrowDeactivatedButton()
+    {
+        keyArrowButton.SetActive(true);
+        keyArrowButtonDeactivated.SetActive(false);
+    }
+
+    public void OnPressKeyWASDButton()
+    {
+        keyWASDButton.SetActive(true);
+        keyWASDButtonDeactivated.SetActive(false);
+    }
+
+    public void OnPressKeyWASDDeactivatedButton()
+    {
+        keyWASDButton.SetActive(true);
+        keyWASDButtonDeactivated.SetActive(false);
+    }
+
 
     private void SetScale()
     {
