@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Vector3 boxColliderCenter;
     private Vector3 boxColliderSize;
+
+    private EffectManager effectManager;
     
     // Start is called before the first frame update
     void Start()
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
         gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
+        effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
 
         InitScore();
         totalDistance = GetTotalDistance();
@@ -184,6 +187,7 @@ public class PlayerController : MonoBehaviour
             isJumping = true;
             rb.velocity = Vector3.up * jumpForce;
             animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
 
             if (itemFly)
             {
@@ -194,6 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector3.up * jumpForce;
             animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
             canDoubleJump = false;
         }
     }
@@ -202,6 +207,7 @@ public class PlayerController : MonoBehaviour
     {
         isSliding = true;
         animator.SetTrigger("Slide_t");
+        effectManager.PlaySlideSound();
         // transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
         // transform.Rotate(0, 0, 90);
         boxCollider.center = new Vector3(boxColliderCenter.x, 0.5f, boxColliderCenter.z);
@@ -229,6 +235,7 @@ public class PlayerController : MonoBehaviour
             if (!itemBoost)
             {
                 animator.SetBool("Collide_b", true);
+                effectManager.PlayGameOverSound();
                 gameStateManager.EnterGameOverState();
             } else
             {
@@ -283,9 +290,11 @@ public class PlayerController : MonoBehaviour
     {
         if (currentXCoordinate > endArr[currentStage - 1])
         {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             PlayerPrefs.SetInt("Score", score);
             animator.SetTrigger("Jump_t");
             animator.SetFloat("Speed_f", 0.0f);
+            effectManager.PlayGameClearSound();
             gameStateManager.EnterStageClearState();
         }
     }
