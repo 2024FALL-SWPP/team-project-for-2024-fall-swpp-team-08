@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour
         // Stage Length : 1820f (첫 20f는 장애물 X)
         // Module Length : 150f
         // Obstacle Interval : 15.0f (avg 1.50sec per obstacle)
-        // 12 Modules * (10 Obstacles + 5 Items + 10 Tejavas)
+        // 12 Modules * (10 Obstacles + 2 Items + 10 Tejavas)
 
         for(int i = 0; i < 12; i++)
         {

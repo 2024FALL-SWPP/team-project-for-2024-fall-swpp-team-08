@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 1573991985221384900}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
-  m_LocalScale: {x: 1.8, y: 1.6, z: 1.5}
+  m_LocalScale: {x: 1, y: 1.6, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7074298088805183712}
@@ -162,7 +162,7 @@ MonoBehaviour:
   studentSpeed: 7
   maxBoundary: 25
   haltDuration: 1
-  fbMovementDuration: 1
+  fbMovementDuration: 0.6
   complexMovementDuration: 1
 --- !u!1 &2048685717203143447
 GameObject:

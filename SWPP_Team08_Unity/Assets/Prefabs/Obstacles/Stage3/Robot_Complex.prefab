@@ -569,7 +569,7 @@ Transform:
   m_GameObject: {fileID: 9076043474306061757}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
-  m_LocalScale: {x: 1.8, y: 1.6, z: 1.5}
+  m_LocalScale: {x: 1.4, y: 1.6, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 724957002846461849}
@@ -593,9 +593,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catSpeed: 3
   weaselSpeed: 5
-  robotSpeed: 10
+  lrRobotSpeed: 10
+  fbRobotSpeed: 7
+  complexRobotSpeed: 10
   studentSpeed: 7
   maxBoundary: 25
   haltDuration: 1
-  fbMovementDuration: 1
+  fbMovementDuration: 0.6
   complexMovementDuration: 1

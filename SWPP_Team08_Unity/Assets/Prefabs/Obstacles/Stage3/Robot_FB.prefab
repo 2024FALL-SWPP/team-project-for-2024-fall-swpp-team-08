@@ -172,11 +172,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catSpeed: 3
   weaselSpeed: 5
-  robotSpeed: 10
+  lrRobotSpeed: 10
+  fbRobotSpeed: 2
+  complexRobotSpeed: 10
   studentSpeed: 7
   maxBoundary: 25
   haltDuration: 1
-  fbMovementDuration: 1
+  fbMovementDuration: 0.6
   complexMovementDuration: 1
 --- !u!1 &2048685717203143447
 GameObject:

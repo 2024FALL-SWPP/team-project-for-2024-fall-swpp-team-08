@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 2421287070109252443}
   - component: {fileID: 5118450291887309535}
   - component: {fileID: -9091146159662161403}
+  - component: {fileID: -7736927757242673844}
   m_Layer: 0
   m_Name: Student1
   m_TagString: Obstacle
@@ -292,7 +293,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3085514880404152801}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 3.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -301,7 +302,7 @@ Transform:
   - {fileID: 8891826954323438148}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &5118450291887309535
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -333,8 +334,29 @@ MonoBehaviour:
   studentSpeed: 7
   maxBoundary: 25
   haltDuration: 1
-  fbMovementDuration: 1
+  fbMovementDuration: 0.6
   complexMovementDuration: 1
+--- !u!95 &-7736927757242673844
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3085514880404152801}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7485450a9e9779441a02516e71a6fc3d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3649733789740071081
 GameObject:
   m_ObjectHideFlags: 0

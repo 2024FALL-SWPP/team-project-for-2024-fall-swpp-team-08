@@ -8,11 +8,14 @@ public class ObstacleController : MonoBehaviour
 {
     public float catSpeed = 3f;
     public float weaselSpeed = 5f;
-    public float robotSpeed = 10f;
+    //public float robotSpeed = 10f;
+    public float lrRobotSpeed = 10f;
+    public float fbRobotSpeed = 7f;
+    public float complexRobotSpeed = 10f;
     public float studentSpeed = 1f;
     public float maxBoundary = 25f;
     public float haltDuration = 1f;
-    public float fbMovementDuration = 1f;
+    public float fbMovementDuration = 0.5f;
     public float complexMovementDuration = 1f;
     private bool movingRight = true;
     private bool movingForward = true;
@@ -44,15 +47,15 @@ public class ObstacleController : MonoBehaviour
         {
             if(gameObject.name.Contains("LR"))
             {
-                LeftRightMovement(robotSpeed);
+                LeftRightMovement(lrRobotSpeed);
             }
             if(gameObject.name.Contains("FB")) 
             {
-                FrontBackMovement(robotSpeed);   
+                FrontBackMovement(fbRobotSpeed);   
             }
             if(gameObject.name.Contains("Complex")) 
             {
-                ComplexMovement(robotSpeed);   
+                ComplexMovement(complexRobotSpeed);   
             }
         }
 
@@ -167,7 +170,8 @@ public class ObstacleController : MonoBehaviour
 
     private void CheckBoundary()
     {
-        if(transform.position.z < -maxBoundary || transform.position.z > maxBoundary)
+        if(movingRight && (transform.position.z < -maxBoundary)
+         || !movingRight && (transform.position.z > maxBoundary))
         {
             FlipDirection();
         }
