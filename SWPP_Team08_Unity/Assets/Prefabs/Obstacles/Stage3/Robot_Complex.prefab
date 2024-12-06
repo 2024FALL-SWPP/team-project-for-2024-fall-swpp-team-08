@@ -552,8 +552,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8556634642964516615}
+  - component: {fileID: 1235619528336763629}
   m_Layer: 0
-  m_Name: FlyingRobot
+  m_Name: Robot_Complex
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,7 +569,7 @@ Transform:
   m_GameObject: {fileID: 9076043474306061757}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1.8, y: 1.6, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 724957002846461849}
@@ -578,3 +579,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
+--- !u!114 &1235619528336763629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076043474306061757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614f232f5528cff43bb5ec1887f26d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catSpeed: 3
+  weaselSpeed: 5
+  robotSpeed: 10
+  studentSpeed: 7
+  maxBoundary: 25
+  haltDuration: 1
+  fbMovementDuration: 1
+  complexMovementDuration: 1

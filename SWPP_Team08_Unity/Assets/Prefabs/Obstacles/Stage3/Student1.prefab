@@ -277,6 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2421287070109252443}
   - component: {fileID: 5118450291887309535}
+  - component: {fileID: -9091146159662161403}
   m_Layer: 0
   m_Name: Student1
   m_TagString: Obstacle
@@ -314,6 +315,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.8508072, y: 7.7766004, z: 1.875927}
   m_Center: {x: -0.007463455, y: 0.9254396, z: 0.033566922}
+--- !u!114 &-9091146159662161403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3085514880404152801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614f232f5528cff43bb5ec1887f26d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catSpeed: 3
+  weaselSpeed: 5
+  robotSpeed: 10
+  studentSpeed: 7
+  maxBoundary: 25
+  haltDuration: 1
+  fbMovementDuration: 1
+  complexMovementDuration: 1
 --- !u!1 &3649733789740071081
 GameObject:
   m_ObjectHideFlags: 0
