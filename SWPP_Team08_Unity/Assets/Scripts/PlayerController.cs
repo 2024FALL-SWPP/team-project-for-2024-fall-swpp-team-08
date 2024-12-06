@@ -27,10 +27,12 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
-    private bool isMoving = false;
     private bool isJumping = false;
-    private bool isSliding = false;
+    private bool isMoving = false;
+    public bool isSliding = false;
     private bool canDoubleJump = false;
+    private bool triggerJump = false;
+
     private Rigidbody rb;
 
     private bool itemBoost = false;
@@ -43,6 +45,15 @@ public class PlayerController : MonoBehaviour
     private GameStateManager gameStateManager;
 
     public ParticleSystem collisionParticle;
+    private BoxCollider boxCollider;
+    private Animator animator;
+    private Vector3 boxColliderCenter;
+    private Vector3 boxColliderSize;
+
+    private EffectManager effectManager;
+
+    private bool keyArrowAllowed = true;
+    private bool keyWASDAllowed = false;
     
     // Start is called before the first frame update
     void Start()
@@ -54,68 +65,116 @@ public class PlayerController : MonoBehaviour
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
         gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
+        effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
 
         InitScore();
+        SetKey();
         totalDistance = GetTotalDistance();
         currentStage = GetCurrentStage();
+
+        boxCollider = GetComponent<BoxCollider>();
+        boxColliderCenter = boxCollider.center;
+        boxColliderSize = boxCollider.size;
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(gameStateManager.GetState() == "GamePlay")
+        if (gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                MoveLeft();
-            }
-            else if(Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                MoveRight();
-            }
+            bool isJumpKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.UpArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.W)));
+            bool isLeftKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.LeftArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.A)));
+            bool isRightKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.RightArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.D)));
+            bool isSlideKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.DownArrow))
+                || (keyWASDAllowed && Input.GetKeyDown(KeyCode.S)));
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                Jump();
-            }
+            bool canJump = (!isJumping || canDoubleJump) && !isMoving && !isSliding;
+            bool canMoveLeft = (!isJumping || itemFly) && !isMoving && !isSliding && (currentLane > 1);
+            bool canMoveRight = (!isJumping || itemFly) && !isMoving && !isSliding && (currentLane < 5);
+            bool canSlide = !isJumping && !isMoving && !isSliding;
 
-            if(Input.GetKeyDown(KeyCode.DownArrow) && !isSliding)
+            if (isJumpKeyPressed && canJump)
+            {
+                triggerJump = true;
+            }
+            else if (isLeftKeyPressed && canMoveLeft)
+            {
+                StartCoroutine(MoveLeftSmooth());
+            }
+            else if (isRightKeyPressed && canMoveRight)
+            {
+                StartCoroutine(MoveRightSmooth());
+            }
+            else if (isSlideKeyPressed && canSlide)
             {
                 StartCoroutine(Slide());
             }
+        }
+    }
 
-            if(isJumping)
+    void FixedUpdate()
+    {
+        if (triggerJump)
+        {
+            Jump();
+            triggerJump = false;
+        }
+
+        if (isJumping)
+        {
+            rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
+        }
+        uiManager.UpdateProgressBar(GetProcessRate());
+    }
+
+    // private void MoveLeft()
+    // {
+    //     if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
+    //     {
+    //         StartCoroutine(MoveLeftSmooth());
+    //     }
+    // }
+
+    // private void MoveRight()
+    // {
+    //     if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
+    //     {
+    //         StartCoroutine(MoveRightSmooth());
+    //     }
+    // }
+
+    private void Jump()
+    {
+        if (!isJumping)
+        {
+            isJumping = true;
+            rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
+
+            if (itemFly)
             {
-                rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
+                canDoubleJump = true;
             }
-            uiManager.UpdateProgressBar(GetProcessRate());
         }
-    }
-
-    private void MoveLeft()
-    {
-        if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
+        else if (canDoubleJump)
         {
-            StartCoroutine(MoveLeftSmooth());
-        }
-    }
-
-    private void MoveRight()
-    {
-        if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
-        {
-            StartCoroutine(MoveRightSmooth());
+            rb.velocity = Vector3.up * jumpForce;
+            animator.SetTrigger("Jump_t");
+            effectManager.PlayJumpSound();
+            canDoubleJump = false;
         }
     }
 
     private IEnumerator MoveLeftSmooth()
     {
         isMoving = true;
-
-        // TO-DO
-        // Add Animation for Lateral Movement
 
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.forward * horizontalStep;
@@ -143,9 +202,6 @@ public class PlayerController : MonoBehaviour
     {
         isMoving = true;
         
-        // TO-DO
-        // Add Animation for Lateral Movement
-        
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.back * horizontalStep;
         float elapsedTime = 0f;
@@ -168,52 +224,44 @@ public class PlayerController : MonoBehaviour
         isMoving = false;
     }
 
-    private void Jump()
-    {
-        if (!isJumping)
-        {
-            isJumping = true;
-            rb.velocity = Vector3.up * jumpForce;
-
-            if (itemFly)
-            {
-                canDoubleJump = true;
-            }
-        }
-        else if (canDoubleJump)
-        {
-            rb.velocity = Vector3.up * jumpForce;
-            canDoubleJump = false;
-        }
-    }
-
     private IEnumerator Slide()
     {
         isSliding = true;
-
-        transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
-        transform.Rotate(0, 0, 90);
-        // TO-DO
-        // Add Animation for Slide
+        animator.SetTrigger("Slide_t");
+        effectManager.PlaySlideSound();
+        // transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
+        // transform.Rotate(0, 0, 90);
+        boxCollider.center = new Vector3(boxColliderCenter.x, 0.5f, boxColliderCenter.z);
+        boxCollider.size = new Vector3(boxColliderSize.x, 0.7f, boxColliderSize.z);
+        
         yield return new WaitForSeconds(slideDuration);
-        transform.Rotate(0, 0, -90);
-        transform.position = new Vector3(transform.position.x, transform.position.y + slideOffset, transform.position.z);
-
+        // transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
+        // transform.Rotate(0, 0, -90);
+        transform.position = new Vector3(transform.position.x, 1.399f, transform.position.z);
+        boxCollider.center = boxColliderCenter;
+        boxCollider.size = boxColliderSize;
         isSliding = false;
     }
 
+    // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
     {
         if (collider.gameObject.tag == "Obstacle" ||
             collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
+            if (collisionParticle)
+            {
+                collisionParticle.Play();
+            }
+
             if (!itemBoost)
             {
-                if (collisionParticle)
-                {
-                    collisionParticle.Play();
-                }
+                animator.SetBool("Collide_b", true);
+                effectManager.PlayGameOverSound();
                 gameStateManager.EnterGameOverState();
+            } else
+            {
+                Destroy(collider.gameObject);
             }
         }
         
@@ -223,6 +271,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ========================================== Functions ==========================================
     private int GetCurrentStage()
     {
         string sceneName = SceneManager.GetActiveScene().name;
@@ -264,7 +313,11 @@ public class PlayerController : MonoBehaviour
     {
         if (currentXCoordinate > endArr[currentStage - 1])
         {
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             PlayerPrefs.SetInt("Score", score);
+            animator.SetTrigger("Jump_t");
+            animator.SetFloat("Speed_f", 0.0f);
+            effectManager.PlayGameClearSound();
             gameStateManager.EnterStageClearState();
         }
     }
@@ -303,18 +356,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // -------------------------- Item --------------------------
+    // ========================================== Item ==========================================
     public void BoostOn()
     {
         itemBoost = true;
         initSpeed = forwardSpeed;
         SetSpeed(2.0f * forwardSpeed);
+        animator.SetFloat("Speed_f", 20);
     }
 
     public void BoostOff()
     {
         itemBoost = false;
         SetSpeed(initSpeed);
+        animator.SetFloat("Speed_f", 10);
     }
 
     public void FlyOn()
@@ -337,5 +392,31 @@ public class PlayerController : MonoBehaviour
     public void DoubleOff()
     {
         itemDouble = false;
+    }
+    
+    // ========================================== Key ==========================================
+    public void SetKey()
+    {
+        if (PlayerPrefs.GetString("key") != "WASD")
+        {
+            ActivateKeyArrow();
+        } else
+        {
+            ActivateKeyWASD();
+        }
+    }
+
+    public void ActivateKeyArrow()
+    {
+        keyArrowAllowed = true;
+        keyWASDAllowed = false;
+        PlayerPrefs.SetString("key", "Arrow");
+    }
+
+    public void ActivateKeyWASD()
+    {
+        keyWASDAllowed = true;
+        keyArrowAllowed = false;
+        PlayerPrefs.SetString("key", "WASD");
     }
 }

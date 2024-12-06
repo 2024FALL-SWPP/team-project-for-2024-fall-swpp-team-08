@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour
     private UIManager uiManager;
     private PlayerController playerController;
     private ParticleSystem stageClearParticle;
+    private EffectManager effectManager;
     private bool isLoading = false;
 
     // Start is called before the first frame update
@@ -16,6 +17,7 @@ public class SceneController : MonoBehaviour
     {
         currentScene = SceneManager.GetActiveScene();
         uiManager = gameObject.GetComponent<UIManager>();
+        effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
         stageClearParticle = GameObject.Find("StageClearParticle").GetComponent<ParticleSystem>();
 
         if (currentScene.name != "MainScene")
@@ -68,11 +70,13 @@ public class SceneController : MonoBehaviour
     public void RestartGame()
     {
         SceneManager.LoadScene(currentScene.name);
+        Time.timeScale = 1.0f;
     }
 
     public void GoToMain()
     {
         SceneManager.LoadScene("MainScene");
+        Time.timeScale = 1.0f;
     }
 
     IEnumerator LoadStage1()
@@ -129,6 +133,7 @@ public class SceneController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (playerController.GetScore() >= 241)
         {
+            effectManager.PlayGoodEndingSound();
             uiManager.ShowStoryUI(4);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(5);
@@ -137,6 +142,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(2.0f);
         } else if (playerController.GetScore() >= 161)
         {
+            effectManager.PlayGoodEndingSound();
             uiManager.ShowStoryUI(6);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(7);
@@ -145,6 +151,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(2.0f);
         } else if (playerController.GetScore() >= 81)
         {
+            effectManager.PlayBadEndingSound();
             uiManager.ShowStoryUI(9);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(11);
@@ -155,6 +162,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(2.0f);
         } else
         {
+            effectManager.PlayBadEndingSound();
             uiManager.ShowStoryUI(10);
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(11);

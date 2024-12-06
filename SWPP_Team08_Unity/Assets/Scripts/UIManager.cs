@@ -10,22 +10,40 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public Slider progressBar;
     public GameObject backgroundColor;
+
     public GameObject gameStartButton;
     public GameObject playButton;
     public GameObject pauseButton;
     public GameObject questionButton;
     public GameObject settingsButton;
     public GameObject closeButton;
+
     public GameObject questionDescription;
+
     public GameObject gameOverImage;
     public GameObject stageClearImage;
     public GameObject[] stageClearStories;
+
     public GameObject gameRestartButton;
     public GameObject stageRestartButton;
+    public GameObject allStageRestartButton;
     public GameObject goToMainButton;
+    
+    public GameObject keyArrowButton;
+    public GameObject keyArrowButtonDeactivated;
+    public GameObject keyWASDButton;
+    public GameObject keyWASDButtonDeactivated;
+
+    public GameObject settingsPlay;
+    public GameObject settingsKeyArrow;
+    public GameObject settingsKeyWASD;
+    public GameObject settingsSound;
+    public GameObject soundSlider;
+    public Slider soundSliderValue;
 
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
+    private EffectManager effectManager;
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +96,16 @@ public class UIManager : MonoBehaviour
         SetScale();
         
         gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
+        effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
+
+        
+        if (PlayerPrefs.GetInt("VolumeSetted") != 0)
+        {
+            soundSliderValue.value = PlayerPrefs.GetFloat("Volume");
+        } else
+        {
+            soundSliderValue.value = 0.5f;
+        }
     }
 
     // Update is called once per frame
@@ -160,11 +188,13 @@ public class UIManager : MonoBehaviour
 
     public void OnPressPauseButton()
     {
+        effectManager.PlayUIClickSound2();
         gameStateManager.EnterGamePauseState();
     }
 
     public void OnPressPlayButton()
     {
+        effectManager.PlayMainSound();
         gameStateManager.EnterGamePlayState();
     }
 
@@ -189,6 +219,24 @@ public class UIManager : MonoBehaviour
         closeButton.SetActive(false);
 
         questionDescription.SetActive(false);
+        
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            settingsPlay.SetActive(false);
+            stageRestartButton.SetActive(false);
+            allStageRestartButton.SetActive(false);
+        }
+
+        keyArrowButton.SetActive(false);
+        keyArrowButtonDeactivated.SetActive(false);
+        keyWASDButton.SetActive(false);
+        keyWASDButtonDeactivated.SetActive(false);
+
+        settingsSound.SetActive(false);
+        soundSlider.SetActive(false);
+
+        settingsKeyArrow.SetActive(false);
+        settingsKeyWASD.SetActive(false);
     }
 
     public void OnPressQuestionButton()
@@ -202,12 +250,62 @@ public class UIManager : MonoBehaviour
     {
         OnPressPauseButton();
         HideGameButtons();
+        
+        if (SceneManager.GetActiveScene().name != "MainScene")
+        {
+            settingsPlay.SetActive(true);
+            stageRestartButton.SetActive(true);
+            allStageRestartButton.SetActive(true);
+        }
+        
+        settingsSound.SetActive(true);
+        soundSlider.SetActive(true);
+
+        if (PlayerPrefs.GetString("key") != "WASD")
+        {
+            OnPressKeyArrowDeactivatedButton();
+            effectManager.StopUIClickSound1();
+        } else {
+            OnPressKeyWASDDeactivatedButton();
+            effectManager.StopUIClickSound1();
+        }
     }
 
     public void OnPressCloseButton()
     {
+        effectManager.PlayUIClickSound1();
+        if (SceneManager.GetActiveScene().name == "MainScene")
+        {
+            Time.timeScale = 1.0f;
+            effectManager.PlayMainSound();
+        }
         ShowGameButtons();
     }
+
+    public void OnPressKeyArrowDeactivatedButton()
+    {
+        PlayerPrefs.SetString("key", "Arrow");
+        keyArrowButton.SetActive(true);
+        keyArrowButtonDeactivated.SetActive(false);
+        keyWASDButton.SetActive(false);
+        keyWASDButtonDeactivated.SetActive(true);
+        settingsKeyArrow.SetActive(true);
+        settingsKeyWASD.SetActive(false);
+        effectManager.PlayUIClickSound1();
+    }
+
+    public void OnPressKeyWASDDeactivatedButton()
+    {
+        PlayerPrefs.SetString("key", "WASD");
+        keyWASDButton.SetActive(true);
+        keyWASDButtonDeactivated.SetActive(false);
+        keyArrowButton.SetActive(false);
+        keyArrowButtonDeactivated.SetActive(true);
+        settingsKeyArrow.SetActive(false);
+        settingsKeyWASD.SetActive(true);
+        effectManager.PlayUIClickSound1();
+    }
+
 
     private void SetScale()
     {
