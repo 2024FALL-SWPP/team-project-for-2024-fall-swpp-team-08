@@ -17,6 +17,7 @@ public class ObstacleController : MonoBehaviour
     public float haltDuration = 1f;
     public float fbMovementDuration = 0.5f;
     public float complexMovementDuration = 1f;
+    private bool animalInit = false;
     private bool movingRight = true;
     private bool movingForward = true;
     private int step = 0;
@@ -35,11 +36,21 @@ public class ObstacleController : MonoBehaviour
     {
         if(gameObject.name.Contains("Cat"))
         {
+            if(!animalInit)
+            {
+                animalInit = true;
+                movingRight = false;
+            }
             LeftRightMovement(catSpeed);
         }
 
         if(gameObject.name.Contains("Weasel"))
         {
+            if(!animalInit)
+            {
+                animalInit = true;
+                movingRight = false;
+            }
             LeftRightMovement(weaselSpeed);
         }
 
