@@ -111,13 +111,13 @@ public class SpawnManager : MonoBehaviour
 
     private void UpdateStage1()
     {
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 10 && currentCoordinate >= 20 + (nextSpawnIndex-2)*200)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 10 && currentCoordinate >= 20 + (nextSpawnIndex-3)*200)
         {
             GameObject randomModule = stage1ModulePrefabs[Random.Range(0, stage1ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*200, 0, 0), randomModule.transform.rotation);
         }
 
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-2)*200)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-3)*200)
         {
             GameObject curBackground = stage1BackgroundPrefabs[nextSpawnIndex-1];
             Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*200,0, 0), curBackground.transform.rotation);
@@ -128,13 +128,13 @@ public class SpawnManager : MonoBehaviour
 
     private void UpdateStage2()
     {
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-2)*180)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-3)*180)
         {
             GameObject randomModule = stage2ModulePrefabs[Random.Range(0, stage2ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*180, 0, 0), randomModule.transform.rotation);
         }
 
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 12 && currentCoordinate >= 20 + (nextSpawnIndex-2)*180)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 12 && currentCoordinate >= 20 + (nextSpawnIndex-3)*180)
         {
             GameObject curBackground = stage2BackgroundPrefabs[nextSpawnIndex-1];
             Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*180,0, 0), curBackground.transform.rotation);
@@ -145,13 +145,13 @@ public class SpawnManager : MonoBehaviour
 
     private void UpdateStage3()
     {
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 13 && currentCoordinate >= 20 + (nextSpawnIndex-2)*150)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 13 && currentCoordinate >= 20 + (nextSpawnIndex-3)*150)
         {
             GameObject randomModule = stage3ModulePrefabs[Random.Range(0, stage3ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*150, 0, 0), randomModule.transform.rotation);
         }
 
-        if(nextSpawnIndex > 2 && nextSpawnIndex < 14 && currentCoordinate >= 20 + (nextSpawnIndex-2)*150)
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 14 && currentCoordinate >= 20 + (nextSpawnIndex-3)*150)
         {
             GameObject curBackground = stage3BackgroundPrefabs[nextSpawnIndex-1];
             Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*150,0, 0), curBackground.transform.rotation);
