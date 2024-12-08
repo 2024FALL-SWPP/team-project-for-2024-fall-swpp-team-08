@@ -1,15 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ObstacleController : MonoBehaviour
 {
     public float catSpeed = 3f;
     public float weaselSpeed = 5f;
-    public float robotSpeed = 10f;
+    //public float robotSpeed = 10f;
+    public float lrRobotSpeed = 10f;
+    public float fbRobotSpeed = 7f;
+    public float complexRobotSpeed = 10f;
     public float studentSpeed = 1f;
-    public float moveRange = 25f;
+    public float maxBoundary = 25f;
+    public float haltDuration = 1f;
+    public float fbMovementDuration = 0.5f;
+    public float complexMovementDuration = 1f;
+    private bool animalInit = false;
     private bool movingRight = true;
+    private bool movingForward = true;
+    private int step = 0;
+    private bool isHalted = false;
+    private float haltTimer = 0f;
+    private float actionTimer = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,52 +36,176 @@ public class ObstacleController : MonoBehaviour
     {
         if(gameObject.name.Contains("Cat"))
         {
-            AnimalMovement(catSpeed);
+            if(!animalInit)
+            {
+                animalInit = true;
+                movingRight = false;
+            }
+            LeftRightMovement(catSpeed);
         }
 
         if(gameObject.name.Contains("Weasel"))
         {
-            AnimalMovement(weaselSpeed);
+            if(!animalInit)
+            {
+                animalInit = true;
+                movingRight = false;
+            }
+            LeftRightMovement(weaselSpeed);
         }
 
         if(gameObject.name.Contains("Robot"))
         {
-            RobotMovement(robotSpeed);
+            if(gameObject.name.Contains("LR"))
+            {
+                LeftRightMovement(lrRobotSpeed);
+            }
+            if(gameObject.name.Contains("FB")) 
+            {
+                FrontBackMovement(fbRobotSpeed);   
+            }
+            if(gameObject.name.Contains("Complex")) 
+            {
+                ComplexMovement(complexRobotSpeed);   
+            }
         }
 
         if(gameObject.name.Contains("Student"))
         {
-            StudentMovement(studentSpeed);
+            LeftRightMovement(studentSpeed);
         }
     }
 
-    private void AnimalMovement(float speed)
+    private void LeftRightMovement(float speed)
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        CheckBoundary();
+    }
 
-        if(movingRight && transform.position.z >= moveRange)
+    private void FrontBackMovement(float speed)
+    {
+        if(isHalted)
+        {
+            haltTimer += Time.deltaTime;
+            if(haltTimer > haltDuration)
+            {
+                isHalted = false;
+                haltTimer = 0f;
+                movingForward = !movingForward;
+            }
+            return;
+        }
+
+        actionTimer += Time.deltaTime;
+        if(actionTimer < fbMovementDuration)
+        {
+            if(movingForward)
+            {
+                transform.Translate(Vector3.forward * speed * Time.deltaTime);
+            }
+            else
+            {
+                transform.Translate(Vector3.back * speed * Time.deltaTime);
+            }
+        }
+        else
+        {
+            Halt();
+            actionTimer = 0f;
+        }
+    }
+
+    private void ComplexMovement(float speed)
+    {
+        if(isHalted)
+        {
+            haltTimer += Time.deltaTime;
+            if(haltTimer > haltDuration)
+            {
+                isHalted = false;
+                haltTimer = 0f;
+                step++;
+                if(step > 3)
+                {
+                    step = 0;
+                }
+            }
+            return;
+        }
+
+        actionTimer += Time.deltaTime;
+        if(actionTimer < complexMovementDuration)
+        {
+            transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        }
+        else
+        {
+            Halt();
+            actionTimer = 0f;
+
+            switch(step)
+            {
+                case 0:
+                    if(movingForward && Math.Abs(transform.position.z - 20.0f) < 1f ||
+                    !movingForward && Math.Abs(transform.position.z - -20.0f) < 1f)
+                    {
+                        RotateLeft();
+                        step = 2;
+                    }
+                    else {
+                        RotateRight();
+                    }
+                    break;
+                case 1:
+                    RotateRight();
+                    movingForward = !movingForward;
+                    break;
+                case 2:
+                    if(!movingForward && Math.Abs(transform.position.z - 20.0f) < 1f ||
+                    movingForward && Math.Abs(transform.position.z - -20.0f) < 1f) 
+                    {
+                        RotateRight();
+                        step = 0;
+                    }
+                    else {
+                        RotateLeft();
+                    }
+                    break;
+                case 3:
+                    RotateLeft();
+                    movingForward = !movingForward;
+                    break;
+            }
+        }
+    }
+
+    private void CheckBoundary()
+    {
+        if(movingRight && (transform.position.z < -maxBoundary)
+         || !movingRight && (transform.position.z > maxBoundary))
         {
             FlipDirection();
         }
-        else if(!movingRight && transform.position.z <= -moveRange)
-        {
-            FlipDirection();
-        }
     }
-
-    private void StudentMovement(float speed)
-    {
-
-    }
-
-    private void RobotMovement(float speed)
-    {
-
-    }
-
+    
     private void FlipDirection()
     {
         movingRight = !movingRight;
         transform.Rotate(0, 180, 0);
+    }
+
+    private void Halt()
+    {
+        isHalted = true;
+    }
+
+    private void RotateLeft()
+    {
+        transform.Rotate(0, -90, 0);
+    }
+
+    private void RotateRight()
+    {
+        transform.Rotate(0, 90, 0);
     }
 }

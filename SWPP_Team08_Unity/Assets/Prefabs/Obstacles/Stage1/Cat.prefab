@@ -344,7 +344,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2596882230169887155}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 1.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -357,7 +357,7 @@ Transform:
   - {fileID: 3501725432069610272}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &2938760868437293837
 Animator:
   serializedVersion: 5
@@ -406,7 +406,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catSpeed: 5
   weaselSpeed: 10
-  moveRange: 25
+  lrRobotSpeed: 10
+  fbRobotSpeed: 7
+  complexRobotSpeed: 10
+  studentSpeed: 1
+  maxBoundary: 25
+  haltDuration: 1
+  fbMovementDuration: 0.5
+  complexMovementDuration: 1
 --- !u!1 &2742041764686499827
 GameObject:
   m_ObjectHideFlags: 0

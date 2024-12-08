@@ -8,22 +8,31 @@ public class SpawnManager : MonoBehaviour
     public GameObject[] stage1ModulePrefabs;
     public GameObject[] stage2ModulePrefabs;
     public GameObject[] stage3ModulePrefabs;
+    public GameObject[] stage1BackgroundPrefabs;
+    public GameObject[] stage2BackgroundPrefabs;
+    public GameObject[] stage3BackgroundPrefabs;
+
     private Scene currentScene;
+    private PlayerController playerController;
+    private float currentCoordinate = 0.0f;
+    private int nextSpawnIndex = 1;
 
     // Start is called before the first frame update
     void Start()
     {
+        playerController = GameObject.Find("Duck").GetComponent<PlayerController>();
+
         currentScene = SceneManager.GetActiveScene();
         switch(currentScene.name)
         {
             case "Stage1Scene":
-                SpawnStage1();
+                InitStage1();
                 break;
             case "Stage2Scene":
-                SpawnStage2();
+                InitStage2();
                 break;
             case "Stage3Scene":
-                SpawnStage3();
+                InitStage3();
                 break;
         }
     }
@@ -31,48 +40,145 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentCoordinate = playerController.GetCurrentCoordinate();
         
+        switch(currentScene.name)
+        {
+            case "Stage1Scene":
+                UpdateStage1();
+                break;
+            case "Stage2Scene":
+                UpdateStage2();
+                break;
+            case "Stage3Scene":
+                UpdateStage3();
+                break;
+        }
+
+        RemoveBygoneObjects();
     }
 
-    private void SpawnStage1()
+    private void InitStage1()
     {
-        // Stage Length : 1820f (첫 20f는 장애물 X)
-        // Module Length : 200f
-        // Obstacle Interval : avg 20.0f (avg 2.00sec per obstacle)
-        // 9 Modules * (10 Obstacles + 3 Items + 10 Tejavas)
+        nextSpawnIndex = 1;
+        Instantiate(stage1BackgroundPrefabs[0], new Vector3(-180, 0, 0), stage1BackgroundPrefabs[0].transform.rotation);
 
-        for(int i = 0; i < 9; i++)
+        for(int i = 0; i < 2; i++)
         {
             GameObject randomModule = stage1ModulePrefabs[Random.Range(0, stage1ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + i*200, 0, 0), randomModule.transform.rotation);
+
+            GameObject initBackground = stage1BackgroundPrefabs[i];
+            Instantiate(initBackground, new Vector3(20 + i*200, 0, 0), initBackground.transform.rotation);
+
+            nextSpawnIndex++;
         }
     }
 
-    private void SpawnStage2()
+    private void InitStage2()
     {
-        // Stage Length : 1820f (첫 20f는 장애물 X)
-        // Module Length : 180f
-        // Obstacle Interval : 18.0f (avg 1.80sec per obstacle)
-        // 10 Modules * (10 Obstacles + 3 Items + 10 Tejavas)
+        nextSpawnIndex = 1;
+        Instantiate(stage2BackgroundPrefabs[0], new Vector3(-160, 0, 0), stage2BackgroundPrefabs[0].transform.rotation);
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 2; i++)
         {
             GameObject randomModule = stage2ModulePrefabs[Random.Range(0, stage2ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + i*180, 0, 0), randomModule.transform.rotation);
+
+            GameObject initBackground = stage2BackgroundPrefabs[i];
+            Instantiate(initBackground, new Vector3(20 + i*180, 0, 0), initBackground.transform.rotation);
+
+            nextSpawnIndex++;
         }
     }
 
-    private void SpawnStage3()
+    private void InitStage3()
     {
-        // Stage Length : 1820f (첫 20f는 장애물 X)
-        // Module Length : 150f
-        // Obstacle Interval : 15.0f (avg 1.50sec per obstacle)
-        // 12 Modules * (10 Obstacles + 5 Items + 10 Tejavas)
+        nextSpawnIndex = 1;
+        Instantiate(stage3BackgroundPrefabs[0], new Vector3(-130, 0, 0), stage3BackgroundPrefabs[0].transform.rotation);
 
-        for(int i = 0; i < 12; i++)
+        for(int i = 0; i < 2; i++)
         {
             GameObject randomModule = stage3ModulePrefabs[Random.Range(0, stage3ModulePrefabs.Length)];
             Instantiate(randomModule, new Vector3(20 + i*150, 0, 0), randomModule.transform.rotation);
+
+            GameObject initBackground = stage3BackgroundPrefabs[i];
+            Instantiate(initBackground, new Vector3(20 + i*150,0, 0), initBackground.transform.rotation);
+
+            nextSpawnIndex++;
+        }
+    }
+
+    private void UpdateStage1()
+    {
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 10 && currentCoordinate >= 20 + (nextSpawnIndex-3)*200)
+        {
+            GameObject randomModule = stage1ModulePrefabs[Random.Range(0, stage1ModulePrefabs.Length)];
+            Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*200, 0, 0), randomModule.transform.rotation);
+        }
+
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-3)*200)
+        {
+            GameObject curBackground = stage1BackgroundPrefabs[nextSpawnIndex-1];
+            Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*200,0, 0), curBackground.transform.rotation);
+            
+            nextSpawnIndex++;
+        }
+    }
+
+    private void UpdateStage2()
+    {
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 11 && currentCoordinate >= 20 + (nextSpawnIndex-3)*180)
+        {
+            GameObject randomModule = stage2ModulePrefabs[Random.Range(0, stage2ModulePrefabs.Length)];
+            Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*180, 0, 0), randomModule.transform.rotation);
+        }
+
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 12 && currentCoordinate >= 20 + (nextSpawnIndex-3)*180)
+        {
+            GameObject curBackground = stage2BackgroundPrefabs[nextSpawnIndex-1];
+            Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*180,0, 0), curBackground.transform.rotation);
+            
+            nextSpawnIndex++;
+        }
+    }
+
+    private void UpdateStage3()
+    {
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 13 && currentCoordinate >= 20 + (nextSpawnIndex-3)*150)
+        {
+            GameObject randomModule = stage3ModulePrefabs[Random.Range(0, stage3ModulePrefabs.Length)];
+            Instantiate(randomModule, new Vector3(20 + (nextSpawnIndex-1)*150, 0, 0), randomModule.transform.rotation);
+        }
+
+        if(nextSpawnIndex > 2 && nextSpawnIndex < 14 && currentCoordinate >= 20 + (nextSpawnIndex-3)*150)
+        {
+            GameObject curBackground = stage3BackgroundPrefabs[nextSpawnIndex-1];
+            Instantiate(curBackground, new Vector3(20 + (nextSpawnIndex-1)*150,0, 0), curBackground.transform.rotation);
+            
+            nextSpawnIndex++;
+        }
+    }
+
+    private void RemoveBygoneObjects()
+    {
+        GameObject[] modules = GameObject.FindGameObjectsWithTag("Module");
+        GameObject[] backgrounds = GameObject.FindGameObjectsWithTag("Background");
+
+        foreach (GameObject module in modules)
+        {
+            if(module.transform.position.x < currentCoordinate - 220.0f)
+            {
+                Destroy(module);
+            }
+        }
+
+        foreach (GameObject background in backgrounds)
+        {
+            if(background.transform.position.x < currentCoordinate - 220.0f)
+            {
+                Destroy(background);
+            }
         }
     }
 }
