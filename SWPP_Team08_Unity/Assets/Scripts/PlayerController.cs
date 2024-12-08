@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
         if (gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
-            RestrictTransform();
+            //RestrictTransform();
 
             bool isJumpKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.UpArrow))
                 || (keyWASDAllowed && Input.GetKeyDown(KeyCode.W)));
@@ -134,22 +134,6 @@ public class PlayerController : MonoBehaviour
 
         uiManager.UpdateProgressBar(GetProcessRate());
     }
-
-    // private void MoveLeft()
-    // {
-    //     if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
-    //     {
-    //         StartCoroutine(MoveLeftSmooth());
-    //     }
-    // }
-
-    // private void MoveRight()
-    // {
-    //     if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
-    //     {
-    //         StartCoroutine(MoveRightSmooth());
-    //     }
-    // }
 
     private void Jump()
     {
@@ -245,7 +229,7 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
-    private void RestrictTransform()
+    /*private void RestrictTransform()
     {
         if(!isMoving)
         {
@@ -269,7 +253,7 @@ public class PlayerController : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, transform.position.y, closestLaneCoordinate);
             }
         }
-    }
+    }*/
 
     // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
