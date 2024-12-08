@@ -292,6 +292,11 @@ public class PlayerController : MonoBehaviour
         return distance;
     }
 
+    public float GetCurrentCoordinate()
+    {
+        return transform.position.x;
+    }
+
     public float GetProcessRate()
     {
         float currentXCoordinate = transform.position.x;
