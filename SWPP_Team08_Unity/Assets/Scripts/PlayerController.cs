@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         if (gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
+            //RestrictTransform();
 
             bool isJumpKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.UpArrow))
                 || (keyWASDAllowed && Input.GetKeyDown(KeyCode.W)));
@@ -130,24 +131,9 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
         }
+
         uiManager.UpdateProgressBar(GetProcessRate());
     }
-
-    // private void MoveLeft()
-    // {
-    //     if(currentLane > 1 && (!isJumping || itemFly) && !isMoving)
-    //     {
-    //         StartCoroutine(MoveLeftSmooth());
-    //     }
-    // }
-
-    // private void MoveRight()
-    // {
-    //     if(currentLane < 5 && (!isJumping || itemFly) && !isMoving)
-    //     {
-    //         StartCoroutine(MoveRightSmooth());
-    //     }
-    // }
 
     private void Jump()
     {
@@ -243,6 +229,32 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
+    /*private void RestrictTransform()
+    {
+        if(!isMoving)
+        {
+            float currentZCoordinate = transform.position.z;
+            float closestLaneCoordinate = -20;
+            float distance, minDistance = 10;
+            
+            for(int i = 0; i < 5; i++)
+            {
+                distance = Mathf.Abs(currentZCoordinate - (i-2)*10);
+                if(distance < minDistance)
+                {
+                    minDistance = distance;
+                    closestLaneCoordinate = (i-2)*10;
+                }
+            }
+
+            float diff = Mathf.Abs(currentZCoordinate - closestLaneCoordinate);
+            if(diff > 0.1f)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, closestLaneCoordinate);
+            }
+        }
+    }*/
+
     // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
     {
@@ -290,6 +302,11 @@ public class PlayerController : MonoBehaviour
             distance += endArr[i];
         }
         return distance;
+    }
+
+    public float GetCurrentCoordinate()
+    {
+        return transform.position.x;
     }
 
     public float GetProcessRate()

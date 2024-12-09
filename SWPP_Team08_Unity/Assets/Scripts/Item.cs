@@ -172,9 +172,8 @@ class ItemThunder : Item
 
         ItemEffect itemEffect = GameObject.Find("Duck").GetComponent<ItemEffect>();
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-        var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
-                                        .OrderBy(o => Mathf.Abs(o.transform.position.x - transform.position.x))
-                                        .Take(3)
+        var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x - 5)
+                                        .Where(o => o.transform.position.x < transform.position.x + 20)
                                         .ToArray();
         
         itemEffect.SpawnThunderEffect(closestObstacles);
