@@ -39,7 +39,10 @@ class ItemTejava : Item
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[0].Play();
+        if (particleSystems[0])
+        {
+            particleSystems[0].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -108,8 +111,11 @@ class ItemBoost : Item
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[1].Play();
-        particleSystems[2].Play();
+        if (particleSystems[1] && particleSystems[2])
+        {
+            particleSystems[1].Play();
+            particleSystems[2].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -229,7 +235,10 @@ class ItemFly : Item
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[3].Play();
+        if (particleSystems[3])
+        {
+            particleSystems[3].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -282,7 +291,10 @@ class ItemDouble : Item
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[4].Play();
+        if (particleSystems[4])
+        {
+            particleSystems[4].Play();
+        }
     }
 
 
