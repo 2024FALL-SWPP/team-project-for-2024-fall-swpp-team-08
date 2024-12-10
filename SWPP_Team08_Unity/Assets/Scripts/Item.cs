@@ -316,7 +316,6 @@ class ItemDouble : Item
         }
     }
 
-
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
         timeUI = Instantiate(timeCanvasPrefabs[2], new Vector3(0, 0, 0), Quaternion.identity);
