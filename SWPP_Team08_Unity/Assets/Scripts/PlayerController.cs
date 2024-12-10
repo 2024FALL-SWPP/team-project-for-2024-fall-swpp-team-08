@@ -217,13 +217,14 @@ public class PlayerController : MonoBehaviour
         effectManager.PlaySlideSound();
         // transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
         // transform.Rotate(0, 0, 90);
-        boxCollider.center = new Vector3(boxColliderCenter.x, 0.5f, boxColliderCenter.z);
-        boxCollider.size = new Vector3(boxColliderSize.x, 0.7f, boxColliderSize.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        boxCollider.center = new Vector3(boxColliderCenter.x, 0.4f, boxColliderCenter.z);
+        boxCollider.size = new Vector3(boxColliderSize.x, 1.5f, boxColliderSize.z);
         
         yield return new WaitForSeconds(slideDuration);
         // transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
         // transform.Rotate(0, 0, -90);
-        transform.position = new Vector3(transform.position.x, 1.399f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.9f, transform.position.z);
         boxCollider.center = boxColliderCenter;
         boxCollider.size = boxColliderSize;
         isSliding = false;
