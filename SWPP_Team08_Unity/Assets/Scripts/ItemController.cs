@@ -6,8 +6,9 @@ public class ItemController : MonoBehaviour
 {
     private PlayerController playerController;
     private ItemPlayerHandler itemPlayerHandler;
-    private ItemUIHandler itemUIHandler;
+    private ItemSoundHandler itemSoundHandler;
     private ItemParticleHandler itemParticleHandler;
+    private ItemUIHandler itemUIHandler;
     private ItemTimeHandler itemTimeHandler;
 
     private Item itemDejava;
@@ -25,10 +26,11 @@ public class ItemController : MonoBehaviour
     {
         playerController = gameObject.GetComponent<PlayerController>();
         itemPlayerHandler = gameObject.AddComponent<ItemPlayerHandler>();
-        itemUIHandler = gameObject.AddComponent<ItemUIHandler>();
+        itemSoundHandler = gameObject.AddComponent<ItemSoundHandler>();
         itemParticleHandler = gameObject.AddComponent<ItemParticleHandler>();
+        itemUIHandler = gameObject.AddComponent<ItemUIHandler>();
         itemTimeHandler = gameObject.AddComponent<ItemTimeHandler>();
-        itemPlayerHandler.setNext(itemUIHandler).setNext(itemParticleHandler).setNext(itemTimeHandler);
+        itemPlayerHandler.setNext(itemSoundHandler).setNext(itemParticleHandler).setNext(itemUIHandler).setNext(itemTimeHandler);
 
         itemDejava = gameObject.AddComponent<ItemTejava>();
         itemBoost = gameObject.AddComponent<ItemBoost>();
@@ -52,31 +54,31 @@ public class ItemController : MonoBehaviour
             case "Tejava":
                 // 데자와 (점수)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemDejava, timeCanvasPrefabs, particleSystems, effectManager);
+                itemPlayerHandler.trigger(playerController, itemDejava, effectManager, particleSystems, timeCanvasPrefabs);
                 break;
 
             case "Item_Boost":
                 // 오리부스트 (속도 1.5배, 장애물 무시 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemBoost, timeCanvasPrefabs, particleSystems, effectManager);
+                itemPlayerHandler.trigger(playerController, itemBoost, effectManager, particleSystems, timeCanvasPrefabs);
                 break;
             
             case "Item_Thunder":
                 // 벼락치기 (가장 근접한 장애물 3개 삭제)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemThunder, timeCanvasPrefabs, particleSystems, effectManager);
+                itemPlayerHandler.trigger(playerController, itemThunder, effectManager, particleSystems, timeCanvasPrefabs);
                 break;
 
             case "Item_Fly":
                 // 오리날다 (이단 점프 + 점프 중 좌우 컨트롤 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemFly, timeCanvasPrefabs, particleSystems, effectManager);
+                itemPlayerHandler.trigger(playerController, itemFly, effectManager, particleSystems, timeCanvasPrefabs);
                 break;
 
             case "Item_Double":
                 // 곱빼기 (점수 2배 / Duration 3초)
                 Destroy(other.gameObject);
-                itemPlayerHandler.trigger(playerController, itemDouble, timeCanvasPrefabs, particleSystems, effectManager);
+                itemPlayerHandler.trigger(playerController, itemDouble, effectManager, particleSystems, timeCanvasPrefabs);
                 break;
         }
     }
