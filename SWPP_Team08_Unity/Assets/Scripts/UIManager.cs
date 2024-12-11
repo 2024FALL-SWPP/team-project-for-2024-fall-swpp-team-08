@@ -111,7 +111,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void UpdateScoreText(int score)
@@ -309,6 +309,19 @@ public class UIManager : MonoBehaviour
 
     private void SetScale()
     {
+        // float widthRatio = Screen.width / 1920.0f;
+        // float heightRatio = Screen.height / 1080.0f;
+        // float ratio = (widthRatio < heightRatio) ? widthRatio : heightRatio;
+
+        // foreach (Transform element in gameObject.transform)
+        // {
+        //     RectTransform rect = element.gameObject.GetComponent<RectTransform>();
+        //     if (rect != null)
+        //     {
+        //         rect.localPosition = rect.localPosition * ratio;
+        //         rect.sizeDelta = rect.sizeDelta * ratio;
+        //     }
+        // }
         if (Screen.width <= 1000 || Screen.height <= 300)
         {
             questionDescription.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);

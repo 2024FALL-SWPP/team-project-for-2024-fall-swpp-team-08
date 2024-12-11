@@ -17,6 +17,8 @@ public class SpawnManager : MonoBehaviour
     private float currentCoordinate = 0.0f;
     private int nextSpawnIndex = 1;
 
+    private List<GameObject> obstacleModules;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +37,8 @@ public class SpawnManager : MonoBehaviour
                 InitStage3();
                 break;
         }
+
+        obstacleModules = new List<GameObject>();
     }
 
     // Update is called once per frame

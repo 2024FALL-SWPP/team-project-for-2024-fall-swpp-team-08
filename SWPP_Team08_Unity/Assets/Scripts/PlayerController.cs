@@ -6,24 +6,23 @@ using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
-    // Arrays for Start & End coordinates of each stage
-    // For displaying process rate
-    private float[] endArr = {1820f, 1820f, 1820f}; // TODO : 종료지점 설정
-    private float totalDistance = 0.0f;
+    // ============ Distance ============
+    private float[] endArr = {1820f, 1820f, 1820f};  // Arrays for Start & End coordinates of each stage
+    private float totalDistance = 0.0f;  // For displaying process rate
     
+    // ============ Player ============
     public float forwardSpeed = 10.0f;
     private float initSpeed;
     public float horizontalStep = 10.0f;
     public float slideDuration = 1.0f;
-    public float slideOffset = 1.0f;
     
-    // Related to jump action : implements more 'arcade-game-like' jump
-    public float jumpForce = 50.0f;
+    public float jumpForce = 50.0f;  // Related to jump action : implements more 'arcade-game-like' jump
     public float gravityMultiplier = 70.0f;
-    // Related to hop action : when player moves left or right, it 'hops' naturally
-    public float hopForce = 10.0f;
+    
+    public float hopForce = 10.0f;  // Related to hop action : when player moves left or right, it 'hops' naturally
     public float hopDuration = 0.5f;
     
+    // ============ Player State ============
     private int currentLane = 3;
     private int currentStage = 1;
 
@@ -32,29 +31,31 @@ public class PlayerController : MonoBehaviour
     public bool isSliding = false;
     private bool canDoubleJump = false;
     private bool triggerJump = false;
+    private bool hasCollided = false;
 
-    private Rigidbody rb;
-
-    private bool itemBoost = false;
+    private bool itemBoost = false;  // Related to item
     private bool itemFly = false;
     private bool itemDouble = false;
 
+    // ============ Game Control ============
     private int score = 0;
     private UIManager uiManager;
     private SceneController sceneController;
     private GameStateManager gameStateManager;
+    private EffectManager effectManager;
 
-    public ParticleSystem collisionParticle;
+    // ============ Player Control ============
+    private Rigidbody rb;
     private BoxCollider boxCollider;
-    private Animator animator;
     private Vector3 boxColliderCenter;
     private Vector3 boxColliderSize;
-
-    private EffectManager effectManager;
+    private Animator animator;
+    public ParticleSystem collisionParticle;
 
     private bool keyArrowAllowed = true;
     private bool keyWASDAllowed = false;
     
+
     // Start is called before the first frame update
     void Start()
     {
@@ -215,15 +216,12 @@ public class PlayerController : MonoBehaviour
         isSliding = true;
         animator.SetTrigger("Slide_t");
         effectManager.PlaySlideSound();
-        // transform.position = new Vector3(transform.position.x, transform.position.y - slideOffset, transform.position.z);
-        // transform.Rotate(0, 0, 90);
-        boxCollider.center = new Vector3(boxColliderCenter.x, 0.5f, boxColliderCenter.z);
-        boxCollider.size = new Vector3(boxColliderSize.x, 0.7f, boxColliderSize.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        boxCollider.center = new Vector3(boxColliderCenter.x, 0.4f, boxColliderCenter.z);
+        boxCollider.size = new Vector3(boxColliderSize.x, 1.5f, boxColliderSize.z);
         
         yield return new WaitForSeconds(slideDuration);
-        // transform.position = new Vector3(transform.position.x, transform.position.y - 1.5f, transform.position.z);
-        // transform.Rotate(0, 0, -90);
-        transform.position = new Vector3(transform.position.x, 1.399f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.9f, transform.position.z);
         boxCollider.center = boxColliderCenter;
         boxCollider.size = boxColliderSize;
         isSliding = false;
@@ -261,17 +259,14 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.tag == "Obstacle" ||
             collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
-            if (collisionParticle)
+            if (!itemBoost && !hasCollided)
             {
-                collisionParticle.Play();
-            }
-
-            if (!itemBoost)
-            {
+                hasCollided = true;
                 animator.SetBool("Collide_b", true);
                 effectManager.PlayGameOverSound();
+                collisionParticle.Play();
                 gameStateManager.EnterGameOverState();
-            } else
+            } else if (!hasCollided)
             {
                 Destroy(collider.gameObject);
             }

@@ -9,7 +9,8 @@ abstract class Item : MonoBehaviour
 {
     abstract public string GetName();
     abstract public float GetTime();
-    abstract public void ApplyItemEffect(PlayerController playerController, EffectManager effectManager);
+    abstract public void ApplyItemEffect(PlayerController playerController);
+    abstract public void PlaySoundEffect(EffectManager effectManager);
     abstract public void PlayParticleEffect(ParticleSystem[] particleSystems);
     abstract public void ShowTimeUI(GameObject[] timeCanvasPrefabs);
     abstract public void RemoveItemEffect(PlayerController playerController);
@@ -31,15 +32,22 @@ class ItemTejava : Item
         return time;
     }
 
-    public override void ApplyItemEffect(PlayerController playerController, EffectManager effectManager)
+    public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.AddScore();
+    }
+
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
         effectManager.PlayItemTejavaSound();
     }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[0].Play();
+        if (particleSystems[0])
+        {
+            particleSystems[0].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -78,10 +86,9 @@ class ItemBoost : Item
         return time;
     }
 
-    public override void ApplyItemEffect(PlayerController playerController, EffectManager effectManager)
+    public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.BoostOn();
-        effectManager.PlayItemBoostSound();
 
         Collider[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle")
                                         .Select(o => o.GetComponent<Collider>())
@@ -105,11 +112,19 @@ class ItemBoost : Item
             }
         }
     }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemBoostSound();
+    }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[1].Play();
-        particleSystems[2].Play();
+        if (particleSystems[1] && particleSystems[2])
+        {
+            particleSystems[1].Play();
+            particleSystems[2].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -166,18 +181,20 @@ class ItemThunder : Item
         return time;
     }
 
-    public override void ApplyItemEffect(PlayerController playerController, EffectManager effectManager)
+    public override void ApplyItemEffect(PlayerController playerController)
     {
-        effectManager.PlayItemThunderSound();
-
         ItemEffect itemEffect = GameObject.Find("Duck").GetComponent<ItemEffect>();
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
         var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x - 5)
                                         .Where(o => o.transform.position.x < transform.position.x + 20)
                                         .ToArray();
         
-        itemEffect.SpawnThunderEffect(closestObstacles);
-        // Destroy in Item Effect Code
+        itemEffect.SpawnThunderEffect(closestObstacles); // Destroy in Item Effect Code
+    }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemThunderSound();
     }
     
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
@@ -221,15 +238,22 @@ class ItemFly : Item
         return time;
     }
     
-    public override void ApplyItemEffect(PlayerController playerController, EffectManager effectManager)
+    public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.FlyOn();
+    }
+
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
         effectManager.PlayItemFlySound();
     }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[3].Play();
+        if (particleSystems[3])
+        {
+            particleSystems[3].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -274,17 +298,23 @@ class ItemDouble : Item
         return time;
     }
     
-    public override void ApplyItemEffect(PlayerController playerController, EffectManager effectManager)
+    public override void ApplyItemEffect(PlayerController playerController)
     {
         playerController.DoubleOn();
+    }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
         effectManager.PlayItemDoubleSound();
     }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[4].Play();
+        if (particleSystems[4])
+        {
+            particleSystems[4].Play();
+        }
     }
-
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
