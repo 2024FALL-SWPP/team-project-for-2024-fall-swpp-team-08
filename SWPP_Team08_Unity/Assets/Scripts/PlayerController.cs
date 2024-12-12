@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
+    private bool isGrounded = false;
     private bool isJumping = false;
     private bool isMoving = false;
     public bool isSliding = false;
@@ -117,6 +118,20 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(Slide());
             }
+        }
+
+        if(transform.position.y > 20)
+        {
+            Debug.Log("isGrounded: " + isGrounded);
+            Debug.Log("isJumping: " + isJumping);
+            Debug.Log("isMoving: " + isMoving);
+            Debug.Log("isSliding: " + isSliding);
+            Debug.Log("canDoubleJump: " + canDoubleJump);
+            Debug.Log("triggerJump: " + triggerJump);
+            Debug.Log("hasCollided: " + hasCollided);
+            Debug.Log("itemBoost: " + itemBoost);
+            Debug.Log("itemFly: " + itemFly);
+            Debug.Log("itemDouble: " + itemDouble);
         }
     }
 
@@ -272,9 +287,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        if (collider.gameObject.CompareTag("Ground"))
+        if (collider.gameObject.CompareTag("Ground") && Mathf.Abs(rb.velocity.y) < 0.1f)
         {
             isJumping = false;
+            isGrounded = true;
         }
     }
 
