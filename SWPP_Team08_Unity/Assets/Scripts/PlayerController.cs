@@ -119,20 +119,6 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(Slide());
             }
         }
-
-        if(transform.position.y > 20)
-        {
-            Debug.Log("isGrounded: " + isGrounded);
-            Debug.Log("isJumping: " + isJumping);
-            Debug.Log("isMoving: " + isMoving);
-            Debug.Log("isSliding: " + isSliding);
-            Debug.Log("canDoubleJump: " + canDoubleJump);
-            Debug.Log("triggerJump: " + triggerJump);
-            Debug.Log("hasCollided: " + hasCollided);
-            Debug.Log("itemBoost: " + itemBoost);
-            Debug.Log("itemFly: " + itemFly);
-            Debug.Log("itemDouble: " + itemDouble);
-        }
     }
 
     void FixedUpdate()
