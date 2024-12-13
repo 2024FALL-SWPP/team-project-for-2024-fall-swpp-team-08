@@ -58,7 +58,6 @@ public class EffectManager : MonoBehaviour
     
     public void PlayGameClearSound()
     {
-        sceneMainSound.GetComponent<AudioSource>().Stop();
         gameClearSound.GetComponent<AudioSource>().Play();
     }
 
@@ -116,11 +115,13 @@ public class EffectManager : MonoBehaviour
 
     public void PlayGoodEndingSound()
     {
+        sceneMainSound.GetComponent<AudioSource>().Stop();
         goodEndingSound.GetComponent<AudioSource>().Play();
     }
 
     public void PlayBadEndingSound()
     {
+        sceneMainSound.GetComponent<AudioSource>().Stop();
         badEndingSound.GetComponent<AudioSource>().Play();
     }
 
