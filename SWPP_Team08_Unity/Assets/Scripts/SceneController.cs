@@ -20,7 +20,7 @@ public class SceneController : MonoBehaviour
         effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
         stageClearParticle = GameObject.Find("StageClearParticle").GetComponent<ParticleSystem>();
 
-        if (currentScene.name != "MainScene")
+        if(currentScene.name != "MainScene")
         {
             playerController = GameObject.Find("Duck").GetComponent<PlayerController>();
         }
@@ -34,18 +34,14 @@ public class SceneController : MonoBehaviour
 
     public void ChangeScene()
     {
-        if (!isLoading)
+        if(!isLoading)
         {
             isLoading = true;
-            if (playerController)
+            if(playerController)
             {
                 playerController.SetSpeed(0.0f);
             }
-            // if (playerController)
-            // {
-            //     playerController.enabled = false;
-            // }
-            switch (currentScene.name)
+            switch(currentScene.name)
             {
                 case "MainScene":
                     PlayerPrefs.SetInt("Score", 0);
@@ -131,7 +127,7 @@ public class SceneController : MonoBehaviour
         yield return new WaitForSeconds(4.0f);
         uiManager.ShowStoryUI(14);
         yield return new WaitForSeconds(1.5f);
-        if (playerController.GetScore() >= 241)
+        if(playerController.GetScore() >= 241)
         {
             effectManager.PlayGoodEndingSound();
             uiManager.ShowStoryUI(4);
@@ -140,7 +136,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(8);
             yield return new WaitForSeconds(2.0f);
-        } else if (playerController.GetScore() >= 161)
+        } else if(playerController.GetScore() >= 161)
         {
             effectManager.PlayGoodEndingSound();
             uiManager.ShowStoryUI(6);
@@ -149,7 +145,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(4.0f);
             uiManager.ShowStoryUI(8);
             yield return new WaitForSeconds(2.0f);
-        } else if (playerController.GetScore() >= 81)
+        } else if(playerController.GetScore() >= 81)
         {
             effectManager.PlayBadEndingSound();
             uiManager.ShowStoryUI(9);

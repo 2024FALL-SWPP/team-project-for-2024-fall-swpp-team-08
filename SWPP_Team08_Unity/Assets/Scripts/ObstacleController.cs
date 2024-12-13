@@ -107,8 +107,7 @@ public class ObstacleController : MonoBehaviour
             {
                 transform.Translate(Vector3.back * speed * Time.deltaTime);
             }
-        }
-        else
+        } else
         {
             Halt();
             actionTimer = 0f;
@@ -137,8 +136,7 @@ public class ObstacleController : MonoBehaviour
         if(actionTimer < complexMovementDuration)
         {
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
-        }
-        else
+        } else
         {
             Halt();
             actionTimer = 0f;
@@ -151,23 +149,23 @@ public class ObstacleController : MonoBehaviour
                     {
                         RotateLeft();
                         step = 2;
-                    }
-                    else {
+                    } else {
                         RotateRight();
                     }
                     break;
+
                 case 1:
                     RotateRight();
                     movingForward = !movingForward;
                     break;
+
                 case 2:
                     if(!movingForward && Math.Abs(transform.position.z - 20.0f) < 1f ||
                     movingForward && Math.Abs(transform.position.z - -20.0f) < 1f) 
                     {
                         RotateRight();
                         step = 0;
-                    }
-                    else {
+                    } else {
                         RotateLeft();
                     }
                     break;

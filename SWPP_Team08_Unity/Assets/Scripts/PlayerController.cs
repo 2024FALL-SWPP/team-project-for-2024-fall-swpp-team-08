@@ -7,8 +7,8 @@ using System.Linq;
 public class PlayerController : MonoBehaviour
 {
     // ============ Distance ============
-    private float[] endArr = {1820f, 1820f, 1820f};  // Arrays for Start & End coordinates of each stage
-    private float totalDistance = 0.0f;  // For displaying process rate
+    private float[] endArr = {1820f, 1820f, 1820f};  // for "End coordinates" of each stage
+    private float totalDistance = 0.0f;  // for displaying process rate
     
     // ============ Player ============
     public float forwardSpeed = 10.0f;
@@ -26,17 +26,18 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
-    private bool isGrounded = false;
-    private bool isJumping = false;
+    private bool isJumping = false;  // Movement
     private bool isMoving = false;
     public bool isSliding = false;
+    private bool isGrounded = false;  // State
     private bool canDoubleJump = false;
-    private bool triggerJump = false;
     private bool hasCollided = false;
 
-    private bool itemBoost = false;  // Related to item
+    private bool itemBoost = false;  // Item
     private bool itemFly = false;
     private bool itemDouble = false;
+    
+    private bool triggerJump = false;  // Input
 
     // ============ Game Control ============
     private int score = 0;
@@ -55,38 +56,35 @@ public class PlayerController : MonoBehaviour
 
     private bool keyArrowAllowed = true;
     private bool keyWASDAllowed = false;
-    
 
-    // Start is called before the first frame update
-    void Start()
+    void Start()  // Start is called before the first frame update
     {
+        currentStage = GetCurrentStage();  // Setup
+        totalDistance = GetTotalDistance();
+        InitScore();
+        SetKey();
+
         rb = GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
-        totalDistance = GetTotalDistance();
+
+        boxCollider = GetComponent<BoxCollider>();
+        boxColliderCenter = boxCollider.center;
+        boxColliderSize = boxCollider.size;
+
+        animator = GetComponent<Animator>();
 
         uiManager = GameObject.Find("UIManager").GetComponent<UIManager>();
         sceneController = GameObject.Find("UIManager").GetComponent<SceneController>();
         gameStateManager = GameObject.Find("GameStateManager").GetComponent<GameStateManager>();
         effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
-
-        InitScore();
-        SetKey();
-        totalDistance = GetTotalDistance();
-        currentStage = GetCurrentStage();
-
-        boxCollider = GetComponent<BoxCollider>();
-        boxColliderCenter = boxCollider.center;
-        boxColliderSize = boxCollider.size;
-        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Update()  // Update is called once per frame
     {
-        if (gameStateManager.GetState() == "GamePlay")
+        if(gameStateManager.GetState() == "GamePlay")
         {
             transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
-            //RestrictTransform();
+            // RestrictTransform();
 
             bool isJumpKeyPressed = ((keyArrowAllowed && Input.GetKeyDown(KeyCode.UpArrow))
                 || (keyWASDAllowed && Input.GetKeyDown(KeyCode.W)));
@@ -102,19 +100,19 @@ public class PlayerController : MonoBehaviour
             bool canMoveRight = (!isJumping || itemFly) && !isMoving && !isSliding && (currentLane < 5);
             bool canSlide = !isJumping && !isMoving && !isSliding;
 
-            if (isJumpKeyPressed && canJump)
+            if(isJumpKeyPressed && canJump)
             {
                 triggerJump = true;
             }
-            else if (isLeftKeyPressed && canMoveLeft)
+            else if(isLeftKeyPressed && canMoveLeft)
             {
                 StartCoroutine(MoveLeftSmooth());
             }
-            else if (!isLeftKeyPressed && isRightKeyPressed && canMoveRight)
+            else if(!isLeftKeyPressed && isRightKeyPressed && canMoveRight)
             {
                 StartCoroutine(MoveRightSmooth());
             }
-            else if (!isJumpKeyPressed & isSlideKeyPressed && canSlide)
+            else if(!isJumpKeyPressed & isSlideKeyPressed && canSlide)
             {
                 StartCoroutine(Slide());
             }
@@ -123,13 +121,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (triggerJump)
+        if(triggerJump)
         {
             Jump();
             triggerJump = false;
         }
 
-        if (isJumping)
+        if(isJumping)
         {
             rb.AddForce(Vector3.down * gravityMultiplier, ForceMode.Acceleration);
         }
@@ -139,23 +137,22 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (!isJumping)
+        if(!isJumping)
         {
             isJumping = true;
-            rb.velocity = Vector3.up * jumpForce;
-            animator.SetTrigger("Jump_t");
-            effectManager.PlayJumpSound();
+            rb.velocity = Vector3.up * jumpForce;  // movement
+            animator.SetTrigger("Jump_t");  // animation
+            effectManager.PlayJumpSound();  // sound
 
-            if (itemFly)
+            if(itemFly)
             {
                 canDoubleJump = true;
             }
-        }
-        else if (canDoubleJump)
+        } else if(canDoubleJump)
         {
-            rb.velocity = Vector3.up * jumpForce;
-            animator.SetTrigger("Jump_t");
-            effectManager.PlayJumpSound();
+            rb.velocity = Vector3.up * jumpForce;  // movement
+            animator.SetTrigger("Jump_t");  // animation
+            effectManager.PlayJumpSound();  // sound
             canDoubleJump = false;
         }
     }
@@ -166,16 +163,15 @@ public class PlayerController : MonoBehaviour
 
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.forward * horizontalStep;
-        float elapsedTime = 0f;
-
+        float elapsedTime = 0.0f;
         // rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
 
-        while (elapsedTime < hopDuration)
+        while(elapsedTime < hopDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / hopDuration;
 
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3.0f - 2.0f * t);
             transform.position = Vector3.Lerp(startPos, endPos, t);
 
             yield return null;
@@ -192,14 +188,14 @@ public class PlayerController : MonoBehaviour
         
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + Vector3.back * horizontalStep;
-        float elapsedTime = 0f;
+        float elapsedTime = 0.0f;
 
-        while (elapsedTime < hopDuration)
+        while(elapsedTime < hopDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / hopDuration;
 
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3.0f - 2.0f * t);
             transform.position = Vector3.Lerp(startPos, endPos, t);
 
             yield return null;
@@ -213,13 +209,14 @@ public class PlayerController : MonoBehaviour
     private IEnumerator Slide()
     {
         isSliding = true;
-        animator.SetTrigger("Slide_t");
-        effectManager.PlaySlideSound();
-        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);  // movement
         boxCollider.center = new Vector3(boxColliderCenter.x, 0.4f, boxColliderCenter.z);
         boxCollider.size = new Vector3(boxColliderSize.x, 1.5f, boxColliderSize.z);
+        animator.SetTrigger("Slide_t");  // animation
+        effectManager.PlaySlideSound();  // sound
         
         yield return new WaitForSeconds(slideDuration);
+
         transform.position = new Vector3(transform.position.x, 0.9f, transform.position.z);
         boxCollider.center = boxColliderCenter;
         boxCollider.size = boxColliderSize;
@@ -229,17 +226,17 @@ public class PlayerController : MonoBehaviour
     // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
     {
-        if (collider.gameObject.tag == "Obstacle" ||
+        if(collider.gameObject.tag == "Obstacle" ||
             collider.gameObject.transform.parent != null && collider.gameObject.transform.parent.tag == "Obstacle") 
         {
-            if (!itemBoost && !hasCollided)
+            if(!itemBoost && !hasCollided)  // Game Over
             {
                 hasCollided = true;
-                animator.SetBool("Collide_b", true);
-                effectManager.PlayGameOverSound();
-                collisionParticle.Play();
+                animator.SetBool("Collide_b", true);  // animation
+                effectManager.PlayGameOverSound();  // sound
+                collisionParticle.Play();  // particle
                 gameStateManager.EnterGameOverState();
-            } else if (!hasCollided)
+            } else if(!hasCollided)  // Item Boost
             {
                 Destroy(collider.gameObject);
             }
@@ -256,7 +253,7 @@ public class PlayerController : MonoBehaviour
     private int GetCurrentStage()
     {
         string sceneName = SceneManager.GetActiveScene().name;
-        if (char.IsDigit(sceneName[5]))
+        if(char.IsDigit(sceneName[5]))
         {
             return sceneName[5] - '0';
         }
@@ -266,7 +263,7 @@ public class PlayerController : MonoBehaviour
     private float GetTotalDistance()
     {
         float distance = 0.0f;
-        for (int i = 0; i < 3; i++)
+        for(int i = 0; i < 3; i++)
         {
             distance += endArr[i];
         }
@@ -282,14 +279,14 @@ public class PlayerController : MonoBehaviour
     {
         float currentXCoordinate = transform.position.x;
         CheckStageCleared(currentXCoordinate);
-        switch (currentStage)
+        switch(currentStage)
         {
             case 1:
-                return currentXCoordinate / totalDistance;
+                return (currentXCoordinate) / totalDistance;
             case 2:
-                return (currentXCoordinate+endArr[0]) / totalDistance;
+                return (currentXCoordinate + endArr[0]) / totalDistance;
             case 3:
-                return (currentXCoordinate+endArr[1]+endArr[0]) / totalDistance;
+                return (currentXCoordinate + endArr[1] + endArr[0]) / totalDistance;
             default:
                 return 0;
         }
@@ -297,13 +294,13 @@ public class PlayerController : MonoBehaviour
 
     public void CheckStageCleared(float currentXCoordinate)
     {
-        if (currentXCoordinate > endArr[currentStage - 1])
+        if(currentXCoordinate > endArr[currentStage - 1])  // Stage Clear
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, 0);
             PlayerPrefs.SetInt("Score", score);
-            animator.SetTrigger("Jump_t");
+            animator.SetTrigger("Jump_t");  // animation
             animator.SetFloat("Speed_f", 0.0f);
-            effectManager.PlayGameClearSound();
+            effectManager.PlayGameClearSound();  // sound
             gameStateManager.EnterStageClearState();
         }
     }
@@ -320,8 +317,13 @@ public class PlayerController : MonoBehaviour
 
     public void AddScore()
     {
-        if (itemDouble) score += 2;
-        else score += 1;
+        if(itemDouble)
+        {
+            score += 2;
+        } else
+        {
+            score += 1;
+        }
         uiManager.UpdateScoreText(score);
     }
 
@@ -332,9 +334,9 @@ public class PlayerController : MonoBehaviour
 
     public void RemoveEffects()
     {
-        foreach (Transform obj in GameObject.Find("Duck").transform)
+        foreach(Transform obj in GameObject.Find("Duck").transform)
         {
-            if (obj.name == "TejavaParticle" || obj.name == "BoostParticle" || obj.name == "BoostParticleRun"
+            if(obj.name == "TejavaParticle" || obj.name == "BoostParticle" || obj.name == "BoostParticleRun"
                 || obj.name == "FlyParticle" || obj.name == "DoubleParticle")
             {
                 Destroy(obj.gameObject);
@@ -383,7 +385,7 @@ public class PlayerController : MonoBehaviour
     // ========================================== Key ==========================================
     public void SetKey()
     {
-        if (PlayerPrefs.GetString("key") != "WASD")
+        if(PlayerPrefs.GetString("key") != "WASD")
         {
             ActivateKeyArrow();
         } else

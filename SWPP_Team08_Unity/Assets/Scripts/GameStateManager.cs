@@ -28,37 +28,36 @@ public class GameStateManager : MonoBehaviour
     public void EnterGamePlayState()
     {
         gameStateStrategy.SetState(new GamePlayState());
-        gameStateStrategy.ChangePlayerSettings(playerController);
-        gameStateStrategy.ShowUI(uiManager);
-        gameStateStrategy.ChangeScene(sceneController);
+        ChangeSettings();
     }
 
     public void EnterGamePauseState()
     {
         gameStateStrategy.SetState(new GamePauseState());
-        gameStateStrategy.ChangePlayerSettings(playerController);
-        gameStateStrategy.ShowUI(uiManager);
-        gameStateStrategy.ChangeScene(sceneController);
+        ChangeSettings();
     }
 
     public void EnterGameOverState()
     {
         gameStateStrategy.SetState(new GameOverState());
-        gameStateStrategy.ChangePlayerSettings(playerController);
-        gameStateStrategy.ShowUI(uiManager);
-        gameStateStrategy.ChangeScene(sceneController);
+        ChangeSettings();
     }
 
     public void EnterStageClearState()
     {
         gameStateStrategy.SetState(new StageClearState());
-        gameStateStrategy.ChangePlayerSettings(playerController);
-        gameStateStrategy.ShowUI(uiManager);
-        gameStateStrategy.ChangeScene(sceneController);
+        ChangeSettings();
     }
 
     public string GetState()
     {
         return gameStateStrategy.GetState();
+    }
+
+    public void ChangeSettings()
+    {
+        gameStateStrategy.ChangePlayerSettings(playerController);
+        gameStateStrategy.ShowUI(uiManager);
+        gameStateStrategy.ChangeScene(sceneController);
     }
 }

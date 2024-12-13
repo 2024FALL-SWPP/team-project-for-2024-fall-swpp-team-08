@@ -13,54 +13,54 @@ abstract class ItemHandler : MonoBehaviour
         return handler;
     }
 
-    public abstract void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs);
+    public abstract void apply(Item item, ItemData itemData);
 
-    public void trigger(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public void trigger(Item item, ItemData itemData)
     {
-        apply(playerController, item, effectManager, particleSystems, timeCanvasPrefabs);
+        apply(item, itemData);
 
         if (nextHandler != null)
-            nextHandler.trigger(playerController, item, effectManager, particleSystems, timeCanvasPrefabs);
+            nextHandler.trigger(item, itemData);
     }
 }
 
 class ItemPlayerHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public override void apply(Item item, ItemData itemData)
     {
-        item.ApplyItemEffect(playerController);
+        item.ApplyItemEffect(itemData.playerController);
     }
 }
 
 class ItemSoundHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public override void apply(Item item, ItemData itemData)
     {
-        item.PlaySoundEffect(effectManager);
+        item.PlaySoundEffect(itemData.effectManager);
     }
 }
 
 class ItemParticleHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public override void apply(Item item, ItemData itemData)
     {
-        item.PlayParticleEffect(particleSystems);
+        item.PlayParticleEffect(itemData.particleSystems);
     }
 }
 
 class ItemUIHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public override void apply(Item item, ItemData itemData)
     {
-        item.ShowTimeUI(timeCanvasPrefabs);
+        item.ShowTimeUI(itemData.timeCanvasPrefabs);
     }
 }
 
 class ItemTimeHandler : ItemHandler
 {
-    public override void apply(PlayerController playerController, Item item, EffectManager effectManager, ParticleSystem[] particleSystems, GameObject[] timeCanvasPrefabs)
+    public override void apply(Item item, ItemData itemData)
     {
-        StartCoroutine(RemoveItem(playerController, item));
+        StartCoroutine(RemoveItem(itemData.playerController, item));
     }
     
     private IEnumerator RemoveItem(PlayerController playerController, Item item)
