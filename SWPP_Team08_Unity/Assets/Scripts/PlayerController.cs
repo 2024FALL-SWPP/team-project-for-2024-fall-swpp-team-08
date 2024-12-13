@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
+    private bool isGrounded = false;
     private bool isJumping = false;
     private bool isMoving = false;
     public bool isSliding = false;
@@ -109,11 +110,11 @@ public class PlayerController : MonoBehaviour
             {
                 StartCoroutine(MoveLeftSmooth());
             }
-            else if (isRightKeyPressed && canMoveRight)
+            else if (!isLeftKeyPressed && isRightKeyPressed && canMoveRight)
             {
                 StartCoroutine(MoveRightSmooth());
             }
-            else if (isSlideKeyPressed && canSlide)
+            else if (!isJumpKeyPressed & isSlideKeyPressed && canSlide)
             {
                 StartCoroutine(Slide());
             }
@@ -193,8 +194,6 @@ public class PlayerController : MonoBehaviour
         Vector3 endPos = startPos + Vector3.back * horizontalStep;
         float elapsedTime = 0f;
 
-        // rb.velocity = new Vector3(rb.velocity.x, hopForce, rb.velocity.z);
-
         while (elapsedTime < hopDuration)
         {
             elapsedTime += Time.deltaTime;
@@ -227,32 +226,6 @@ public class PlayerController : MonoBehaviour
         isSliding = false;
     }
 
-    /*private void RestrictTransform()
-    {
-        if(!isMoving)
-        {
-            float currentZCoordinate = transform.position.z;
-            float closestLaneCoordinate = -20;
-            float distance, minDistance = 10;
-            
-            for(int i = 0; i < 5; i++)
-            {
-                distance = Mathf.Abs(currentZCoordinate - (i-2)*10);
-                if(distance < minDistance)
-                {
-                    minDistance = distance;
-                    closestLaneCoordinate = (i-2)*10;
-                }
-            }
-
-            float diff = Mathf.Abs(currentZCoordinate - closestLaneCoordinate);
-            if(diff > 0.1f)
-            {
-                transform.position = new Vector3(transform.position.x, transform.position.y, closestLaneCoordinate);
-            }
-        }
-    }*/
-
     // ========================================== Collision ==========================================
     private void OnCollisionEnter(Collision collider)
     {
@@ -272,9 +245,10 @@ public class PlayerController : MonoBehaviour
             }
         }
         
-        if (collider.gameObject.CompareTag("Ground"))
+        if (collider.gameObject.CompareTag("Ground") && Mathf.Abs(rb.velocity.y) < 0.1f)
         {
             isJumping = false;
+            isGrounded = true;
         }
     }
 
