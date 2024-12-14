@@ -51,8 +51,13 @@ public class UIManager : MonoBehaviour
         // Canvas Size
         float fixedAspectRatio = 9f / 16f;
         float currentAspectRatio = (float)Screen.width / (float)Screen.height;
-        if (currentAspectRatio > fixedAspectRatio) gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 1;
-        else if (currentAspectRatio < fixedAspectRatio) gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 0;
+        if(currentAspectRatio > fixedAspectRatio)
+        {
+            gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 1;
+        } else if(currentAspectRatio < fixedAspectRatio)
+        {
+            gameObject.GetComponent<CanvasScaler>().matchWidthOrHeight = 0;
+        }
 
         // Game Object Initialization
         scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
@@ -99,7 +104,7 @@ public class UIManager : MonoBehaviour
         effectManager = GameObject.Find("EffectManager").GetComponent<EffectManager>();
 
         
-        if (PlayerPrefs.GetInt("VolumeSetted") != 0)
+        if(PlayerPrefs.GetInt("VolumeSetted") != 0)
         {
             soundSliderValue.value = PlayerPrefs.GetFloat("Volume");
         } else
@@ -153,15 +158,15 @@ public class UIManager : MonoBehaviour
     public void ShowStoryUI(int number)
     {
         backgroundColor.SetActive(true);
-        if (stageClearImage)
+        if(stageClearImage)
         {
             stageClearImage.SetActive(false);
         }
-        if (gameStartButton)
+        if(gameStartButton)
         {
             gameStartButton.SetActive(false);
         }
-        foreach (GameObject stageClearStory in stageClearStories)
+        foreach(GameObject stageClearStory in stageClearStories)
         {
             stageClearStory.SetActive(false);
         }
@@ -177,9 +182,9 @@ public class UIManager : MonoBehaviour
     {
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
 
-        foreach (GameObject obj in allObjects)
+        foreach(GameObject obj in allObjects)
         {
-            if (obj.name == "BoostSlider" || obj.name == "FlySlider" || obj.name == "DoubleSlider")
+            if(obj.name == "BoostSlider" || obj.name == "FlySlider" || obj.name == "DoubleSlider")
             {
                 Destroy(obj);
             }
@@ -201,7 +206,7 @@ public class UIManager : MonoBehaviour
     private void HideGameButtons()
     {
         backgroundColor.SetActive(true);
-        foreach (GameObject button in gameButtons)
+        foreach(GameObject button in gameButtons)
         {
             button.SetActive(false);
         }
@@ -211,7 +216,7 @@ public class UIManager : MonoBehaviour
     private void ShowGameButtons()
     {
         backgroundColor.SetActive(false);
-        foreach (GameObject button in gameButtons)
+        foreach(GameObject button in gameButtons)
         {
             button.SetActive(true);
         }
@@ -220,7 +225,7 @@ public class UIManager : MonoBehaviour
 
         questionDescription.SetActive(false);
         
-        if (SceneManager.GetActiveScene().name != "MainScene")
+        if(SceneManager.GetActiveScene().name != "MainScene")
         {
             settingsPlay.SetActive(false);
             stageRestartButton.SetActive(false);
@@ -251,7 +256,7 @@ public class UIManager : MonoBehaviour
         OnPressPauseButton();
         HideGameButtons();
         
-        if (SceneManager.GetActiveScene().name != "MainScene")
+        if(SceneManager.GetActiveScene().name != "MainScene")
         {
             settingsPlay.SetActive(true);
             stageRestartButton.SetActive(true);
@@ -261,7 +266,7 @@ public class UIManager : MonoBehaviour
         settingsSound.SetActive(true);
         soundSlider.SetActive(true);
 
-        if (PlayerPrefs.GetString("key") != "WASD")
+        if(PlayerPrefs.GetString("key") != "WASD")
         {
             OnPressKeyArrowDeactivatedButton();
             effectManager.StopUIClickSound1();
@@ -274,7 +279,7 @@ public class UIManager : MonoBehaviour
     public void OnPressCloseButton()
     {
         effectManager.PlayUIClickSound1();
-        if (SceneManager.GetActiveScene().name == "MainScene")
+        if(SceneManager.GetActiveScene().name == "MainScene")
         {
             Time.timeScale = 1.0f;
             effectManager.PlayMainSound();
@@ -322,23 +327,23 @@ public class UIManager : MonoBehaviour
         //         rect.sizeDelta = rect.sizeDelta * ratio;
         //     }
         // }
-        if (Screen.width <= 1000 || Screen.height <= 300)
+        if(Screen.width <= 1000 || Screen.height <= 300)
         {
             questionDescription.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         }
-        if (Screen.width <= 1100 || Screen.height <= 450)
+        if(Screen.width <= 1100 || Screen.height <= 450)
         {
             questionDescription.transform.localScale = new Vector3(2.0f, 2.0f, 2.0f);
         }
-        if (Screen.width >= 1300 && Screen.height >= 750)
+        if(Screen.width >= 1300 && Screen.height >= 750)
         {
             questionDescription.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
         }
-        if (Screen.width >= 1400 && Screen.height >= 900)
+        if(Screen.width >= 1400 && Screen.height >= 900)
         {
             questionDescription.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
         }
-        if (Screen.width >= 1500 && Screen.height >= 1050)
+        if(Screen.width >= 1500 && Screen.height >= 1050)
         {
             questionDescription.transform.localScale = new Vector3(4.0f, 4.0f, 4.0f);
         }

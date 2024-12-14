@@ -169,7 +169,7 @@ public class SpawnManager : MonoBehaviour
         GameObject[] modules = GameObject.FindGameObjectsWithTag("Module");
         GameObject[] backgrounds = GameObject.FindGameObjectsWithTag("Background");
 
-        foreach (GameObject module in modules)
+        foreach(GameObject module in modules)
         {
             if(module.transform.position.x < currentCoordinate - 220.0f)
             {
@@ -177,7 +177,7 @@ public class SpawnManager : MonoBehaviour
             }
         }
 
-        foreach (GameObject background in backgrounds)
+        foreach(GameObject background in backgrounds)
         {
             if(background.transform.position.x < currentCoordinate - 220.0f)
             {

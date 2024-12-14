@@ -27,7 +27,7 @@ public class EffectManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerPrefs.GetInt("VolumeSetted") != 0)
+        if(PlayerPrefs.GetInt("VolumeSetted") != 0)
         {
             SetVolume(PlayerPrefs.GetFloat("Volume"));
         } else
@@ -58,7 +58,6 @@ public class EffectManager : MonoBehaviour
     
     public void PlayGameClearSound()
     {
-        sceneMainSound.GetComponent<AudioSource>().Stop();
         gameClearSound.GetComponent<AudioSource>().Play();
     }
 
@@ -116,11 +115,13 @@ public class EffectManager : MonoBehaviour
 
     public void PlayGoodEndingSound()
     {
+        sceneMainSound.GetComponent<AudioSource>().Stop();
         goodEndingSound.GetComponent<AudioSource>().Play();
     }
 
     public void PlayBadEndingSound()
     {
+        sceneMainSound.GetComponent<AudioSource>().Stop();
         badEndingSound.GetComponent<AudioSource>().Play();
     }
 
@@ -129,9 +130,9 @@ public class EffectManager : MonoBehaviour
         PlayerPrefs.SetInt("VolumeSetted", 1);
         PlayerPrefs.SetFloat("Volume", value);
     
-        foreach (Transform sound in transform)
+        foreach(Transform sound in transform)
         {
-            switch (sound.tag)
+            switch(sound.tag)
             {
                 case "StartSound":
                     sound.GetComponent<AudioSource>().volume = 1.0f * value;
