@@ -26,10 +26,9 @@ public class PlayerController : MonoBehaviour
     private int currentLane = 3;
     private int currentStage = 1;
 
-    private bool isJumping = false;  // Movement
+    private bool isJumping = false;
     private bool isMoving = false;
     public bool isSliding = false;
-    private bool isGrounded = false;  // State
     private bool canDoubleJump = false;
     private bool hasCollided = false;
 
@@ -245,7 +244,6 @@ public class PlayerController : MonoBehaviour
         if (collider.gameObject.CompareTag("Ground") && Mathf.Abs(rb.velocity.y) < 0.1f)
         {
             isJumping = false;
-            isGrounded = true;
         }
     }
 
