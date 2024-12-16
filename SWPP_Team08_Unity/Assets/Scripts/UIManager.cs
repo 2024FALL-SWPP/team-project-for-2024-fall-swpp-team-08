@@ -41,6 +41,8 @@ public class UIManager : MonoBehaviour
     public GameObject soundSlider;
     public Slider soundSliderValue;
 
+    public GameObject stageStartButton;
+
     private List<GameObject> gameButtons;
     private GameStateManager gameStateManager;
     private EffectManager effectManager;
@@ -256,8 +258,10 @@ public class UIManager : MonoBehaviour
         OnPressPauseButton();
         HideGameButtons();
         
-        if(SceneManager.GetActiveScene().name != "MainScene")
+        if(SceneManager.GetActiveScene().name == "MainScene")
         {
+            stageStartButton.SetActive(true);
+        } else{
             settingsPlay.SetActive(true);
             stageRestartButton.SetActive(true);
             allStageRestartButton.SetActive(true);
@@ -281,6 +285,7 @@ public class UIManager : MonoBehaviour
         effectManager.PlayUIClickSound1();
         if(SceneManager.GetActiveScene().name == "MainScene")
         {
+            stageStartButton.SetActive(false);
             Time.timeScale = 1.0f;
             effectManager.PlayMainSound();
         }

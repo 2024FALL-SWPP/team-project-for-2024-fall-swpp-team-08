@@ -170,4 +170,22 @@ public class SceneController : MonoBehaviour
         }
         uiManager.ShowGoToMainButton();
     }    
+
+    public void Stage1Start()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Stage1Scene");
+    }
+
+    public void Stage2Start()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Stage2Scene");
+    }
+
+    public void Stage3Start()
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Stage3Scene");
+    }
 }
