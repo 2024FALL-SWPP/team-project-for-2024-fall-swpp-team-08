@@ -10,9 +10,19 @@ abstract class Item : MonoBehaviour
     abstract public string GetName();
     abstract public float GetTime();
     abstract public void ApplyItemEffect(PlayerController playerController);
+    abstract public void PlaySoundEffect(EffectManager effectManager);
     abstract public void PlayParticleEffect(ParticleSystem[] particleSystems);
     abstract public void ShowTimeUI(GameObject[] timeCanvasPrefabs);
     abstract public void RemoveItemEffect(PlayerController playerController);
+
+    public const int PARTICLE_TEJAVA = 0;
+    public const int PARTICLE_BOOST = 1;
+    public const int PARTICLE_BOOST_RUN = 2;
+    public const int PARTICLE_FLY = 3;
+    public const int PARTICLE_DOUBLE = 4;
+    public const int UI_BOOST = 0;
+    public const int UI_FLY = 1;
+    public const int UI_DOUBLE = 2;
 }
 
 
@@ -36,9 +46,17 @@ class ItemTejava : Item
         playerController.AddScore();
     }
 
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemTejavaSound();
+    }
+
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[0].Play();
+        if (particleSystems[PARTICLE_TEJAVA])
+        {
+            particleSystems[PARTICLE_TEJAVA].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
@@ -103,16 +121,24 @@ class ItemBoost : Item
             }
         }
     }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemBoostSound();
+    }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[1].Play();
-        particleSystems[2].Play();
+        if (particleSystems[PARTICLE_BOOST] && particleSystems[PARTICLE_BOOST_RUN])
+        {
+            particleSystems[PARTICLE_BOOST].Play();
+            particleSystems[PARTICLE_BOOST_RUN].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
-        timeUI = Instantiate(timeCanvasPrefabs[0], new Vector3(0, 0, 0), Quaternion.identity);
+        timeUI = Instantiate(timeCanvasPrefabs[UI_BOOST], new Vector3(0, 0, 0), Quaternion.identity);
         slider = timeUI.transform.Find("BoostSlider").GetComponent<Slider>();
     }
 
@@ -168,13 +194,16 @@ class ItemThunder : Item
     {
         ItemEffect itemEffect = GameObject.Find("Duck").GetComponent<ItemEffect>();
         GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
-        var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x)
-                                        .OrderBy(o => Mathf.Abs(o.transform.position.x - transform.position.x))
-                                        .Take(3)
+        var closestObstacles = obstacles.Where(o => o.transform.position.x > transform.position.x - 5)
+                                        .Where(o => o.transform.position.x < transform.position.x + 20)
                                         .ToArray();
         
-        itemEffect.SpawnThunderEffect(closestObstacles);
-        // Destroy in Item Effect Code
+        itemEffect.SpawnThunderEffect(closestObstacles); // Destroy in Item Effect Code
+    }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemThunderSound();
     }
     
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
@@ -223,14 +252,22 @@ class ItemFly : Item
         playerController.FlyOn();
     }
 
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemFlySound();
+    }
+
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[3].Play();
+        if (particleSystems[PARTICLE_FLY])
+        {
+            particleSystems[PARTICLE_FLY].Play();
+        }
     }
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
-        timeUI = Instantiate(timeCanvasPrefabs[1], new Vector3(0, 0, 0), Quaternion.identity);
+        timeUI = Instantiate(timeCanvasPrefabs[UI_FLY], new Vector3(0, 0, 0), Quaternion.identity);
         slider = timeUI.transform.Find("FlySlider").GetComponent<Slider>();
     }
 
@@ -274,16 +311,23 @@ class ItemDouble : Item
     {
         playerController.DoubleOn();
     }
+    
+    public override void PlaySoundEffect(EffectManager effectManager)
+    {
+        effectManager.PlayItemDoubleSound();
+    }
 
     public override void PlayParticleEffect(ParticleSystem[] particleSystems)
     {
-        particleSystems[4].Play();
+        if (particleSystems[PARTICLE_DOUBLE])
+        {
+            particleSystems[PARTICLE_DOUBLE].Play();
+        }
     }
-
 
     public override void ShowTimeUI(GameObject[] timeCanvasPrefabs)
     {
-        timeUI = Instantiate(timeCanvasPrefabs[2], new Vector3(0, 0, 0), Quaternion.identity);
+        timeUI = Instantiate(timeCanvasPrefabs[UI_DOUBLE], new Vector3(0, 0, 0), Quaternion.identity);
         slider = timeUI.transform.Find("DoubleSlider").GetComponent<Slider>();
     }
 

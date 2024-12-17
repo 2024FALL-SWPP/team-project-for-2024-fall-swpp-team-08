@@ -32,7 +32,7 @@ public class ItemEffect : MonoBehaviour
 
         directionalLight.intensity = 2.0f;
         List<GameObject> thunderEffectList = new List<GameObject>();
-        foreach (GameObject obstacle in closestObstacles)
+        foreach(GameObject obstacle in closestObstacles)
         {
             Vector3 position = obstacle.transform.position;
             thunderEffectList.Add(Instantiate(itemThunderEffectPrefab, new Vector3(position.x + 1.0f, 18.0f, position.z), Quaternion.Euler(-90, 0, 0)));
@@ -41,7 +41,7 @@ public class ItemEffect : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         directionalLight.intensity = 0.5f;
-        foreach (GameObject thunderEffect in thunderEffectList)
+        foreach(GameObject thunderEffect in thunderEffectList)
         {
             Vector3 position = thunderEffect.transform.position;
             GameObject particleObject = Instantiate(thunderParticlePrefab, new Vector3(position.x, 2.0f, position.z), Quaternion.Euler(0, 0, 0));

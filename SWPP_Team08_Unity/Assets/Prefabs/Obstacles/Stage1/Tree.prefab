@@ -176,7 +176,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8653190327024961338}
-  - component: {fileID: 9195496930274329310}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Obstacle
@@ -206,19 +205,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 72, y: 0, z: 0}
---- !u!65 &9195496930274329310
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312974678630800768}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8844989507345700411
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,8 +331,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.2761993, y: 6.403706, z: 3.319777}
-  m_Center: {x: 0.16431999, y: 10.696601, z: -4.477652}
+  m_Size: {x: 2.2761993, y: 6.100207, z: 2.687074}
+  m_Center: {x: 0.16431999, y: 10.646734, z: -4.1613026}
 --- !u!1 &9195496928731545467
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,8 +376,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.2761993, y: 7.6192064, z: 2.3280509}
-  m_Center: {x: 0.16431999, y: 3.3095944, z: -0.06706393}
+  m_Size: {x: 1.5918679, y: 8.993251, z: 2.1516564}
+  m_Center: {x: -0.17784572, y: 4.614684, z: -0.15526377}
 --- !u!1 &9195496928931061485
 GameObject:
   m_ObjectHideFlags: 0
@@ -435,8 +421,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.2761993, y: 8.254508, z: 3.946751}
-  m_Center: {x: 0.16431999, y: 10.670173, z: 3.1095126}
+  m_Size: {x: 2.2761993, y: 7.632854, z: 3.7132382}
+  m_Center: {x: 0.16431999, y: 10.980969, z: 2.9927547}
 --- !u!1 &9195496929969548115
 GameObject:
   m_ObjectHideFlags: 0
